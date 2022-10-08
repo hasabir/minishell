@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:57:17 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/07 17:57:24 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/08 12:05:58 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,32 @@ void creat_list_of_command(t_list **command_line)
 	return ;
 }
 
+void	set_origin(char **arg)
+{
+	int	i;
+
+	i = 0;
+	while (*arg[i])
+	{
+		if (*arg[i] == PIPE_FLAG)
+			*arg[i] = PIPE_CHARACTER;
+		else if (*arg[i] == SPACE_FLAG)
+			*arg[i] = SPACE_CHARACTER;
+		else if (*arg[i] == LESS_REDIRECTION)
+			*arg[i] = '<';
+		else if (*arg[i] == GREAT_REDIRECTION)
+			*arg[i] = '>';
+		else if (*arg[i] == OPTION_CHARACTER)
+			*arg[i] = '-';
+		else if (*arg[i] == SINGLE_QUOTE)
+			*arg[i] = '\'';
+		else if (*arg[i] == DOUBLE_QUOTE)
+			*arg[i] = '"';
+		i++;
+	}
+	return ;
+}
+
 int which_type_quote(char *cmd)
 {
 	int i;
@@ -36,9 +62,9 @@ int which_type_quote(char *cmd)
 	i = 0;
 	while (cmd[i])
 	{
-		if (cmd[i] == DOUBLE_QUOTE)
+		if (cmd[i] == '"')
 			return (2);
-		if (cmd[i] == SINGLE_QUOTE)
+		if (cmd[i] == '\'')
 			return (1);
 		i++;
 	}

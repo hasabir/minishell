@@ -1,16 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_parsing_utils.c                          :+:      :+:    :+:   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:51:50 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/07 17:51:54 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/08 15:02:51 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*set_options(char *option)
+{
+	int i;
+
+	i = 0;
+	// set_oprigin("")
+	return (option);
+}
 
 char	*ft_single_quote(char *cmd)
 {
@@ -18,6 +27,7 @@ char	*ft_single_quote(char *cmd)
 	char	**stock;
 	
 	stock = ft_split(cmd, '\'');
+	free(cmd);
 	cmd = NULL;
 	i = -1;
 	while (stock[++i])
@@ -25,6 +35,7 @@ char	*ft_single_quote(char *cmd)
 	i = -1;
 	while (stock[++i])
 		free (stock[i]);
+	free(stock);
 	return (cmd);
 }
 
@@ -34,25 +45,22 @@ char	*ft_double_quote(char *cmd)
 	char	**stock;
 	
 	stock = ft_split(cmd, '"');	
+	free(cmd);
 	cmd = NULL;
-	i = -1;
-	while(stock[++i])printf("stock[%d] = %s\n", i, stock[i]);
 	i = -1;
 	while (stock[++i])
 		cmd = ft_strjoin(cmd, stock[i]);
 	i = -1;
 	while (stock[++i])
 		free (stock[i]);
+	free(stock);
 	return (cmd);
-}
+} signe          
 
 char	*set_command(char *cmd)
 {
-	if (which_type_quote(cmd) == 0)
-		return (cmd);
-	else if (which_type_quote(cmd) == 1)
-		return (ft_single_quote(cmd));
-	else if (which_type_quote(cmd) == 2)
-		return (ft_double_quote(cmd));
-	return (NULL);
+	cmd = ft_single_quote(cmd);
+	cmd = ft_double_quote(cmd);
+	set_origin(&cmd);
+	return (cmd);
 }

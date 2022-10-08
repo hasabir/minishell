@@ -6,59 +6,48 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 11:19:08 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/07 18:39:57 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/08 11:55:02 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*eliminate_quote(char *cmd)
-{
-	int	i;
-	int	d;
-	int	s;
-
-	i = 0;
-	d = 0;
-	s = 0;
-	while(cmd[i])
-	{
-		if (cmd[i] == DOUBLE_QUOTE && s != 1)
-		{
-			if (d == 0)
-				d++;
-			else if (d == 1)
-				d = 0;
-			// printf("-d-- \n");
-		}
-		if (cmd[i] == SINGLE_QUOTE && d!= 1)
-		{
-			if (s == 0)
-				s++;
-			else if (s == 1)
-				s = 0;
-			// printf("s*** \n");
-		}
-		i++;
-	}
-	return (cmd);
-}
-
 void	pars_command(char **matrix_command_line, t_list **list_command)
 {
 	int j;
+	int i;
 
 	j = 0;
-
 	/*
 		while -> check if there is LESS or GREAT
 	*/
-	eliminate_quote(matrix_command_line[j]);
+	i = -1;
+	while (matrix_command_line[++i])
+		printf("command_line[i]= %s\n\n", matrix_command_line[i]);
+
+
+	
 	(*list_command)->data->cmd = set_command(matrix_command_line[j]);
 	printf("cmd = %s\n", (*list_command)->data->cmd);
-	j++;
-	// (*list_command)->data->options = set_options(matrix_command_line[j]);
-	
+	i = 0;
+	while (matrix_command_line[++j])
+	{	
+		matrix_command_line[j] = set_command(matrix_command_line[j]);
+		if (matrix_command_line[j][0] == OPTION_CHARACTER
+			|| matrix_command_line[j][0] == '-')
+		{
+			(*list_command)->data->options[i]
+				= ft_strjoin((*list_command)->data->options[i], matrix_command_line[j]);
+			i++;
+		}
+		else
+		{
+			(*list_command)->data->options[i] = NULL;
+			break;
+		}
+		j++;
+	}
+	printf("option = %s\n", (*list_command)->data->options);
 	return;
 }
 
@@ -76,7 +65,6 @@ t_list	*parsing(char *input, t_list	*list_command)
 	while (matrix_input[i])
 	{
 		creat_list_of_command(&list_command);
-		printf("matrix_input = %s\n", matrix_input[i]);
 		matrix_command_line = ft_split(matrix_input[i], ' ');
 		pars_command(matrix_command_line, &list_command);
 		i++;

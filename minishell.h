@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:26:09 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/07 18:01:27 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/08 12:01:31 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ enum characters{
 	SPACE_CHARACTER = ' ',
 	PIPE_CHARACTER = '|',
 	NULL_CHARACTER = '\0',
-	PIPE_FLAG = -2,
-	SPACE_FLAG = -1,
-	LESS_REDIRECTION = 1,
+	PIPE_FLAG = -6,
+	SPACE_FLAG,
+	LESS_REDIRECTION,
 	GREAT_REDIRECTION,
 	OPTION_CHARACTER,
 	SINGLE_QUOTE,
@@ -89,4 +89,6 @@ int	check_pipe_syntax(char *input);
 int	check_lg_syntax(char *input);
 int	check_less_great_syntax(char *input);
 
+char	*set_options(char *option);
+void	set_origin(char **arg);
 #endif
