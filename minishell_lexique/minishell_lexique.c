@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 17:31:44 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/08 10:54:01 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/10 18:36:41 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ char	*define_characters(char *input)
 			}
 			if (input[i] != '"')
 				return (NULL);
-			// input = define_characters_in_quote(input + i);
 		}
 		else if (input[i] == '\'')
 		{
@@ -70,12 +69,11 @@ char	*define_characters(char *input)
 				else if (input[i] == '-')
 					input[i] = OPTION_CHARACTER;
 				else if (input[i] == '"')
-					input[i] = SINGLE_QUOTE;	
+					input[i] = DOUBLE_QUOTE;	
 				i++;
 			}
 			if (input[i] != '\'')
 				return (NULL);
-			// input = define_characters_in_quote(input + i);
 		}
 		i++;
 	}

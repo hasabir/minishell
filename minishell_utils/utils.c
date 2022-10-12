@@ -6,18 +6,22 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:57:17 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/08 12:05:58 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/12 12:00:18 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void creat_list_of_command(t_list **command_line)
+void	creat_list_of_command(t_list **command_line)
 {
 	t_list *new_command_line;
 
 	new_command_line = malloc(sizeof(t_list));
+	if (!new_command_line)
+		exit (EXIT_FAILURE);
 	new_command_line->data = malloc(sizeof(t_data));
+	if (!new_command_line->data)
+		exit (EXIT_FAILURE);
 	new_command_line->data->cmd = NULL;
 	new_command_line->data->arguments = NULL;
 	new_command_line->data->options = NULL;
@@ -29,37 +33,38 @@ void creat_list_of_command(t_list **command_line)
 	return ;
 }
 
-void	set_origin(char **arg)
+char	*set_origin(char *arg)
 {
 	int	i;
 
 	i = 0;
-	while (*arg[i])
+	while (arg[i])
 	{
-		if (*arg[i] == PIPE_FLAG)
-			*arg[i] = PIPE_CHARACTER;
-		else if (*arg[i] == SPACE_FLAG)
-			*arg[i] = SPACE_CHARACTER;
-		else if (*arg[i] == LESS_REDIRECTION)
-			*arg[i] = '<';
-		else if (*arg[i] == GREAT_REDIRECTION)
-			*arg[i] = '>';
-		else if (*arg[i] == OPTION_CHARACTER)
-			*arg[i] = '-';
-		else if (*arg[i] == SINGLE_QUOTE)
-			*arg[i] = '\'';
-		else if (*arg[i] == DOUBLE_QUOTE)
-			*arg[i] = '"';
+		if (arg[i] == PIPE_FLAG)
+			arg[i] = PIPE_CHARACTER;
+		else if (arg[i] == SPACE_FLAG)
+			arg[i] = SPACE_CHARACTER;
+		else if (arg[i] == LESS_REDIRECTION)
+			arg[i] = '<';
+		else if (arg[i] == GREAT_REDIRECTION)
+			arg[i] = '>';
+		else if (arg[i] == OPTION_CHARACTER)
+			arg[i] = '-';
+		else if (arg[i] == SINGLE_QUOTE)
+			arg[i] = '\'';
+		else if (arg[i] == DOUBLE_QUOTE)
+			arg[i] = '"';
 		i++;
 	}
-	return ;
+	return (arg);
 }
+
 
 int which_type_quote(char *cmd)
 {
 	int i;
-
 	i = 0;
+
 	while (cmd[i])
 	{
 		if (cmd[i] == '"')
@@ -69,36 +74,4 @@ int which_type_quote(char *cmd)
 		i++;
 	}
 	return (0);
-}
-
-int ft_error(int n, char option, char *str_option)
-{
-	if (option && !str_option)
-		printf("Petit_shell: syntax error near unexpected token `%c'\n", option);
-	else if (str_option && !option)
-		printf("Petit_shell: syntax error near unexpected token `%s'\n", str_option);
-	else
-	{
-		if (n == 0)
-			printf("Petit_shell: syntax error near unexpected token `%c'\n", option);
-		else if (n == 1)
-			printf("Petit_shell: syntax error near unexpected token `%s'\n", str_option);
-	}
-	return (-1);
-}
-
-int search(char *str, char c)
-{
-	int i;
-	int counter;
-
-	i = 0;
-	counter = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			counter++;
-		i++;
-	}
-	return (counter);
 }

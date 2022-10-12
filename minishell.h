@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:26:09 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/08 12:01:31 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/12 12:47:35 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@
 
 #include <stdlib.h>
 
-// #include "libft/libft.h"
+#include "libft/libft.h"
 
 enum characters{
 	
 	SPACE_CHARACTER = ' ',
 	PIPE_CHARACTER = '|',
 	NULL_CHARACTER = '\0',
-	PIPE_FLAG = -6,
+	PIPE_FLAG = -7,
 	SPACE_FLAG,
 	LESS_REDIRECTION,
 	GREAT_REDIRECTION,
@@ -59,36 +59,40 @@ typedef struct s_list
 
 char	*lexical_analysis(char *input);
 int		search(char *str, char c);
-char	**ft_split(char const *s, char c);
 int		ft_error(int n, char option, char *str_option);
 // t_list	*creat_list_of_command(t_list *command_line);
 void	creat_list_of_command(t_list **command_line);
 int		which_type_quote(char *cmd);
-char	*ft_strjoin(char const *s1, char const *s2);
 
-void	*ft_calloc(size_t count, size_t size);
-void	ft_bzero(void	*s, size_t n);
 
-t_list	*parsing(char *input, t_list *list_command);
+t_list	*parsing(char *input, t_list *list_command, char **env);
 // void	parsing(char *input);
-char	*ft_strdup(char	*s1);
 
-int		ft_strlen(char *str);
-int		ft_strlcpy(char *dst, const char *src, int dstsize);
 char	**ft_split_v2(char *str, char c, char c2);
 
 t_list	*ft_list_last(t_list *lst);
 
-char	*ft_single_quote(char *cmd);
-char	*ft_double_quote(char *cmd);
-char	*set_command(char *cmd);
+// char	*set_arg(char *cmd);
+// char	**set_arg(char **arg);
+void	set_arg(char ***arg, char **env);
+char	*search_env(char **env, char *to_find, char *arg);
+
+void	ft_free(char **str);
 
 char	*define_characters(char *input);
 
-int	check_pipe_syntax(char *input);
-int	check_lg_syntax(char *input);
-int	check_less_great_syntax(char *input);
+int		check_pipe_syntax(char *input);
+int		check_lg_syntax(char *input);
+int		check_less_great_syntax(char *input);
 
-char	*set_options(char *option);
-void	set_origin(char **arg);
+void	take_options(t_list **list_command, char **matrix_command_line, int *j);
+void	take_cmd(t_list **list_command, char **matrix_command_line, int *j);
+void	take_argument(t_list **list_command, char **matrix_command_line, int *j);
+char	*set_origin(char *arg);
+int		search_characters(char *arg);
+
+char	*expand(char *arg, char **env);
+char	*ft_single_quote(char *cmd);
+char	*ft_double_quote(char *cmd, char **env);
+
 #endif
