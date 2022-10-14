@@ -6,7 +6,7 @@
 #    By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/30 18:29:03 by hasabir           #+#    #+#              #
-#    Updated: 2022/10/12 11:47:15 by hasabir          ###   ########.fr        #
+#    Updated: 2022/10/14 11:11:30 by hasabir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,10 +35,10 @@ ${LIBFT} :
 	@make -C libft
 
 %.o: %.c
-	@$(CC) -c -o $@ $<
+	@$(CC) ${CFLAGS} -c -o $@ $<
 
 ${NAME} :${OBJS}
-	@$(CC) $(OBJS) ${CFLAGS} -I/usr/local/include -lreadline -o $(NAME)
+	@$(CC) $(OBJS) -I/usr/local/include -lreadline -o $(NAME)
 	@echo "\033[92m|  Compilation Done  |\033[00m"
 
 clean:

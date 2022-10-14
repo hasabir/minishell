@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:39:19 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/12 11:58:34 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/14 12:44:10 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,19 @@ int search(char *str, char c)
 	return (counter);
 }
 
-char	*search_env(char **env, char *to_find, char *arg)
+char	*search_env(char **env, char *to_find, char **arg)
 {
 	int		j;
 	char	*str;
 	int		i;
+	int		tmp;
 
 	i = 0;
 	str = 0;
 	while (env[i])
 	{
 		j = 0;
-		while (env[i][j] != '=')
+		while (env[i][j] != '=' && to_find[j])
 		{
 			if (env[i][j] != to_find[j])
 				break ;
@@ -64,13 +65,16 @@ char	*search_env(char **env, char *to_find, char *arg)
 		}
 		if (env[i][j] == '=')
 		{
+			tmp = -1;
+			while (++tmp < j && arg)
+				(*arg)++;
 			str = env[i];
 			j++;
 			return (str + j);
 		}
 		i++;
 	}
-	// if (path == NULL)
+	// if (arg == NULL)
 	// 	ft_error(arg);
 	return (0);
 }

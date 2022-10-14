@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:57:17 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/12 12:00:18 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/14 16:42:25 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,15 @@ void	creat_list_of_command(t_list **command_line)
 	new_command_line->data->cmd = NULL;
 	new_command_line->data->arguments = NULL;
 	new_command_line->data->options = NULL;
-	new_command_line->data->input_file = DEFAULT_INPUT;
-	new_command_line->data->output_file = DEFAULT_OUTPUT;
+	new_command_line->data->input_file = malloc(sizeof(t_input));
+	new_command_line->data->output_file = malloc(sizeof(t_output));
+	if (!new_command_line->data->input_file
+		|| !new_command_line->data->output_file)
+		exit(EXIT_FAILURE);
+	new_command_line->data->input_file->in_name = NULL;
+	new_command_line->data->input_file->in_type = 0;
+	new_command_line->data->output_file->out_name = NULL;
+	new_command_line->data->output_file->out_type = 1;
 	new_command_line->next = NULL;
 	*command_line = ft_list_last(*command_line);
 	*command_line = new_command_line;
@@ -54,6 +61,8 @@ char	*set_origin(char *arg)
 			arg[i] = '\'';
 		else if (arg[i] == DOUBLE_QUOTE)
 			arg[i] = '"';
+		else if (arg[i] == EXPAND_CHARACTER)
+			arg[i] = '$';
 		i++;
 	}
 	return (arg);
