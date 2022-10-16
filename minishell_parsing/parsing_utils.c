@@ -6,35 +6,20 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:51:50 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/14 18:02:18 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/16 17:05:30 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// void	take_out_in_files(t_list *list_command, char **matrix_command_line)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	i = -1;
-// 	while (matrix_command_line[++i])
-// 	{
-// 		if (search(matrix_command_line[i], '<') || search(matrix_command_line[i], '>'))
-// 		{
-// 			take_out_file(list_command, matrix_command_line[i]);
-// 		}
-// 	}
-// 	return ;
-// }
 
 void	take_cmd(t_list *list_command, char **matrix_command_line, int *j)
 {
 	printf("\n");
-	printf("-------------------------------\n");
+	printf("\033[95m-------------------------------\033[00m\n");
 	(list_command)->data->cmd = matrix_command_line[*j];
 	printf("cmd = %s\n", (list_command)->data->cmd);
-	printf("-------------------------------\n");
+	printf("\033[95m-------------------------------\033[00m\n");
 	return ;
 }
 
@@ -79,12 +64,12 @@ void	take_options(t_list *list_command, char **matrix_command_line, int *j)
 		else
 		{
 			(list_command)->data->options[i] = NULL;
-			// printf("option = %s\n", (*list_command)->data->options[i]);
+			printf("option = %s\n", list_command->data->options[i]);
 			break ;
 		}
 		(*j)++;
 	}
-	printf("-------------------------------\n");
+	printf("\033[95m-------------------------------\033[00m\n");
 	return ;
 }
 
@@ -102,3 +87,20 @@ void	set_arg(char ***matrix_command_line, char **env)
 	}
 	return ;
 }
+
+
+// void	take_out_in_files(t_list *list_command, char **matrix_command_line)
+// {
+// 	int	i;
+// 	int	j;
+
+// 	i = -1;
+// 	while (matrix_command_line[++i])
+// 	{
+// 		if (search(matrix_command_line[i], '<') || search(matrix_command_line[i], '>'))
+// 		{
+// 			take_out_file(list_command, matrix_command_line[i]);
+// 		}
+// 	}
+// 	return ;
+// }

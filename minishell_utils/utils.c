@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:57:17 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/14 16:42:25 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/16 16:21:31 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ char	*set_origin(char *arg)
 	int	i;
 
 	i = 0;
+	if (!arg)
+		return (arg);
 	while (arg[i])
 	{
 		if (arg[i] == PIPE_FLAG)

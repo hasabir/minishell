@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 11:19:08 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/14 18:51:33 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/16 17:03:05 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,13 @@ t_list	*parsing(char *input, t_list	*list_command, char **env)
 	{
 		creat_list_of_command(&list_command);
 		matrix_command_line = ft_split(matrix_input[i], ' ');
+		int j = -1;
+		while (matrix_command_line[++j])
+			printf("\033[02mmatrix[%d] = %s\033[00m\n",j, matrix_command_line[j]);
 		pars_command(matrix_command_line, list_command, env);
 		free (matrix_input[i]);
 		i++;
-		printf("\n*******************************************\n");
+		printf("\033[91m\n*******************************************\033[00m\n");
 	}
 	free(matrix_input);
 	return (list_command);

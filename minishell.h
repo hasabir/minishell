@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:26:09 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/14 17:58:30 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/16 19:03:48 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,15 @@ t_list	*ft_list_last(t_list *lst);
 void	set_arg(char ***arg, char **env);
 char	*search_env(char **env, char *to_find, char **arg);
 void	ft_free(char **str);
+
 char	*define_characters(char *input);
+
+void	*define_double_quote(char	*ptr);
+void	*define_single_quote(char	*ptr);
 int		check_pipe_syntax(char *input);
 int		check_lg_syntax(char *input);
 int		check_less_great_syntax(char *input);
+int		is_space(char c);
 
 void	take_options(t_list *list_command, char **matrix_command_line, int *j);
 void	take_cmd(t_list *list_command, char **matrix_command_line, int *j);

@@ -6,13 +6,11 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 17:31:44 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/14 18:17:57 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/16 18:59:17 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-
 
 char	*define_characters_in_quote(char *input)
 {
@@ -26,78 +24,26 @@ char	*define_characters_in_quote(char *input)
 
 char	*define_characters(char *input)
 {
-	int	i;
+	char	*ptr;
 
-	i = 0;
-	while (input[i])
+	ptr = input;
+	while (*ptr)
 	{
-		if (input[i] == '"')
+		if (*ptr == '"')
 		{
-			i++;
-			while (input[i] != '"' && input[i])
-			{
-				if (input[i] == SPACE_CHARACTER)
-						input[i] = SPACE_FLAG;
-				else if (input[i] == PIPE_CHARACTER)
-					input[i] = PIPE_FLAG;
-				else if (input[i] == '<')
-					input[i] = LESS_REDIRECTION;
-				else if (input[i] == '>')
-					input[i] = GREAT_REDIRECTION;
-				else if (input[i] == '-')
-					input[i] = OPTION_CHARACTER;
-				else if (input[i] == '\'')
-					input[i] = SINGLE_QUOTE;	
-				i++;
-			}
-			if (input[i] != '"')
+			ptr = define_double_quote(ptr);
+			if (*ptr != '"')
 				return (NULL);
 		}
-		else if (input[i] == '\'')
+		else if (*ptr == '\'')
 		{
-			i++;
-			while (input[i] != '\'' && input[i])
-			{
-				if (input[i] == SPACE_CHARACTER)
-						input[i] = SPACE_FLAG;
-				else if (input[i] == PIPE_CHARACTER)
-					input[i] = PIPE_FLAG;
-				else if (input[i] == '<')
-					input[i] = LESS_REDIRECTION;
-				else if (input[i] == '>')
-					input[i] = GREAT_REDIRECTION;
-				else if (input[i] == '-')
-					input[i] = OPTION_CHARACTER;
-				else if (input[i] == '"')
-					input[i] = DOUBLE_QUOTE;	
-				else if (input[i] == '$')
-					input[i] = EXPAND_CHARACTER;	
-				i++;
-			}
-			if (input[i] != '\'')
+			ptr = define_single_quote(ptr);
+			if (*ptr != '\'')
 				return (NULL);
 		}
-		// else if (input[i] == '>')
-		// {
-		// 	if (input[i + 1] == '>')
-		// 	{
-		// 		input[i] = DOUBLE_GREAT;
-		// 		input[++i] = DOUBLE_GREAT;
-		// 	}
-		// 	else
-		// 		input[i] = GREAT;
-		// }
-		// else if (input[i] == '<')
-		// {
-		// 	if (input[i + 1] == '<')
-		// 	{
-		// 		input[i] = DOUBLE_LESS;
-		// 		input[++i] = DOUBLE_LESS;
-		// 	}
-		// 	else
-		// 		input[i] = LESS;
-		// }
-		i++;
+		else if (is_space(*ptr))
+			*ptr = ' ';
+		ptr++;
 	}
 	return (input);
 }

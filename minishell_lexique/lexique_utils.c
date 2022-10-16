@@ -6,11 +6,65 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:59:46 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/14 19:34:41 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/16 19:17:37 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	*define_expand(char *ptr)
+{
+	if (ptr[0] )
+	return (ptr);
+}
+
+void	*define_double_quote(char	*ptr)
+{
+	ptr++;
+	while (*ptr != '"' && *ptr)
+	{
+		if (*ptr == SPACE_CHARACTER)
+				*ptr = SPACE_FLAG;
+		else if (*ptr == PIPE_CHARACTER)
+			*ptr = PIPE_FLAG;
+		else if (*ptr == '<')
+			*ptr = LESS_REDIRECTION;
+		else if (*ptr == '>')
+			*ptr = GREAT_REDIRECTION;
+		else if (*ptr == '-')
+			*ptr = OPTION_CHARACTER;
+		else if (*ptr == '\'')
+			*ptr = SINGLE_QUOTE;
+		else if (*ptr == '$')
+			define_expand(ptr);
+		ptr++;
+	}
+	return(ptr);
+}
+
+void	*define_single_quote(char	*ptr)
+{
+	ptr++;
+	while (*ptr != '\'' && *ptr)
+	{
+		if (*ptr == SPACE_CHARACTER)
+				*ptr = SPACE_FLAG;
+		else if (*ptr == PIPE_CHARACTER)
+			*ptr = PIPE_FLAG;
+		else if (*ptr == '<')
+			*ptr = LESS_REDIRECTION;
+		else if (*ptr == '>')
+			*ptr = GREAT_REDIRECTION;
+		else if (*ptr == '-')
+			*ptr = OPTION_CHARACTER;
+		else if (*ptr == '"')
+			*ptr = DOUBLE_QUOTE;	
+		else if (*ptr == '$')
+			*ptr = EXPAND_CHARACTER;	
+		ptr++;
+	}
+	return(ptr);
+}
 
 int	check_pipe_syntax(char *input)
 {
@@ -99,5 +153,10 @@ int	check_less_great_syntax(char *input)
 	return (1);
 }
 
-
+int	is_space(char c)
+{
+	if (c == '\t'|| c == '\f' || c == '\v' || c == '\r')
+		return (1);
+	return (0);
+}
 
