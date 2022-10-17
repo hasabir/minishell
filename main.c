@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:25:57 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/16 17:47:57 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/17 12:00:24 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int ac, char **av, char **env)
 		input = lexical_analysis(input);
 		if (input && *input)
 			list_command = parsing(input, list_command, env);
-		// system("leaks minishell");
+		// system("leaks minis hell");
 	}
 	return 0;
 }

@@ -6,24 +6,28 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 11:19:08 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/16 17:03:05 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/17 19:53:15 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	pars_command(char **matrix_command_line, t_list *list_command, char **env)
+
+
+int	pars_command(char **matrix_command_line, t_list *list_command, char **env)
 {
 	int	j;
 	
 	j = 0;
+	if (!take_out_in_files(list_command, matrix_command_line))
+		return (0);
 	set_arg(&matrix_command_line, env);
-	// take_out_in_files(list_command, matrix_command_line);
 	take_cmd(list_command, matrix_command_line, &j);
 	take_options(list_command, matrix_command_line, &j);
 	take_argument(list_command, matrix_command_line, &j);
 	ft_free(matrix_command_line);
-	return ;
+	(void)env;
+	return (1);
 }
 
 t_list	*parsing(char *input, t_list	*list_command, char **env)
@@ -42,7 +46,8 @@ t_list	*parsing(char *input, t_list	*list_command, char **env)
 		int j = -1;
 		while (matrix_command_line[++j])
 			printf("\033[02mmatrix[%d] = %s\033[00m\n",j, matrix_command_line[j]);
-		pars_command(matrix_command_line, list_command, env);
+		if (!pars_command(matrix_command_line, list_command, env))
+			return (NULL);
 		free (matrix_input[i]);
 		i++;
 		printf("\033[91m\n*******************************************\033[00m\n");

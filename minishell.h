@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:26:09 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/16 19:03:48 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/17 19:51:52 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <unistd.h>
-
+#include <fcntl.h>
 #include <stdlib.h>
 
 #include "libft/libft.h"
@@ -60,11 +60,13 @@ typedef struct s_output_file
 
 typedef struct s_data
 {
-	char		*cmd;
-	char		**options;
-	char		*arguments;
-	t_output	*output_file;
-	t_input		*input_file;
+	char	*cmd;
+	char	**options;
+	char	*arguments;
+	int		output_file;
+	int		input_file;
+	// t_output	*output_file;
+	// t_input		*input_file;
 }t_data;
 
 typedef struct s_list
@@ -81,6 +83,8 @@ int		which_type_quote(char *cmd);
 t_list	*parsing(char *input, t_list *list_command, char **env);
 char	**ft_split_v2(char *str, char c, char c2);
 t_list	*ft_list_last(t_list *lst);
+
+// void	set_arg(char **arg, char **env);
 void	set_arg(char ***arg, char **env);
 char	*search_env(char **env, char *to_find, char **arg);
 void	ft_free(char **str);
@@ -97,8 +101,9 @@ int		is_space(char c);
 void	take_options(t_list *list_command, char **matrix_command_line, int *j);
 void	take_cmd(t_list *list_command, char **matrix_command_line, int *j);
 void	take_argument(t_list *list_command, char **matrix_command_line, int *j);
-void	take_out_in_files(t_list *list_command, char **matrix_command_line);
-void	take_out_files(t_list *list_command, char *matrix_command_line);
+int		take_out_in_files(t_list *list_command, char **matrix_command_line);
+void	*take_out_files(t_list *list_command, char *matrix_command_line);
+
 
 
 char	*set_origin(char *arg);

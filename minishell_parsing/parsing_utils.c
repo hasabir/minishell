@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:51:50 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/16 17:05:30 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/17 17:02:17 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 void	take_cmd(t_list *list_command, char **matrix_command_line, int *j)
 {
+	while(matrix_command_line[*j] && (search(matrix_command_line[*j], '<')
+		|| search(matrix_command_line[*j], '>')))
+		(*j)++;
 	printf("\n");
 	printf("\033[95m-------------------------------\033[00m\n");
 	(list_command)->data->cmd = matrix_command_line[*j];
@@ -28,9 +31,10 @@ void	take_argument(t_list *list_command, char **matrix_command_line, int *j)
 	int	i;
 
 	i = 0;
-	while (matrix_command_line[*j]
-		&& (matrix_command_line[*j][0] != '<'
-		|| matrix_command_line[*j][0] != '>'))
+	while(matrix_command_line[*j] && (search(matrix_command_line[*j], '<')
+		|| search(matrix_command_line[*j], '>')))
+		(*j)++;
+	while (matrix_command_line[*j])
 	{
 		if (i != 0)
 			(list_command)->data->arguments = ft_strjoin((list_command)->data->arguments, " ");
@@ -38,6 +42,9 @@ void	take_argument(t_list *list_command, char **matrix_command_line, int *j)
 			matrix_command_line[*j]);
 		i++;
 		(*j)++;
+		while(matrix_command_line[*j] && (search(matrix_command_line[*j], '<')
+			|| search(matrix_command_line[*j], '>')))
+			(*j)++;
 	}
 	printf("argument = %s\n", (list_command)->data->arguments);
 	return ;
@@ -49,6 +56,9 @@ void	take_options(t_list *list_command, char **matrix_command_line, int *j)
 
 	i = 0;
 	*j += 1;
+	while(matrix_command_line[*j] && (search(matrix_command_line[*j], '<')
+		|| search(matrix_command_line[*j], '>')))
+			(*j)++;
 	while (matrix_command_line[*j])
 	{	
 		if (!(list_command)->data->options)
@@ -60,6 +70,10 @@ void	take_options(t_list *list_command, char **matrix_command_line, int *j)
 				= ft_strdup(matrix_command_line[*j]);
 			printf("option = %s\n", (list_command)->data->options[i]);
 			i++;
+			(*j)++;
+			while(matrix_command_line[*j] && (search(matrix_command_line[*j], '<')
+				|| search(matrix_command_line[*j], '>')))
+				(*j)++;
 		}
 		else
 		{
@@ -67,11 +81,26 @@ void	take_options(t_list *list_command, char **matrix_command_line, int *j)
 			printf("option = %s\n", list_command->data->options[i]);
 			break ;
 		}
-		(*j)++;
+
 	}
 	printf("\033[95m-------------------------------\033[00m\n");
 	return ;
 }
+
+// void	set_arg(char **matrix_command_line, char **env)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	// while (*(*matrix_command_line + i))
+// 	// {
+// 		(*matrix_command_line) = ft_double_quote(*matrix_command_line, env);
+// 		(*matrix_command_line) = ft_single_quote(*matrix_command_line);
+// 		(*matrix_command_line) = set_origin(*matrix_command_line);
+// 		i++;
+// 	// }
+// 	return ;
+// }
 
 void	set_arg(char ***matrix_command_line, char **env)
 {
@@ -87,20 +116,3 @@ void	set_arg(char ***matrix_command_line, char **env)
 	}
 	return ;
 }
-
-
-// void	take_out_in_files(t_list *list_command, char **matrix_command_line)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	i = -1;
-// 	while (matrix_command_line[++i])
-// 	{
-// 		if (search(matrix_command_line[i], '<') || search(matrix_command_line[i], '>'))
-// 		{
-// 			take_out_file(list_command, matrix_command_line[i]);
-// 		}
-// 	}
-// 	return ;
-// }

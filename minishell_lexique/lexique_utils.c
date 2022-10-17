@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:59:46 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/16 19:17:37 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/17 11:30:22 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	*define_expand(char *ptr)
 {
-	if (ptr[0] )
+	if (!ft_isalnum(ptr[1]) && ptr[1] != '_')
+			*ptr = EXPAND_CHARACTER;
 	return (ptr);
 }
 
