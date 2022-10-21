@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 11:19:08 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/21 12:41:37 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/21 19:03:39 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,9 @@ int	pars_command(char **matrix_command_line, t_list *list_command, char **env)
 	j = 0;
 	if (!take_out_in_files(list_command, matrix_command_line))
 		return (0);
-	// printf("set_arg\n");
 	set_arg(&matrix_command_line, env);
-	// printf("take_cmd\n");
 	take_cmd(list_command, matrix_command_line, &j);
-	// printf("take_options\n");
 	take_options(list_command, matrix_command_line, &j);
-	// printf("take_argument\n");
 	take_argument(list_command, matrix_command_line, &j);
 	ft_free(matrix_command_line);
 	(void)env;

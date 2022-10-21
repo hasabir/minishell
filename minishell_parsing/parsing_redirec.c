@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 11:51:37 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/21 16:50:47 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/21 19:02:47 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,10 @@ void	*take_out_files(t_list *list_command, char **matrix_command_line, int *j)
 	file_name = ft_strdup("\0");
 	while (stock[++i])
 	{
+		printf("i am hear\n");
 		index = search_index(matrix_command_line[*j], stock[i], len);
-		printf("index = %d\n", index);
+		if (index)
+		{
 			if (index > 1 && matrix_command_line[*j][index - 1] == '>'
 				&& matrix_command_line[*j][index - 2] == '>')
 			{
@@ -121,9 +123,11 @@ void	*take_out_files(t_list *list_command, char **matrix_command_line, int *j)
 				list_command->data->output_file 
 					= open(file_name, O_WRONLY | O_CREAT, 0644);
 			}
+		}
 	}
 	if (!stock[i] && i < count)
 		printf("hope this is the cas i am looking for\n");
+	printf("fd out = %d\n", list_command->data->output_file);
 	return (file_name);
 }
 
@@ -143,6 +147,7 @@ int	take_out_in_files(t_list *list_command, char **matrix_command_line)
 			if (!in_file_name)
 				return (0);
 			out_file_name = take_out_files(list_command, matrix_command_line, &i);
+			// if (!out_file_na
 			// out_file_name = take_out_files(list_command, matrix_command_line[i]);
 		}
 	}
@@ -165,7 +170,6 @@ int	take_out_in_files(t_list *list_command, char **matrix_command_line)
 // 	int		len;
 // 	char	*file_name;
 // 	int		count;
-
 // 	count = search(matrix_command_line[*j], '>');
 // 	stock = ft_split(matrix_command_line[*j], '>');
 // 	// i = -1;

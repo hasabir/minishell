@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:57:17 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/21 12:26:23 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/21 19:03:51 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,6 @@ void	creat_list_of_command(t_list **command_line)
 	new_command_line->data->options = NULL;
 	new_command_line->data->input_file = 0;
 	new_command_line->data->output_file = 1;
-	// if (!new_command_line->data->input_file
-	// 	|| !new_command_line->data->output_file)
-	// 	exit(EXIT_FAILURE);
-	// new_command_line->data->input_file->in_name = NULL;
-	// new_command_line->data->input_file->in_type = 0;
-	// new_command_line->data->output_file->out_name = NULL;
-	// new_command_line->data->output_file->out_type = 1;
 	new_command_line->next = NULL;
 	*command_line = ft_list_last(*command_line);
 	*command_line = new_command_line;
@@ -71,10 +64,6 @@ char	*set_origin(char *arg)
 			arg[i] = PIPE_CHARACTER;
 		else if (arg[i] == SPACE_FLAG)
 			arg[i] = SPACE_CHARACTER;
-		// else if (arg[i] == LESS_REDIRECTION)
-		// 	arg[i] = '<';
-		// else if (arg[i] == GREAT_REDIRECTION)
-		// 	arg[i] = '>';
 		else if (arg[i] == OPTION_CHARACTER)
 			arg[i] = '-';
 		else if (arg[i] == SINGLE_QUOTE)

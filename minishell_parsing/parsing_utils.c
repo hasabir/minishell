@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:51:50 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/21 16:25:10 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/21 19:04:09 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,21 +91,6 @@ void	take_options(t_list *list_command, char **matrix_command_line, int *j)
 	printf("\033[95m-------------------------------\033[00m\n");
 	return ;
 }
-
-// void	set_arg(char **matrix_command_line, char **env)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	// while (*(*matrix_command_line + i))
-// 	// {
-// 		(*matrix_command_line) = ft_double_quote(*matrix_command_line, env);
-// 		(*matrix_command_line) = ft_single_quote(*matrix_command_line);
-// 		(*matrix_command_line) = set_origin(*matrix_command_line);
-// 		i++;
-// 	// }
-// 	return ;
-// }
 
 void	set_arg(char ***matrix_command_line, char **env)
 {
