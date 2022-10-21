@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:35:06 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/17 11:54:18 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/21 15:37:54 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,30 @@ char	*ft_single_quote(char *cmd)
 		free (stock[i]);
 	free(stock);
 	return (cmd);
+}
+
+
+int	search_index(const char *s1, const char *s2, size_t len)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	if (!s1 && s2[i] == 0)
+		return (0);
+	if (s1[i] == 0 && s2[i] == 0)
+		return (0);
+	// if (!*s2)
+		// return ((char *)s1);
+	while (s1[i] && i < len)
+	{
+		j = 0;
+		while (s1[i + j] && s2[j] && s2[j] == s1[i + j]
+			&& i + j < len)
+			j++;
+		if (s2[j] == 0)
+			return (i);
+		i++;
+	}
+	return (0);
 }

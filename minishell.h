@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:26:09 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/17 19:51:52 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/21 16:21:05 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,11 @@ void	take_options(t_list *list_command, char **matrix_command_line, int *j);
 void	take_cmd(t_list *list_command, char **matrix_command_line, int *j);
 void	take_argument(t_list *list_command, char **matrix_command_line, int *j);
 int		take_out_in_files(t_list *list_command, char **matrix_command_line);
-void	*take_out_files(t_list *list_command, char *matrix_command_line);
+void	*take_out_files(t_list *list_command, char **matrix_command_line, int *j);
 
 
+int	search_index(const char *s1, const char *s2, size_t len);
+char	*set_redirection_to_origin(char *arg);
 
 char	*set_origin(char *arg);
 int		search_characters(char *arg);

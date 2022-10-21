@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:57:17 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/17 15:48:45 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/21 12:26:23 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,24 @@ void	creat_list_of_command(t_list **command_line)
 	return ;
 }
 
+char	*set_redirection_to_origin(char *arg)
+{
+	int i;
+
+	if (!arg)
+		return (arg);
+	i = 0;
+	while (arg[i])
+	{
+		if (arg[i] == LESS_REDIRECTION)
+			arg[i] = '<';
+		else if (arg[i] == GREAT_REDIRECTION)
+			arg[i] = '>';
+		i++;
+	}
+	return (arg);
+}
+
 char	*set_origin(char *arg)
 {
 	int	i;
@@ -53,10 +71,10 @@ char	*set_origin(char *arg)
 			arg[i] = PIPE_CHARACTER;
 		else if (arg[i] == SPACE_FLAG)
 			arg[i] = SPACE_CHARACTER;
-		else if (arg[i] == LESS_REDIRECTION)
-			arg[i] = '<';
-		else if (arg[i] == GREAT_REDIRECTION)
-			arg[i] = '>';
+		// else if (arg[i] == LESS_REDIRECTION)
+		// 	arg[i] = '<';
+		// else if (arg[i] == GREAT_REDIRECTION)
+		// 	arg[i] = '>';
 		else if (arg[i] == OPTION_CHARACTER)
 			arg[i] = '-';
 		else if (arg[i] == SINGLE_QUOTE)
