@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:59:46 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/21 12:08:59 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/22 17:43:40 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ int	check_lg_syntax(char *input)
 	int		characters;
 	char	*tmp;
 
-	printf("i am hear \n");
 	tmp = ft_strdup(input);
 	matrix_input = ft_split_v2(tmp, '<', '>');
 	i = -1;

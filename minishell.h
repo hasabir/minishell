@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:26:09 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/21 16:21:05 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/22 18:37:27 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,4 +113,9 @@ int		search_characters(char *arg);
 char	*expand(char *arg, char **env);
 char	*ft_single_quote(char *cmd);
 char	*ft_double_quote(char *cmd, char **env);
+
+
+char	**split_redirection(char **matrix_command_line, int **j, char c);
+char	*open_out_files(t_list *list_command ,char *matrix_line, char *stock, int index);
+char	*get_file_name(char	*str, char c);
 #endif
