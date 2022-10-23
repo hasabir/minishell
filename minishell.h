@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:26:09 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/22 18:37:27 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/23 13:40:28 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,6 @@ enum characters{
 	DOUBLE_LESS
 };
 
-typedef struct s_input_file
-{
-	char	*in_name;
-	int		in_type;
-}t_input;
-
-typedef struct s_output_file
-{
-	char	*out_name;
-	int		out_type;
-}t_output;
-
 typedef struct s_data
 {
 	char	*cmd;
@@ -78,11 +66,14 @@ typedef struct s_list
 char	*lexical_analysis(char *input);
 int		search(char *str, char c);
 int		ft_error(int n, char option, char *str_option);
+
+t_list	*creat_list_of_command_2();
 void	creat_list_of_command(t_list **command_line);
 int		which_type_quote(char *cmd);
-t_list	*parsing(char *input, t_list *list_command, char **env);
+void	parsing(char *input, t_list **list_command, char **env);
+// t_list	*parsing(char *input, t_list *list_command, char **env);
 char	**ft_split_v2(char *str, char c, char c2);
-t_list	*ft_list_last(t_list *lst);
+void	ft_list_last(t_list **lst, t_list *new);
 
 // void	set_arg(char **arg, char **env);
 void	set_arg(char ***arg, char **env);

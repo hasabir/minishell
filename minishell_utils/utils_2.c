@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:39:19 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/14 12:44:10 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/23 12:41:28 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,5 @@ void	ft_free(char **str)
 	i = -1;
 	while (str[++i])
 		free(str[i]);
-	free (str);
+	// free (str);
 }

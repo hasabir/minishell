@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:25:57 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/21 19:03:18 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/23 14:47:30 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,17 @@ int	main(int ac, char **av, char **env)
 	while(1)
 	{
 		input = readline("➜ \033[93m\033[01m\033[05mPetit_shell$ \033[00m");
+		if (input == NULL) // CTRL+D -> EOF
+			exit(1);
 		add_history(input);
-		list_command = NULL;
 		input = lexical_analysis(input);
 		if (input && *input)
-			list_command = parsing(input, list_command, env);
+		{
+			list_command = creat_list_of_command_2();
+			parsing(input, &list_command, env);
+		}
 		// system("leaks minishell");
+		free(input);
 	}
 	return 0;
 }

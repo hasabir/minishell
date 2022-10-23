@@ -6,16 +6,17 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:57:17 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/21 19:03:51 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/23 13:42:41 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	creat_list_of_command(t_list **command_line)
+
+t_list	*creat_list_of_command_2(void)
 {
 	t_list *new_command_line;
-
+	
 	new_command_line = malloc(sizeof(t_list));
 	if (!new_command_line)
 		exit (EXIT_FAILURE);
@@ -28,10 +29,28 @@ void	creat_list_of_command(t_list **command_line)
 	new_command_line->data->input_file = 0;
 	new_command_line->data->output_file = 1;
 	new_command_line->next = NULL;
-	*command_line = ft_list_last(*command_line);
-	*command_line = new_command_line;
-	return ;
+	return (new_command_line);
 }
+
+// void	creat_list_of_command(t_list **command_line)
+// {
+// 	t_list *new_command_line;
+// 	new_command_line = malloc(sizeof(t_list));
+// 	if (!new_command_line)
+// 		exit (EXIT_FAILURE);
+// 	new_command_line->data = malloc(sizeof(t_data));
+// 	if (!new_command_line->data)
+// 		exit (EXIT_FAILURE);
+// 	new_command_line->data->cmd = NULL;
+// 	new_command_line->data->arguments = NULL;
+// 	new_command_line->data->options = NULL;
+// 	new_command_line->data->input_file = 0;
+// 	new_command_line->data->output_file = 1;
+// 	new_command_line->next = NULL;
+// 	*command_line = ft_list_last(*command_line);
+// 	*command_line = new_command_line;
+// 	return ;
+// }
 
 char	*set_redirection_to_origin(char *arg)
 {
