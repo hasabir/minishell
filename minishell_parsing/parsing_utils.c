@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:51:50 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/21 19:04:09 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/25 19:04:03 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,9 @@ void	take_options(t_list *list_command, char **matrix_command_line, int *j)
 	while(matrix_command_line[*j] && (search(matrix_command_line[*j], '<')
 		|| search(matrix_command_line[*j], '>')))
 			(*j)++;
+	(list_command)->data->options = malloc(sizeof(char *)); //calculer nbr d'options
 	while (matrix_command_line[*j])
 	{
-		if (!(list_command)->data->options)
-			(list_command)->data->options = malloc(sizeof(char *));
 		if (search_characters(matrix_command_line[*j]) == 1
 			&& matrix_command_line[*j][0] == '-')
 		{

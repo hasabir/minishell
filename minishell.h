@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:26:09 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/23 13:40:28 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/25 18:11:11 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef struct s_data
 	char	*arguments;
 	int		output_file;
 	int		input_file;
+	char	*out_file_name;
+	char	*in_file_name;
 	// t_output	*output_file;
 	// t_input		*input_file;
 }t_data;
@@ -93,10 +95,8 @@ void	take_options(t_list *list_command, char **matrix_command_line, int *j);
 void	take_cmd(t_list *list_command, char **matrix_command_line, int *j);
 void	take_argument(t_list *list_command, char **matrix_command_line, int *j);
 int		take_out_in_files(t_list *list_command, char **matrix_command_line);
-void	*take_out_files(t_list *list_command, char **matrix_command_line, int *j);
 
-
-int	search_index(const char *s1, const char *s2, size_t len);
+int		search_index(const char *s1, const char *s2, size_t len);
 char	*set_redirection_to_origin(char *arg);
 
 char	*set_origin(char *arg);
@@ -105,8 +105,9 @@ char	*expand(char *arg, char **env);
 char	*ft_single_quote(char *cmd);
 char	*ft_double_quote(char *cmd, char **env);
 
-
-char	**split_redirection(char **matrix_command_line, int **j, char c);
+int		split_out_redirection(char ***stock, char **matrix_command_line, int **j, int flag);
+int		split_in_redirection(char ***stock, char **matrix_command_line, int **j, int flag);
 char	*open_out_files(t_list *list_command ,char *matrix_line, char *stock, int index);
+char	*open_in_files(t_list *list_command ,char *matrix_line, char *stock, int index);
 char	*get_file_name(char	*str, char c);
 #endif

@@ -12,8 +12,6 @@
 
 #include "../minishell.h"
 
-
-
 int	pars_command(char **matrix_command_line, t_list **list_command, char **env)
 {
 	int	j;
@@ -21,12 +19,12 @@ int	pars_command(char **matrix_command_line, t_list **list_command, char **env)
 	j = 0;
 	if (!take_out_in_files((*list_command), matrix_command_line))
 		return (0);
-	set_arg(&matrix_command_line, env);
-	take_cmd((*list_command), matrix_command_line, &j);
-	take_options((*list_command), matrix_command_line, &j);
-	take_argument((*list_command), matrix_command_line, &j);
+	// set_arg(&matrix_command_line, env);
+	// take_cmd((*list_command), matrix_command_line, &j);
+	// take_options((*list_command), matrix_command_line, &j);
+	// take_argument((*list_command), matrix_command_line, &j);
 	// ft_free(matrix_command_line);
-	// (void)env;
+	(void)env;
 	return (1);
 }
 
