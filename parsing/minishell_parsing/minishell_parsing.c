@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 int	pars_command(char **matrix_command_line, t_list **list_command, char **env)
 {
@@ -19,10 +19,10 @@ int	pars_command(char **matrix_command_line, t_list **list_command, char **env)
 	j = 0;
 	if (!take_out_in_files((*list_command), matrix_command_line))
 		return (0);
-	// set_arg(&matrix_command_line, env);
-	// take_cmd((*list_command), matrix_command_line, &j);
-	// take_options((*list_command), matrix_command_line, &j);
-	// take_argument((*list_command), matrix_command_line, &j);
+	set_arg(&matrix_command_line, env);
+	take_cmd((*list_command), matrix_command_line, &j);
+	take_options((*list_command), matrix_command_line, &j);
+	take_argument((*list_command), matrix_command_line, &j);
 	// ft_free(matrix_command_line);
 	(void)env;
 	return (1);
@@ -30,7 +30,7 @@ int	pars_command(char **matrix_command_line, t_list **list_command, char **env)
 
 void	parsing(char *input, t_list	**list_command, char **env)
 {
-	printf("\033[91mI am parsing : \033[00m%s\n\n", input);
+	// printf("\033[91mI am parsing : \033[00m%s\n\n", input);
 	char	**matrix_input;
 	char	**matrix_command_line;
 	t_list	*list_ptr;
@@ -48,7 +48,7 @@ void	parsing(char *input, t_list	**list_command, char **env)
 		i++;
 		if (matrix_input[i])
 			ft_list_last(&list_ptr, creat_list_of_command_2());
-		printf("\033[91m\n*******************************************\033[00m\n");
+		// printf("\033[91m\n*******************************************\033[00m\n");
 	}
 	return ;
 }

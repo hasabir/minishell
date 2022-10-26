@@ -6,11 +6,39 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:39:19 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/23 12:41:28 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/26 12:30:07 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
+
+int	which_type_redirection(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '>')
+			return (1);
+		if (str[i] == '<')
+			return (0);
+	}
+	return (-1);
+}
+
+void	ft_get_str(char **matrix_command_line)
+{
+	char	**stock;
+
+	if (which_type_redirection(*matrix_command_line) == 1)
+		stock = ft_split(*matrix_command_line, '>');
+	else
+		stock = ft_split(*matrix_command_line, '<');
+	free(*matrix_command_line);
+	*matrix_command_line = ft_strdup(stock[0]);
+	ft_free(stock);
+}
 
 int	search_characters(char *arg)
 {

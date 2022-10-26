@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils_3.c                                  :+:      :+:    :+:   */
+/*   ft_(*lst)last_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/21 16:26:43 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/21 16:29:51 by hasabir          ###   ########.fr       */
+/*   Created: 2021/11/12 10:33:25 by namine            #+#    #+#             */
+/*   Updated: 2022/10/23 13:20:57 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-// int	is_redirection_file(char **matrix_command_line, int *j)
-// {
-// 	while (matrix_command_line[*j] && (search(matrix_command_line[*j], '<')
-// 		|| search(matrix_command_line[*j], '>')))
-// 	{
-		
-// 	}
-// }
+void	ft_list_last(t_list **lst, t_list *new)
+{
+	while ((*lst)->next)
+		(*lst) = (*lst)->next;
+	(*lst)->next = new;
+	(*lst) = new;
+}

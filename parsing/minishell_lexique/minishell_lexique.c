@@ -6,11 +6,11 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 17:31:44 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/16 18:59:17 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/26 12:29:28 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 char	*define_characters_in_quote(char *input)
 {

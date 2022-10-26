@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:26:09 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/25 18:11:11 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/26 12:04:05 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ typedef struct s_data
 	int		input_file;
 	char	*out_file_name;
 	char	*in_file_name;
-	// t_output	*output_file;
-	// t_input		*input_file;
 }t_data;
 
 typedef struct s_list
@@ -73,11 +71,9 @@ t_list	*creat_list_of_command_2();
 void	creat_list_of_command(t_list **command_line);
 int		which_type_quote(char *cmd);
 void	parsing(char *input, t_list **list_command, char **env);
-// t_list	*parsing(char *input, t_list *list_command, char **env);
 char	**ft_split_v2(char *str, char c, char c2);
 void	ft_list_last(t_list **lst, t_list *new);
 
-// void	set_arg(char **arg, char **env);
 void	set_arg(char ***arg, char **env);
 char	*search_env(char **env, char *to_find, char **arg);
 void	ft_free(char **str);
@@ -91,6 +87,8 @@ int		check_lg_syntax(char *input);
 int		check_less_great_syntax(char *input);
 int		is_space(char c);
 
+void	skip_indirections(char **matrix_command_line, int **j);
+
 void	take_options(t_list *list_command, char **matrix_command_line, int *j);
 void	take_cmd(t_list *list_command, char **matrix_command_line, int *j);
 void	take_argument(t_list *list_command, char **matrix_command_line, int *j);
@@ -98,6 +96,8 @@ int		take_out_in_files(t_list *list_command, char **matrix_command_line);
 
 int		search_index(const char *s1, const char *s2, size_t len);
 char	*set_redirection_to_origin(char *arg);
+int	which_type_redirection(char *str);
+void	ft_get_str(char **matrix_command_line);
 
 char	*set_origin(char *arg);
 int		search_characters(char *arg);

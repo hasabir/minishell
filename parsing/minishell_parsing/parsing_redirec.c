@@ -6,11 +6,11 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 11:51:37 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/25 18:04:38 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/26 12:41:53 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 int	take_in_files(t_list *list_command, char **matrix_command_line, int *j, int flag)
 {
@@ -83,6 +83,7 @@ int	take_out_in_files(t_list *list_command, char **matrix_command_line)
 			}
 		}
 	}
+	// i need to make them in the same while
 	i = -1;
 	return_value = 0;
 	while ( return_value != -1 && matrix_command_line[++i])
@@ -97,14 +98,14 @@ int	take_out_in_files(t_list *list_command, char **matrix_command_line)
 			}
 		}
 	}
-	printf("\n\033[95m-------------------------------\033[00m\n");
-	if (list_command->data->in_file_name)
-		printf("input_file_name = %s\n", list_command->data->in_file_name);
-	printf("input_file = %d\n", list_command->data->input_file);
-	printf("\n\033[95m-------------------------------\033[00m\n");
-	if (list_command->data->out_file_name)
-		printf("output_file_name = %s\n", list_command->data->out_file_name);
-	printf("output_file = %d\n", list_command->data->output_file);	
+	// printf("\n\033[95m-------------------------------\033[00m\n");
+	// if (list_command->data->in_file_name)
+	// 	printf("input_file_name = %s\n", list_command->data->in_file_name);
+	// printf("input_file = %d\n", list_command->data->input_file);
+	// printf("\n\033[95m-------------------------------\033[00m\n");
+	// if (list_command->data->out_file_name)
+	// 	printf("output_file_name = %s\n", list_command->data->out_file_name);
+	// printf("output_file = %d\n", list_command->data->output_file);	
 	// free(file_name);
 	return (1);
 }

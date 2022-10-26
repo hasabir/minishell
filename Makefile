@@ -6,23 +6,22 @@
 #    By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/30 18:29:03 by hasabir           #+#    #+#              #
-#    Updated: 2022/10/22 17:52:05 by hasabir          ###   ########.fr        #
+#    Updated: 2022/10/26 12:34:06 by hasabir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 LIBFT = libft/libft.a
 NAME = minishell
-UTILS = minishell_utils
-PARSING = minishell_parsing
-LEXIQUE = minishell_lexique
-
+UTILS = parsing/minishell_utils
+PARSING = parsing/minishell_parsing
+LEXIQUE = parsing/minishell_lexique
 SRCS = 	main.c ${LIBFT}\
 		${UTILS}/utils.c ${LEXIQUE}/minishell_lexique.c \
 		${UTILS}/minishell_split.c ${PARSING}/minishell_parsing.c\
 		${PARSING}/parsing_utils.c ${LEXIQUE}/lexique_utils.c\
 		${UTILS}/ft_lstlast_bonus.c ${PARSING}/parsing_utils_2.c\
 		${UTILS}/utils_2.c ${PARSING}/parsing_redirec.c\
-		${PARSING}/redirection_utils.c
+		${PARSING}/redirection_utils.c ${PARSING}/parsing_utils_3.c 
 
 OBJS = ${SRCS:.c=.o}
 
@@ -51,3 +50,6 @@ fclean: clean
 	@rm -rf ${NAME}
 
 re: fclean all
+
+
+#parsing_utis_3 is new

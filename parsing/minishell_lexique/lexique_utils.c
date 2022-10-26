@@ -6,11 +6,11 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:59:46 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/23 11:22:47 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/26 12:29:23 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 void	*define_expand(char *ptr)
 {

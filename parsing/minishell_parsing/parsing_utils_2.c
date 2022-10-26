@@ -6,11 +6,11 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:35:06 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/23 11:23:33 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/26 12:29:44 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 int	check_space(char *arg)
 {
@@ -62,7 +62,7 @@ char	*expand(char *arg, char **env)
 		else
 			arg = ft_strjoin(arg, stock[i]);
 	}
-	ft_free(stock);
+	// ft_free(stock);
 	return (arg);
 }
 
