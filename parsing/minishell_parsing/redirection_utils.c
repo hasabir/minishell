@@ -6,11 +6,12 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 17:51:07 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/26 12:29:55 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/27 22:32:06 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+// #include "../../minishell.h"
+#include "../parsing.h"
 
 char	*get_file_name(char	*str, char c)
 {

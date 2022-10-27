@@ -6,11 +6,12 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:39:19 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/26 12:30:07 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/27 22:32:49 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+// #include "../../minishell.h"
+#include "../parsing.h"
 
 int	which_type_redirection(char *str)
 {

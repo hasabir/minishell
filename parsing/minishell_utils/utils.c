@@ -6,11 +6,12 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:57:17 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/26 12:30:23 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/27 22:32:53 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+// #include "../../minishell.h"
+#include "../parsing.h"
 
 
 t_list	*creat_list_of_command_2(void)

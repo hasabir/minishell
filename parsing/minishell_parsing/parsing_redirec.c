@@ -6,11 +6,12 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 11:51:37 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/26 12:41:53 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/27 22:37:40 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+// #include "../../minishell.h"
+#include "../parsing.h"
 
 int	take_in_files(t_list *list_command, char **matrix_command_line, int *j, int flag)
 {
@@ -71,6 +72,7 @@ int	take_out_in_files(t_list *list_command, char **matrix_command_line)
 	return_value = 0;
 	while (return_value != -1 && matrix_command_line[++i])
 	{
+		//if (search(matrix_command , '<') && search(matrix_command_line, '>'))
 		if (search(matrix_command_line[i], '<'))
 		{
 			return_value = take_in_files(list_command, matrix_command_line, &i, 0);
@@ -82,6 +84,15 @@ int	take_out_in_files(t_list *list_command, char **matrix_command_line)
 				return_value = take_in_files(list_command, matrix_command_line, &i, 1);
 			}
 		}
+		// if (search(matrix_command_line[i], '>'))
+		// {
+		// 	return_value = take_out_files(list_command, matrix_command_line, &i, 0);
+		// 	while (return_value == 0)
+		// 	{
+		// 		i++;
+		// 		return_value = take_out_files(list_command, matrix_command_line, &i, 1);
+		// 	}
+		// }
 	}
 	// i need to make them in the same while
 	i = -1;

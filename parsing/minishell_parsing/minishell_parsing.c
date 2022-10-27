@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+// #include "../../minishell.h"
+#include "../parsing.h"
 
 int	pars_command(char **matrix_command_line, t_list **list_command, char **env)
 {
@@ -41,7 +42,7 @@ void	parsing(char *input, t_list	**list_command, char **env)
 	list_ptr = *list_command;
 	while (matrix_input[i])
 	{
-		
+		//take in and out files
 		matrix_command_line = ft_split(matrix_input[i], ' ');
 		if (!pars_command(matrix_command_line, &list_ptr, env))
 			return ;
