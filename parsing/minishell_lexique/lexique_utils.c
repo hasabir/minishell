@@ -6,11 +6,10 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:59:46 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/27 22:32:18 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/28 13:10:50 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../../minishell.h"
 #include "../parsing.h"
 
 void	*define_expand(char *ptr)
@@ -159,7 +158,7 @@ int	check_less_great_syntax(char *input)
 
 int	is_space(char c)
 {
-	if (c == '\t'|| c == '\f' || c == '\v' || c == '\r')
+	if (c == '\t'|| c == '\f' || c == '\v' || c == '\r' || c == ' ')
 		return (1);
 	return (0);
 }

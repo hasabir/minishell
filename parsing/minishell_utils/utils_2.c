@@ -6,12 +6,41 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:39:19 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/27 22:32:49 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/28 13:08:13 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../../minishell.h"
 #include "../parsing.h"
+
+void	print_list_command(t_list *list_command)
+{
+	int	i;
+
+	i = -1;
+	while (list_command)
+	{
+		printf("\n\033[95m-------------------------------\033[00m\n");
+		if (list_command->data->in_file_name)
+			printf("input_file_name = %s\n", list_command->data->in_file_name);
+		printf("input_file = %d\n", list_command->data->input_file);
+		printf("\n\033[95m-------------------------------\033[00m\n");
+		if (list_command->data->out_file_name)
+			printf("output_file_name = %s\n", list_command->data->out_file_name);
+		printf("output_file = %d\n", list_command->data->output_file);	
+		printf("\033[95m\n-------------------------------\033[00m\n");
+		printf("cmd = %s\n", (list_command)->data->cmd);
+		printf("\033[95m-------------------------------\033[00m\n");
+		if (list_command->data->options)
+		{
+			while (list_command->data->options[++i])
+				printf("option = %s\n", list_command->data->options[i]);
+		}
+		printf("\033[95m-------------------------------\033[00m\n");
+		printf("argument = %s\n", list_command->data->arguments);
+		list_command = list_command->next;
+		printf("\033[91m\n*******************************************\033[00m\n");
+	}
+}
 
 int	which_type_redirection(char *str)
 {

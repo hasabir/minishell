@@ -6,11 +6,10 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:35:06 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/27 22:32:31 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/28 13:10:27 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../../minishell.h"
 #include "../parsing.h"
 
 int	check_space(char *arg)

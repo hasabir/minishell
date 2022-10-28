@@ -6,34 +6,50 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:51:50 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/27 22:37:13 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/28 13:08:42 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../../minishell.h"
 #include "../parsing.h"
 
 void	take_cmd(t_list *list_command, char **matrix_command_line, int *j)
 {
 	skip_indirections(matrix_command_line, &j);
-	// printf("\033[95m\n-------------------------------\033[00m\n");
 	matrix_command_line[*j]
 			= set_redirection_to_origin(matrix_command_line[*j]);
 	(list_command)->data->cmd = matrix_command_line[*j];
-	// printf("cmd = %s\n", (list_command)->data->cmd);
-	// printf("\033[95m-------------------------------\033[00m\n");
+	if (matrix_command_line[*j])
+		(*j)++;
 	return ;
+}
+
+int	get_length(char **matrix_command_line, int j)
+{
+	int	count;
+
+	if (!matrix_command_line[j])
+		return (0);
+	count = 0;
+	while (matrix_command_line[j])
+	{
+		if (search_characters(matrix_command_line[j]) == 1
+			&& matrix_command_line[j][0] == '-')
+			count++;
+		j++;
+	}
+	return (count);
 }
 
 void	take_options(t_list *list_command, char **matrix_command_line, int *j)
 {
 	int	i;
-	// int	len;
+	int	len;
 
-	if (matrix_command_line[*j])
-		(*j)++;
 	i = 0;
-	(list_command)->data->options = malloc(6 * sizeof(char *)); //calculer nbr d'options
+	len = get_length(matrix_command_line, *j);
+	if (!len)
+		return ;
+	(list_command)->data->options = malloc((len + 1) * sizeof(char *));
 	while (matrix_command_line[*j])
 	{
 		skip_indirections(matrix_command_line, &j);
@@ -44,18 +60,15 @@ void	take_options(t_list *list_command, char **matrix_command_line, int *j)
 				= set_redirection_to_origin(matrix_command_line[*j]);
 			(list_command)->data->options[i]
 				= ft_strdup(matrix_command_line[*j]);
-			printf("option = %s\n", (list_command)->data->options[i]);
 			i++;
 			(*j)++;
 		}
 		else
 		{
 			(list_command)->data->options[i] = NULL;
-			// printf("option = %s\n", list_command->data->options[i]);
 			break ;
 		}
 	}
-	// printf("\033[95m-------------------------------\033[00m\n");
 	return ;
 }
 

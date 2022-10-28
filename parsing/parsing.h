@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 22:26:11 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/27 22:36:04 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/28 13:06:44 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,13 @@ int		split_out_redirection(char ***stock, char **matrix_command_line, int **j, i
 int		split_in_redirection(char ***stock, char **matrix_command_line, int **j, int flag);
 char	*open_out_files(t_list *list_command ,char *matrix_line, char *stock, int index);
 char	*open_in_files(t_list *list_command ,char *matrix_line, char *stock, int index);
-char	*get_file_name(char	*str, char c);
+char	*get_file_name(char	*str);
 
+int		take_in_out_files(t_list *list_command, char *matrix_input);
+int		open_out_file(t_list *list_command, char *matrix_input, int out_type);
+int		open_in_file(t_list *list_command, char *matrix_input, int in_type);
+
+
+
+void	print_list_command(t_list *list_command);
 #endif

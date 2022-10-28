@@ -6,12 +6,10 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 11:01:39 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/27 22:32:46 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/28 13:10:20 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <stdio.h>
-// #include "../../minishell.h"
 #include "../parsing.h"
 
 static int	ft_lenmat(char const *s, char c)
