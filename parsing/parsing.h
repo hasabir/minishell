@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 22:26:11 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/28 13:06:44 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/28 17:49:32 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ int		ft_error(int n, char option, char *str_option);
 t_list	*creat_list_of_command_2();
 void	creat_list_of_command(t_list **command_line);
 int		which_type_quote(char *cmd);
-void	parsing(char *input, t_list **list_command, char **env);
+int		parsing(char *input, t_list **list_command, char **env);
 char	**ft_split_v2(char *str, char c, char c2);
-void	ft_list_last(t_list **lst, t_list *new);
+void	ft_list_last(t_list **lst, t_list *(new));
 
 void	set_arg(char ***arg, char **env);
 char	*search_env(char **env, char *to_find, char **arg);
@@ -72,7 +72,7 @@ int		take_out_in_files(t_list *list_command, char **matrix_command_line);
 
 int		search_index(const char *s1, const char *s2, size_t len);
 char	*set_redirection_to_origin(char *arg);
-int	which_type_redirection(char *str);
+int		which_type_redirection(char *str);
 void	ft_get_str(char **matrix_command_line);
 
 char	*set_origin(char *arg);
@@ -87,11 +87,12 @@ char	*open_out_files(t_list *list_command ,char *matrix_line, char *stock, int i
 char	*open_in_files(t_list *list_command ,char *matrix_line, char *stock, int index);
 char	*get_file_name(char	*str);
 
-int		take_in_out_files(t_list *list_command, char *matrix_input);
-int		open_out_file(t_list *list_command, char *matrix_input, int out_type);
-int		open_in_file(t_list *list_command, char *matrix_input, int in_type);
+int		take_in_out_files(t_list *list_command, char *matrix_input, char **env);
+int		open_out_file(t_list *list_command, char *matrix_input, int out_type, char **env);
+int		open_in_file(t_list *list_command, char *matrix_input, int in_type, char **env);
 
 
 
+void	expand_file(char **file_name, char **env);
 void	print_list_command(t_list *list_command);
 #endif

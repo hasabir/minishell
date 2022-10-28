@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:35:06 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/28 13:10:27 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/28 18:08:24 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ char	*expand(char *arg, char **env)
 		else
 			arg = ft_strjoin(arg, stock[i]);
 	}
-	// ft_free(stock);
 	return (arg);
 }
 

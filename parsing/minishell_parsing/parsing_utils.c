@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:51:50 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/28 13:08:42 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/28 18:08:34 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,19 @@ void	set_arg(char ***matrix_command_line, char **env)
 	i = 0;
 	while (*(*matrix_command_line + i))
 	{
-		*(*matrix_command_line + i) = ft_double_quote(*(*matrix_command_line + i), env);
 		*(*matrix_command_line + i) = ft_single_quote(*(*matrix_command_line + i));
+		*(*matrix_command_line + i) = ft_double_quote(*(*matrix_command_line + i), env);
 		*(*matrix_command_line + i) = set_origin(*(*matrix_command_line + i));
 		i++;
 	}
+	return ;
+}
+
+void	expand_file(char **file_name, char **env)
+{
+	(*file_name) = ft_single_quote(*file_name);
+	(*file_name) = ft_double_quote(*file_name, env);
+	(*file_name) = set_origin(*file_name);
+	(*file_name) = set_redirection_to_origin(*file_name);
 	return ;
 }

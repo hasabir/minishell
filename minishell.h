@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:26:09 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/27 22:36:37 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/28 18:22:34 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_data
 	int		input_file;
 	char	*out_file_name;
 	char	*in_file_name;
+	// char	*heredoc;
 }t_data;
 
 typedef struct s_list

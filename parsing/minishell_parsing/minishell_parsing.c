@@ -24,7 +24,7 @@ int	pars_command(char **matrix_command_line, t_list **list_command, char **env)
 	return (1);
 }
 
-void	parsing(char *input, t_list	**list_command, char **env)
+int	parsing(char *input, t_list	**list_command, char **env)
 {
 	char	**matrix_input;
 	char	**matrix_command_line;
@@ -36,16 +36,15 @@ void	parsing(char *input, t_list	**list_command, char **env)
 	list_ptr = *list_command;
 	while (matrix_input[i])
 	{
-		if (!take_in_out_files(list_ptr, matrix_input[i]))
-			return ;
+		//open_herdoc -> matrix_input[i]
+		if (!take_in_out_files(list_ptr, matrix_input[i], env))
+			return (0);
 		matrix_command_line = ft_split(matrix_input[i], ' ');
 		if (!pars_command(matrix_command_line, &list_ptr, env))
-			return ;
+			return (0);
 		i++;
 		if (matrix_input[i])
 			ft_list_last(&list_ptr, creat_list_of_command_2());
 	}
-	(void)env;
-	(void)matrix_command_line;
-	return ;
+	return (1);
 }

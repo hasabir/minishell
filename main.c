@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:25:57 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/28 13:06:56 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/28 16:53:28 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	main(int ac, char **av, char **env)
 		if (input && *input)
 		{
 			list_command = creat_list_of_command_2();
-			parsing(input, &list_command, env);
+			if (parsing(input, &list_command, env))
+				print_list_command(list_command);
 		}
-		print_list_command(list_command);
 		free(input);
 		// system("leaks minishell");
 	}
