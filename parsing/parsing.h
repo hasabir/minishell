@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 22:26:11 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/29 15:34:06 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/29 18:12:18 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,23 @@ enum characters{
 
 };
 
-typedef struct s_list t_list;
+typedef struct s_data
+{
+	char	*cmd;
+	char	**options;
+	char	**arguments;
+	int		output_file;
+	int		input_file;
+	char	*out_file_name;
+	char	*in_file_name;
+	// char	*heredoc;
+}t_data;
+
+typedef struct s_list
+{
+	t_data	*data;
+	struct s_list *next;
+}t_list;
 
 char	*lexical_analysis(char *input);
 int		search(char *str, char c);
@@ -48,7 +64,7 @@ void	creat_list_of_command(t_list **command_line);
 int		which_type_quote(char *cmd);
 int		parsing(char *input, t_list **list_command, char **env);
 char	**ft_split_v2(char *str, char c, char c2);
-void	ft_list_last(t_list **lst, t_list *(new));
+void	ft_list_last(t_list **lst, t_list *new_list);
 
 void	set_arg(char ***arg, char **env);
 char	*search_env(char **env, char *to_find, char **arg);

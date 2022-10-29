@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:26:09 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/29 16:07:14 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/29 18:11:45 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,5 @@
 #include "libft/libft.h"
 #include "parsing/parsing.h"
 
-typedef struct s_data
-{
-	char	*cmd;
-	char	**options;
-	char	**arguments;
-	int		output_file;
-	int		input_file;
-	char	*out_file_name;
-	char	*in_file_name;
-	// char	*heredoc;
-}t_data;
-
-typedef struct s_list
-{
-	t_data	*data;
-	struct s_list *next;
-}t_list;
 
 #endif
