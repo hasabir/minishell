@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 11:51:37 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/28 15:45:39 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/29 12:12:37 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,9 @@ int	take_in_file(t_list *list_command, char *matrix_input, char **env)
 
 int take_in_out_files(t_list *list_command, char *matrix_input, char **env)
 {
-	int		i;
 	int		return_value;
 	char	*matrix_input_ptr;
 
-	i = 0;
 	matrix_input_ptr = matrix_input;
 	while (*matrix_input_ptr)
 	{
@@ -73,7 +71,11 @@ int take_in_out_files(t_list *list_command, char *matrix_input, char **env)
 				return (0);
 		}
 		if (*matrix_input_ptr)
+		{
 			matrix_input_ptr++;
+			if (list_command->data->input_file == -1)
+				matrix_input_ptr++;
+		}
 	}
 		return (1);
 // 	// free(file_name);

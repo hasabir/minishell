@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:26:09 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/28 18:22:34 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/29 16:07:14 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_data
 {
 	char	*cmd;
 	char	**options;
-	char	*arguments;
+	char	**arguments;
 	int		output_file;
 	int		input_file;
 	char	*out_file_name;

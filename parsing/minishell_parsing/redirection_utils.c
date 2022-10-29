@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 17:51:07 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/28 17:59:26 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/29 12:10:47 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	open_out_file(t_list *list_command, char *matrix_input, int out_type, char *
 
 int	open_in_file(t_list *list_command, char *matrix_input, int in_type, char **env)
 {
-	(void)env;
+	// printf("I am hear because i am type %d\n", in_type);
 	if (in_type == 1)
 	{
 		free(list_command->data->in_file_name);
@@ -70,6 +70,7 @@ int	open_in_file(t_list *list_command, char *matrix_input, int in_type, char **e
 		expand_file(&list_command->data->in_file_name, env);
 		if (!*list_command->data->in_file_name)
 		{
+			//ft_error
 			write(1, "Petit_shell: ", 14);
 			write(1, list_command->data->in_file_name,
 				ft_strlen(list_command->data->in_file_name));
@@ -80,6 +81,7 @@ int	open_in_file(t_list *list_command, char *matrix_input, int in_type, char **e
 			open(list_command->data->in_file_name, O_RDONLY);
 		if (list_command->data->input_file == -1)
 		{
+			//ft_error
 			write(1, "Petit_shell: ", 14);
 			write(1, list_command->data->in_file_name,
 				ft_strlen(list_command->data->in_file_name));
@@ -89,6 +91,7 @@ int	open_in_file(t_list *list_command, char *matrix_input, int in_type, char **e
 	}
 	else
 	{
+		// printf("this is a heredoc\n");
 		free(list_command->data->in_file_name);
 		list_command->data->in_file_name = ft_strdup("Heredoc");
 		list_command->data->input_file = -1;

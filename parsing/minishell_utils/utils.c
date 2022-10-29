@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:57:17 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/28 13:09:50 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/29 15:31:21 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_list	*creat_list_of_command_2(void)
 	new_command_line->data->output_file = 1;
 	new_command_line->data->out_file_name = ft_strdup("stdout");
 	new_command_line->data->in_file_name = ft_strdup("stdin");
+	// new_command_line->data->heredoc = NULL;
 	new_command_line->next = NULL;
 	return (new_command_line);
 }

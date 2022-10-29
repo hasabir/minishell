@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:51:50 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/28 18:08:34 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/29 16:19:27 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,9 @@ void	take_cmd(t_list *list_command, char **matrix_command_line, int *j)
 	return ;
 }
 
-int	get_length(char **matrix_command_line, int j)
+int	get_length_options(char **matrix_command_line, int j)
 {
 	int	count;
-
 	if (!matrix_command_line[j])
 		return (0);
 	count = 0;
@@ -40,13 +39,27 @@ int	get_length(char **matrix_command_line, int j)
 	return (count);
 }
 
+int	get_length_arguments(char **matrix_command_line, int j)
+{
+	int	count;
+	if (!matrix_command_line[j])
+		return (0);
+	count = 0;
+	while (matrix_command_line[j])
+	{
+		count++;
+		j++;
+	}
+	return (count);
+}
+
 void	take_options(t_list *list_command, char **matrix_command_line, int *j)
 {
 	int	i;
 	int	len;
 
 	i = 0;
-	len = get_length(matrix_command_line, *j);
+	len = get_length_options(matrix_command_line, *j);
 	if (!len)
 		return ;
 	(list_command)->data->options = malloc((len + 1) * sizeof(char *));
@@ -76,22 +89,24 @@ void	take_options(t_list *list_command, char **matrix_command_line, int *j)
 void	take_argument(t_list *list_command, char **matrix_command_line, int *j)
 {
 	int	i;
+	int	len;
 
 	i = 0;
 	skip_indirections(matrix_command_line, &j);
+	len = get_length_arguments(matrix_command_line, *j);
+	if (!len)
+		return ;
+	list_command->data->arguments = malloc((len + 1) * sizeof(char *));
 	while (matrix_command_line[*j])
 	{
 		matrix_command_line[*j]
 			= set_redirection_to_origin(matrix_command_line[*j]);
-		if (i != 0)
-			(list_command)->data->arguments = ft_strjoin((list_command)->data->arguments, " ");
-		(list_command)->data->arguments = ft_strjoin((list_command)->data->arguments,
-			matrix_command_line[*j]);
+		(list_command)->data->arguments[i] = ft_strdup(matrix_command_line[*j]);
 		i++;
 		(*j)++;
 		skip_indirections(matrix_command_line, &j);
 	}
-	// printf("argument = %s\n", (list_command)->data->arguments);
+	list_command->data->arguments[i] = NULL;
 	return ;
 }
 

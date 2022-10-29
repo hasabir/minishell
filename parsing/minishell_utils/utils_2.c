@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:39:19 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/28 13:08:13 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/29 16:18:31 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	print_list_command(t_list *list_command)
 {
 	int	i;
 
-	i = -1;
 	while (list_command)
 	{
 		printf("\n\033[95m-------------------------------\033[00m\n");
@@ -32,11 +31,17 @@ void	print_list_command(t_list *list_command)
 		printf("\033[95m-------------------------------\033[00m\n");
 		if (list_command->data->options)
 		{
+			i = -1;
 			while (list_command->data->options[++i])
 				printf("option = %s\n", list_command->data->options[i]);
 		}
 		printf("\033[95m-------------------------------\033[00m\n");
-		printf("argument = %s\n", list_command->data->arguments);
+		if (list_command->data->arguments)
+		{
+			i = -1;
+			while (list_command->data->arguments[++i])
+				printf("argument = %s\n", list_command->data->arguments[i]);
+		}
 		list_command = list_command->next;
 		printf("\033[91m\n*******************************************\033[00m\n");
 	}
