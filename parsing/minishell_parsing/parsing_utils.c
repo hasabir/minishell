@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:51:50 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/29 16:19:27 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/31 23:09:01 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,40 +17,11 @@ void	take_cmd(t_list *list_command, char **matrix_command_line, int *j)
 	skip_indirections(matrix_command_line, &j);
 	matrix_command_line[*j]
 			= set_redirection_to_origin(matrix_command_line[*j]);
-	(list_command)->data->cmd = matrix_command_line[*j];
+	(list_command)->data->cmd = ft_strdup(matrix_command_line[*j]);
+	free(matrix_command_line[*j]);
 	if (matrix_command_line[*j])
 		(*j)++;
 	return ;
-}
-
-int	get_length_options(char **matrix_command_line, int j)
-{
-	int	count;
-	if (!matrix_command_line[j])
-		return (0);
-	count = 0;
-	while (matrix_command_line[j])
-	{
-		if (search_characters(matrix_command_line[j]) == 1
-			&& matrix_command_line[j][0] == '-')
-			count++;
-		j++;
-	}
-	return (count);
-}
-
-int	get_length_arguments(char **matrix_command_line, int j)
-{
-	int	count;
-	if (!matrix_command_line[j])
-		return (0);
-	count = 0;
-	while (matrix_command_line[j])
-	{
-		count++;
-		j++;
-	}
-	return (count);
 }
 
 void	take_options(t_list *list_command, char **matrix_command_line, int *j)
@@ -73,6 +44,7 @@ void	take_options(t_list *list_command, char **matrix_command_line, int *j)
 				= set_redirection_to_origin(matrix_command_line[*j]);
 			(list_command)->data->options[i]
 				= ft_strdup(matrix_command_line[*j]);
+			free(matrix_command_line[*j]);
 			i++;
 			(*j)++;
 		}
@@ -84,7 +56,6 @@ void	take_options(t_list *list_command, char **matrix_command_line, int *j)
 	}
 	return ;
 }
-
 
 void	take_argument(t_list *list_command, char **matrix_command_line, int *j)
 {
@@ -102,6 +73,7 @@ void	take_argument(t_list *list_command, char **matrix_command_line, int *j)
 		matrix_command_line[*j]
 			= set_redirection_to_origin(matrix_command_line[*j]);
 		(list_command)->data->arguments[i] = ft_strdup(matrix_command_line[*j]);
+		free(matrix_command_line[*j]);
 		i++;
 		(*j)++;
 		skip_indirections(matrix_command_line, &j);
@@ -109,7 +81,6 @@ void	take_argument(t_list *list_command, char **matrix_command_line, int *j)
 	list_command->data->arguments[i] = NULL;
 	return ;
 }
-
 
 void	set_arg(char ***matrix_command_line, char **env)
 {
@@ -128,9 +99,11 @@ void	set_arg(char ***matrix_command_line, char **env)
 
 void	expand_file(char **file_name, char **env)
 {
+	
 	(*file_name) = ft_single_quote(*file_name);
 	(*file_name) = ft_double_quote(*file_name, env);
 	(*file_name) = set_origin(*file_name);
+	(*file_name) = ft_strdup(ft_strtrim(*file_name, "|"));
 	(*file_name) = set_redirection_to_origin(*file_name);
 	return ;
 }

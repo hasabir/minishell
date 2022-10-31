@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:35:06 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/28 18:08:24 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/31 22:46:47 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,37 @@ int	check_space(char *arg)
 	return (0);
 }
 
+char	*ft_strjoin2(char *s1, char *s2)
+{
+	char	*p;
+	size_t	i;
+	size_t	j;
+	char *str;
+
+
+	if (!s1)
+		return (ft_strdup(s2));
+	if (!s2)
+		return (ft_strdup(s1));
+	if (!s1 && !s2)
+		return (NULL);
+	str = ft_strdup(s2);
+	p =malloc((ft_strlen((char *)s1) + ft_strlen((char *)s2) + 1) * sizeof(char));
+	if (!p)
+		return (0);
+	i = -1;
+	while (++i < ft_strlen((char *)s1))
+		p[i] = s1[i];
+	j = -1;
+	while (++j < ft_strlen(str))
+		p[i++] = str[j];
+	p[i] = '\0';
+	return (p);
+}
+
 char	*expand(char *arg, char **env)
 {
 	int		i;
-	int		j;
 	char	**stock;
 	char	*tmp;
 	char	*env_value;
@@ -40,16 +67,18 @@ char	*expand(char *arg, char **env)
 	i = -1;
 	while (stock[++i])
 	{
-		tmp = stock[i];
+		tmp = ft_strdup(stock[i]);
 		env_value = search_env(env, stock[i], &tmp);
 		free(stock[i]);
 		if (env_value && !ft_isalnum(*tmp))
-				stock[i] = ft_strjoin(env_value, tmp);
+			stock[i] = ft_strjoin(env_value, tmp);
 		else
 		{
-			j = 0;
-			while (*tmp && ft_isalnum(*tmp))
-				tmp++;
+			if (i != 0 || arg[0] == '$')
+			{
+				while (*tmp && ft_isalnum(*tmp))
+					tmp++;
+			}
 			stock[i] = ft_strdup(tmp);
 		}
 	}
@@ -76,7 +105,7 @@ char	*ft_double_quote(char *cmd, char **env)
 	i = -1;
 	while (stock[++i])
 	{
-		if (search(stock[i], '$') != 0)
+		if (search(stock[i], '$'))
 			stock[i] = expand(stock[i], env);
 		cmd = ft_strjoin(cmd, stock[i]);
 	}
@@ -84,6 +113,8 @@ char	*ft_double_quote(char *cmd, char **env)
 	while (stock[++i])
 		free (stock[i]);
 	free(stock);
+	if (!cmd)
+		cmd = ft_strdup("\0");
 	return (cmd);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:59:46 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/28 13:10:50 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/31 23:15:54 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,11 @@ int	check_pipe_syntax(char *input)
 	{
 		if (*input != SPACE_CHARACTER && *input != PIPE_CHARACTER)
 			c++;
-		if (*input == PIPE_CHARACTER)
+			
+/*		if (*input == '<' ||  *input == '>')
+		gerer ses cas
+			return(ft_error(1, PIPE_CHARACTER, NULL));
+*/		if (*input == PIPE_CHARACTER)
 		{
 			if (c == 0)
 				return (ft_error(1, PIPE_CHARACTER, NULL));
@@ -115,6 +119,7 @@ int	check_lg_syntax(char *input)
 		characters = 0;
 	}
 	ft_free(matrix_input);
+	free(tmp);
 	return (0);
 }
 
@@ -148,6 +153,11 @@ int	check_less_great_syntax(char *input)
 			if (input[1] == '<')
 				return (ft_error(1, '<', NULL));
 			characters = 0;
+		}
+		if (*input == '>')
+		{
+			if (input[1] == '|')
+				input[1] = PIPE_FLAG;
 		}
 		input++;
 	}

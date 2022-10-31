@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:39:19 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/29 16:18:31 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/10/31 19:43:02 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,37 +108,31 @@ int search(char *str, char c)
 	return (counter);
 }
 
-char	*search_env(char **env, char *to_find, char **arg)
+char	*search_env(char **env, char *to_find, char **tmp)
 {
 	int		j;
 	char	*str;
 	int		i;
-	int		tmp;
+	int		n;
 
 	i = 0;
 	str = 0;
 	while (env[i])
 	{
 		j = 0;
-		while (env[i][j] != '=' && to_find[j])
-		{
-			if (env[i][j] != to_find[j])
-				break ;
+		while (env[i][j] != '=' && to_find[j] && env[i][j] == to_find[j])
 			j++;
-		}
 		if (env[i][j] == '=')
 		{
-			tmp = -1;
-			while (++tmp < j && arg)
-				(*arg)++;
+			n = -1;
+			while (++n < j && tmp && *tmp)
+				(*tmp)++;
 			str = env[i];
 			j++;
 			return (str + j);
 		}
 		i++;
 	}
-	// if (arg == NULL)
-	// 	ft_error(arg);
 	return (0);
 }
 
@@ -165,5 +159,5 @@ void	ft_free(char **str)
 	i = -1;
 	while (str[++i])
 		free(str[i]);
-	// free (str);
+	free (str);
 }
