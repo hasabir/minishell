@@ -38,7 +38,6 @@ int	parsing(char *input, t_list	**list_command, char **env)
 	list_ptr = *list_command;
 	while (matrix_input[i])
 	{
-		printf("matrix_input[i] = %s\n", matrix_input[i]);
 		// open_heredoc_files(*list_command, matrix_input[i]);
 		if (!take_in_out_files(list_ptr, matrix_input[i], env))
 			return (0);

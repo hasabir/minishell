@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 22:26:11 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/31 16:27:47 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/01 12:20:48 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ enum characters{
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
 	EXPAND_CHARACTER,
-	DEFAULT_INPUT,
-	DEFAULT_OUTPUT,
 	GREAT,
 	LESS,
 	DOUBLE_GREAT,

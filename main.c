@@ -6,11 +6,33 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:25:57 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/31 17:21:58 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/02 20:12:17 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_list(t_list *list_command)
+{
+	while (list_command)
+	{
+		if (list_command->data->cmd)
+			free(list_command->data->cmd);
+		if (list_command->data->arguments)
+			ft_free(list_command->data->arguments);
+		if (list_command->data->options)
+			ft_free(list_command->data->options);
+		if (list_command->data->out_file_name)
+			free(list_command->data->out_file_name);
+		if (list_command->data->in_file_name)
+			free(list_command->data->in_file_name);
+		free (list_command->data);
+		free(list_command);
+		list_command = list_command->next;
+	}
+	free(list_command);
+	list_command = NULL;
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -32,8 +54,9 @@ int	main(int ac, char **av, char **env)
 			// parsing(input, &list_command, env);
 			if (parsing(input, &list_command, env))
 				print_list_command(list_command);
-			
 		}
+		if (input && *input)
+			free_list(list_command);
 		free(input);
 		// system("leaks minishell");
 	}
