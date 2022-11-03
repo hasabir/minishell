@@ -6,7 +6,7 @@
 #    By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/30 18:29:03 by hasabir           #+#    #+#              #
-#    Updated: 2022/10/29 11:12:51 by hasabir          ###   ########.fr        #
+#    Updated: 2022/11/03 19:07:25 by hasabir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,10 +19,10 @@ SRCS = 	main.c ${LIBFT}\
 		${UTILS}/utils.c ${LEXIQUE}/minishell_lexique.c \
 		${UTILS}/minishell_split.c ${PARSING}/minishell_parsing.c\
 		${PARSING}/parsing_utils.c ${LEXIQUE}/lexique_utils.c\
-		${UTILS}/ft_lstlast_bonus.c ${PARSING}/parsing_utils_2.c\
+		${PARSING}/parsing_utils_2.c\
 		${UTILS}/utils_2.c ${PARSING}/parsing_redirec.c\
 		${PARSING}/redirection_utils.c ${PARSING}/parsing_utils_3.c\
-		${PARSING}/heredoc.c
+		${PARSING}/heredoc.c ${UTILS}/utils_3.c
 
 OBJS = ${SRCS:.c=.o}
 
@@ -39,7 +39,7 @@ ${LIBFT} :
 	@$(CC) ${CFLAGS} -c -o $@ $<
 
 ${NAME} :${OBJS}
-	@$(CC) $(OBJS) -I/usr/local/include -lreadline -o $(NAME)
+	@$(CC) $(OBJS) -lreadline -o $(NAME)
 	@echo "\033[92m|  Compilation Done  |\033[00m"
 
 clean:
@@ -53,4 +53,4 @@ fclean: clean
 re: fclean all
 
 
-#parsing_utis_3 is new
+#${UTILS}/utils_3.c is new

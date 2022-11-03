@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 11:51:37 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/29 12:12:37 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/03 16:46:53 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	take_out_file(t_list *list_command, char *matrix_input, char **env)
 int	take_in_file(t_list *list_command, char *matrix_input, char **env)
 {
 	int	in_type;
+	int	return_value;
 
 	matrix_input++;
 	if (*matrix_input && *matrix_input == '<')
@@ -44,9 +45,10 @@ int	take_in_file(t_list *list_command, char *matrix_input, char **env)
 		in_type = 1;
 	while (is_space(*matrix_input))
 		matrix_input++;
-	if (!open_in_file(list_command, matrix_input, in_type, env))
+	return_value = open_in_file(list_command, matrix_input, in_type, env);
+	if (!return_value)
 		return (0);
-	return (1);
+	return (return_value);
 }
 
 
@@ -69,14 +71,16 @@ int take_in_out_files(t_list *list_command, char *matrix_input, char **env)
 			return_value = take_in_file(list_command, matrix_input_ptr, env);
 			if (!return_value)
 				return (0);
+			if (return_value == -1)
+				matrix_input_ptr++;
 		}
 		if (*matrix_input_ptr)
 		{
 			matrix_input_ptr++;
-			if (list_command->data->input_file == -1)
-				matrix_input_ptr++;
+			// printf("matrix_input = %s\n", matrix_input_ptr);
+			// if (return_value == -1)
+			// 	matrix_input_ptr++;
 		}
 	}
 		return (1);
-// 	// free(file_name);
 }

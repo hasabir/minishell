@@ -6,117 +6,130 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 10:18:28 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/29 18:36:40 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/03 18:17:34 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
 
-char	*ft_strstr(const char *s1, const char *s2)
+void	get_heredoc_name(char **heredoc_file_name, int c)
 {
-	int	i;
-	int	j;
-	int	len;
+	char	*tmp;
 
-	i = 0;
-	if (!s1 && s2[i] == 0)
-		return (0);
-	if (s1[i] == 0 && s2[i] == 0)
-		return ("");
-	if (s1)
-		len = ft_strlen(s1);
-	while (s1[i] && i < len)
+	tmp = ft_strjoin(*heredoc_file_name, ft_strstr(ttyname(1), "tty"));
+	*heredoc_file_name = ft_strjoin(tmp, ft_itoa(c));
+	free(tmp);
+}
+
+int	read_from_heredoc(int heredoc_fd, char *delimiter, char **env, int n)
+{
+	char	*input;
+	char	*line;
+
+	line = NULL;
+	input = readline(">");
+	(void)env;
+	while (ft_strncmp(input , delimiter, ft_strlen(input)))
 	{
-		j = 0;
-		while (s1[i + j] && s2[j] && s2[j] == s1[i + j]
-			&& i + j < len)
-			j++;
-		if (s2[j] == 0)
-			return (((char *)s1) + i);
-		i++;
+		if (n == 0 && search(input , '$'))
+			input = expand(input, env);
+		line = ft_strjoin(input, "\n");
+		free(input);
+		ft_putstr_fd(line, heredoc_fd);
+		input = readline(">");
 	}
+	free(input);
 	return (0);
 }
 
-int	search_str(const char *s1, const char *s2)
+int	open_heredoc(char *delimeter, char *heredoc_file_name, char **env, int n)
 {
-	int	i;
-	int	j;
-	int	len;
+	char	*heredoc;
+	int		heredoc_fd;
 
-	i = 0;
-	if (!s1 && s2[i] == 0)
-		return (0);
-	if (s1[i] == 0 && s2[i] == 0)
-		return (0);
-	if (s1)
-		len = ft_strlen(s1);
-	while (s1[i] && i < len)
+	heredoc = ft_strjoin("/tmp/" ,heredoc_file_name);
+	free(heredoc_file_name);
+	heredoc_fd =
+		open(heredoc, O_CREAT | O_RDWR | O_TRUNC, 0600);
+	if (heredoc_fd == -1)
 	{
-		j = 0;
-		while (s1[i + j] && s2[j] && s2[j] == s1[i + j]
-			&& i + j < len)
-			j++;
-		if (s2[j] == 0)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-void	get_heredoc_name(char **heredoc_file_name)
-{
-	char	**stock;
-
-	stock = ft_split(ttyname(1), '/');
-	*heredoc_file_name = ft_strjoin(*heredoc_file_name, stock[1]);
-}
-
-int	open_heredoc(char *delimeter, char *heredoc_file_name)
-{
-	// int fd;
-	(void)delimeter;
-	heredoc_file_name = ft_strjoin("/tmp/" ,heredoc_file_name);
-	// fd = open(heredoc_file_name, )
-	if (open("/tmp/file6", O_CREAT | O_RDWR , 0600) == -1)
 		perror(NULL);
-	return (0);
+		return (-1);
+	}
+	read_from_heredoc(heredoc_fd, delimeter, env, n);
+	return (heredoc_fd);
 }
 
-char	*open_heredoc_files(t_list *list_command, char *matrix_input)
+int	open_heredoc_files(char *input, int c,char **env)
 {
-	char	*matrix_input_ptr;
+	char	*input_ptr;
 	char	*delimiter;
 	char	*heredoc_file_name;
+	int		heredoc_fd;
+	int		n;
 
-	if (!search_str(matrix_input, "<<"))
+	if (!search_str(input, "<<"))
 		return (0);
-	matrix_input_ptr = matrix_input;
+	input_ptr = input;
 	heredoc_file_name = NULL;
 	delimiter = NULL;
-	// while (*matrix_input_ptr)
-	// {
-		matrix_input_ptr = ft_strstr(matrix_input, "<<");
-		printf("matrix_input = %s\n", matrix_input_ptr);
-		matrix_input_ptr++;
-		matrix_input_ptr++;
-		if (matrix_input_ptr)
-		{
-			heredoc_file_name = get_file_name(matrix_input_ptr);
-			delimiter = ft_strdup(heredoc_file_name);
-		}
-		else
-			return (heredoc_file_name);
-		get_heredoc_name(&heredoc_file_name);
-		open_heredoc(delimiter, heredoc_file_name);
-		// matrix_input_ptr++;
-	// }
-	printf("tty name = %s\n", ttyname(0));
-	(void)list_command ;
-	return (0);
+	heredoc_fd = 0;
+	n = 0;
+	input_ptr = ft_strstr(input_ptr, "<<");
+	while (input_ptr && *input_ptr)
+	{
+		while(*input_ptr && (*input_ptr == '<' || is_space(*input_ptr)))
+			input_ptr++;
+		heredoc_file_name = ft_strdup(get_file_name(input_ptr));
+		if (search(heredoc_file_name, '"') || search(heredoc_file_name, '\''))
+			n = 1;
+		expand_file(&heredoc_file_name, env, 0);
+		delimiter = heredoc_file_name;
+		get_heredoc_name(&heredoc_file_name, c);
+		heredoc_fd = open_heredoc(delimiter, heredoc_file_name, env, n);
+		input_ptr = ft_strstr(input_ptr, "<<");
+	}
+	return (heredoc_fd);
 }
 
+// int	open_heredoc_files(char *input, int c,char **env)
+// {
+// 	char	*input_ptr;
+// 	char	*delimiter;
+// 	char	*heredoc_file_name;
+// 	int		heredoc_fd;
+// 	int		n;
 
+// 	if (!search_str(input, "<<"))
+// 		return (0);
+// 	input_ptr = input;
+// 	heredoc_file_name = NULL;
+// 	delimiter = NULL;
+// 	n = 0;
+// 	while (*input_ptr)
+// 	{
+// 		input_ptr = ft_strstr(input_ptr, "<<");
+// 		if (input_ptr)
+// 		{
+// 			input_ptr++;
+// 			input_ptr++;
+// 		}
+// 		if (input_ptr)
+// 		{
+// 			heredoc_file_name = get_file_name(input_ptr);
+// 			if (search(heredoc_file_name, '"') || search(heredoc_file_name, '\''))
+// 				n = 1;
+// 			expand_file(&heredoc_file_name, env, 0);
+// 			delimiter = heredoc_file_name;
+// 			printf("delimiter = %s\n", delimiter);
+// 		}
+// 		else
+// 			return (0);
+// 		get_heredoc_name(&heredoc_file_name, c);
+// 		heredoc_fd = open_heredoc(delimiter, heredoc_file_name, env, n);
+// 	}
+// 	return (heredoc_fd);
+// }
 
 
 

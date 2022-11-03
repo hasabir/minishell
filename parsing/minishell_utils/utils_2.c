@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:39:19 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/31 19:43:02 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/03 17:58:36 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	print_list_command(t_list *list_command)
 	while (list_command)
 	{
 		printf("\n\033[95m-------------------------------\033[00m\n");
-		if (list_command->data->in_file_name)
-			printf("input_file_name = %s\n", list_command->data->in_file_name);
+		// if (list_command->data->in_file_name)
+			// printf("input_file_name = %s\n", list_command->data->in_file_name);
 		printf("input_file = %d\n", list_command->data->input_file);
 		printf("\n\033[95m-------------------------------\033[00m\n");
-		if (list_command->data->out_file_name)
-			printf("output_file_name = %s\n", list_command->data->out_file_name);
+		// if (list_command->data->out_file_name)
+		// 	printf("output_file_name = %s\n", list_command->data->out_file_name);
 		printf("output_file = %d\n", list_command->data->output_file);	
 		printf("\033[95m\n-------------------------------\033[00m\n");
 		printf("cmd = %s\n", (list_command)->data->cmd);
@@ -45,6 +45,58 @@ void	print_list_command(t_list *list_command)
 		list_command = list_command->next;
 		printf("\033[91m\n*******************************************\033[00m\n");
 	}
+}
+
+char	*ft_strstr(const char *s1, const char *s2)
+{
+	int	i;
+	int	j;
+	int	len;
+
+	i = 0;
+	if (!s1 && s2[i] == 0)
+		return (0);
+	if (s1[i] == 0 && s2[i] == 0)
+		return ("");
+	if (s1)
+		len = ft_strlen(s1);
+	while (s1[i] && i < len)
+	{
+		j = 0;
+		while (s1[i + j] && s2[j] && s2[j] == s1[i + j]
+			&& i + j < len)
+			j++;
+		if (s2[j] == 0)
+			return (((char *)s1) + i);
+		i++;
+	}
+	return (0);
+}
+
+int	search_str(const char *s1, const char *s2)
+{
+	int	i;
+	int	j;
+	int	len;
+
+	i = 0;
+	if (!s1 && s2[i] == 0)
+		return (0);
+	if (s1[i] == 0 && s2[i] == 0)
+		return (0);
+	if (s1)
+		len = ft_strlen(s1);
+	while (s1[i] && i < len)
+	{
+		j = 0;
+		while (s1[i + j] && s2[j] && s2[j] == s1[i + j]
+			&& i + j < len)
+			j++;
+		if (s2[j] == 0)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 int	which_type_redirection(char *str)
@@ -90,74 +142,4 @@ int	search_characters(char *arg)
 		i++;
 	}
 	return (1);
-}
-
-int search(char *str, char c)
-{
-	int i;
-	int counter;
-
-	i = 0;
-	counter = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			counter++;
-		i++;
-	}
-	return (counter);
-}
-
-char	*search_env(char **env, char *to_find, char **tmp)
-{
-	int		j;
-	char	*str;
-	int		i;
-	int		n;
-
-	i = 0;
-	str = 0;
-	while (env[i])
-	{
-		j = 0;
-		while (env[i][j] != '=' && to_find[j] && env[i][j] == to_find[j])
-			j++;
-		if (env[i][j] == '=')
-		{
-			n = -1;
-			while (++n < j && tmp && *tmp)
-				(*tmp)++;
-			str = env[i];
-			j++;
-			return (str + j);
-		}
-		i++;
-	}
-	return (0);
-}
-
-int ft_error(int n, char option, char *str_option)
-{
-	if (option && !str_option)
-		printf("Petit_shell: syntax error near unexpected token `%c'\n", option);
-	else if (str_option && !option)
-		printf("Petit_shell: syntax error near unexpected token `%s'\n", str_option);
-	else
-	{
-		if (n == 0)
-			printf("Petit_shell: syntax error near unexpected token `%c'\n", option);
-		else if (n == 1)
-			printf("Petit_shell: syntax error near unexpected token `%s'\n", str_option);
-	}
-	return (-1);
-}
-
-void	ft_free(char **str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-		free(str[i]);
-	free (str);
 }

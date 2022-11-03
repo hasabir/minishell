@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:35:06 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/31 22:46:47 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/03 17:49:10 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ char	*expand(char *arg, char **env)
 	if (check_space(arg))
 		return (arg);
 	stock = ft_split(arg, '$');
-	i = -1;
 	while (stock[++i])
+	i = -1;
 	{
 		tmp = ft_strdup(stock[i]);
 		env_value = search_env(env, stock[i], &tmp);
@@ -91,10 +91,11 @@ char	*expand(char *arg, char **env)
 		else
 			arg = ft_strjoin(arg, stock[i]);
 	}
+	printf("arg = %s\n", arg);
 	return (arg);
 }
 
-char	*ft_double_quote(char *cmd, char **env)
+char	*ft_double_quote(char *cmd, char **env, int n)
 {
 	int		i;
 	char	**stock;
@@ -105,7 +106,7 @@ char	*ft_double_quote(char *cmd, char **env)
 	i = -1;
 	while (stock[++i])
 	{
-		if (search(stock[i], '$'))
+		if (n && search(stock[i], '$'))
 			stock[i] = expand(stock[i], env);
 		cmd = ft_strjoin(cmd, stock[i]);
 	}

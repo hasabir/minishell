@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 17:51:07 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/31 22:53:00 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/03 18:17:54 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,28 @@ char	*get_file_name(char	*str)
 
 int	open_out_file(t_list *list_command, char *matrix_input, int out_type, char **env)
 {
+	char *out_file_name;
+
+	out_file_name = NULL;
 	if (out_type == 1)
 	{
-		free(list_command->data->out_file_name);
-		list_command->data->out_file_name = get_file_name(matrix_input);
-		expand_file(&list_command->data->out_file_name, env);
+		free(out_file_name);
+		out_file_name = get_file_name(matrix_input);
+		expand_file(&out_file_name, env, 1);
 		list_command->data->output_file =
-			open(list_command->data->out_file_name,
-				O_WRONLY | O_CREAT, 0644);
+			open(out_file_name,
+				O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		if (list_command->data->output_file == -1)
 			return (0);
 	}
 	else
 	{
-		free(list_command->data->out_file_name);
-		list_command->data->out_file_name = get_file_name(matrix_input);
-		expand_file(&list_command->data->out_file_name, env);
+		free(out_file_name);
+		out_file_name = get_file_name(matrix_input);
+		expand_file(&out_file_name, env, 1);
 		list_command->data->output_file =
-			open(list_command->data->out_file_name,
-				O_WRONLY | O_TRUNC | O_CREAT, 0644);
+			open(out_file_name,
+				O_WRONLY| O_CREAT, 0644);
 		if (list_command->data->output_file == -1)
 			return (0);
 	}
@@ -62,39 +65,40 @@ int	open_out_file(t_list *list_command, char *matrix_input, int out_type, char *
 
 int	open_in_file(t_list *list_command, char *matrix_input, int in_type, char **env)
 {
-	// printf("I am hear because i am type %d\n", in_type);
+	char	*in_file_name;
+
+	in_file_name = NULL;
 	if (in_type == 1)
 	{
-		free(list_command->data->in_file_name);
-		list_command->data->in_file_name = get_file_name(matrix_input);
-		expand_file(&list_command->data->in_file_name, env);
-		if (!*list_command->data->in_file_name)
+		free(in_file_name);
+		in_file_name = get_file_name(matrix_input);
+		expand_file(&in_file_name, env, 1);
+		if (!*in_file_name)
 		{
 			//ft_error
 			write(1, "Petit_shell: ", 14);
-			write(1, list_command->data->in_file_name,
-				ft_strlen(list_command->data->in_file_name));
+			write(1, in_file_name,
+				ft_strlen(in_file_name));
 			write(1, "ambiguous redirect\n", 20);
 			return (0);
 		}
 		list_command->data->input_file =
-			open(list_command->data->in_file_name, O_RDONLY);
+			open(in_file_name, O_RDONLY);
 		if (list_command->data->input_file == -1)
 		{
 			//ft_error
 			write(1, "Petit_shell: ", 14);
-			write(1, list_command->data->in_file_name,
-				ft_strlen(list_command->data->in_file_name));
+			write(1, in_file_name,
+				ft_strlen(in_file_name));
 			perror(" ");
 			return (0);
 		}
 	}
 	else
 	{
-		// printf("this is a heredoc\n");
-		free(list_command->data->in_file_name);
-		list_command->data->in_file_name = ft_strdup("Heredoc");
+		free(in_file_name);
 		list_command->data->input_file = -1;
+		return (-1);
 	}
 	return (1);
 }

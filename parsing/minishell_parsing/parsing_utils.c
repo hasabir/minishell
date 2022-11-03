@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:51:50 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/31 23:09:01 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/03 19:02:26 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	take_options(t_list *list_command, char **matrix_command_line, int *j)
 	len = get_length_options(matrix_command_line, *j);
 	if (!len)
 		return ;
-	(list_command)->data->options = malloc((len + 1) * sizeof(char *));
+	(list_command)->data->options = malloc((len + 2) * sizeof(char *));
 	while (matrix_command_line[*j])
 	{
 		skip_indirections(matrix_command_line, &j);
@@ -49,11 +49,9 @@ void	take_options(t_list *list_command, char **matrix_command_line, int *j)
 			(*j)++;
 		}
 		else
-		{
-			(list_command)->data->options[i] = NULL;
 			break ;
-		}
 	}
+	list_command->data->options[i] = NULL;
 	return ;
 }
 
@@ -90,18 +88,18 @@ void	set_arg(char ***matrix_command_line, char **env)
 	while (*(*matrix_command_line + i))
 	{
 		*(*matrix_command_line + i) = ft_single_quote(*(*matrix_command_line + i));
-		*(*matrix_command_line + i) = ft_double_quote(*(*matrix_command_line + i), env);
+		*(*matrix_command_line + i) = ft_double_quote(*(*matrix_command_line + i), env, 1);
 		*(*matrix_command_line + i) = set_origin(*(*matrix_command_line + i));
 		i++;
 	}
 	return ;
 }
 
-void	expand_file(char **file_name, char **env)
+void	expand_file(char **file_name, char **env, int n)
 {
 	
 	(*file_name) = ft_single_quote(*file_name);
-	(*file_name) = ft_double_quote(*file_name, env);
+	(*file_name) = ft_double_quote(*file_name, env, n);
 	(*file_name) = set_origin(*file_name);
 	(*file_name) = ft_strdup(ft_strtrim(*file_name, "|"));
 	(*file_name) = set_redirection_to_origin(*file_name);

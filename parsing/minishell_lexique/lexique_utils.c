@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:59:46 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/31 23:15:54 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/03 18:21:07 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,15 @@ int	check_pipe_syntax(char *input)
 	{
 		if (*input != SPACE_CHARACTER && *input != PIPE_CHARACTER)
 			c++;
-			
-/*		if (*input == '<' ||  *input == '>')
-		gerer ses cas
-			return(ft_error(1, PIPE_CHARACTER, NULL));
-*/		if (*input == PIPE_CHARACTER)
+		if (*input == '<')
+			c = 0;
+		if (*input == '>')
+		{
+			input++;
+			if (is_space(*input))
+				c = 0;
+		}
+		if (*input == PIPE_CHARACTER)
 		{
 			if (c == 0)
 				return (ft_error(1, PIPE_CHARACTER, NULL));
@@ -126,8 +130,10 @@ int	check_lg_syntax(char *input)
 int	check_less_great_syntax(char *input)
 {
 	int characters;
+	int	n;
 
 	characters = 0;
+	n = 0;
 	while (*input && (is_space(*input) || *input == ' '))
 		input++;
 	if (check_lg_syntax(input) == -1)
@@ -139,37 +145,36 @@ int	check_less_great_syntax(char *input)
 	}
 	while (*input)
 	{
+		// printf("input = %s\n", input);
 		if (*input != SPACE_CHARACTER && *input != '<' && *input != '>')
-			characters++;	
-		if (*input != SPACE_CHARACTER && *input != '<' && *input != '>')
-			characters++;	
+		{
+			n = 0;
+			characters++;
+		}
 		if (*input == '<')
 		{
+			n++;
 			if (input[1] == '>')
 				return (-1);
 		}
 		if (*input == '>')
 		{
+			n++;
 			if (input[1] == '<')
 				return (ft_error(1, '<', NULL));
 			characters = 0;
 		}
-		if (*input == '>')
-		{
-			if (input[1] == '|')
-				input[1] = PIPE_FLAG;
-		}
+		// if (*input == '>')
+		// {
+		// 	n++;
+		// 	if (input[1] == '|')
+		// 		input[1] = PIPE_FLAG;
+		// }
+		if (n > 2)
+			return(ft_error(1, '>', NULL)); // a gerer
 		input++;
 	}
 	if (!*input && characters == 0)
 		return (ft_error(2, 0, "newline"));
 	return (1);
 }
-
-int	is_space(char c)
-{
-	if (c == '\t'|| c == '\f' || c == '\v' || c == '\r' || c == ' ')
-		return (1);
-	return (0);
-}
-

@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:25:57 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/02 20:12:17 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/03 17:59:58 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,6 @@ void	free_list(t_list *list_command)
 			ft_free(list_command->data->arguments);
 		if (list_command->data->options)
 			ft_free(list_command->data->options);
-		if (list_command->data->out_file_name)
-			free(list_command->data->out_file_name);
-		if (list_command->data->in_file_name)
-			free(list_command->data->in_file_name);
 		free (list_command->data);
 		free(list_command);
 		list_command = list_command->next;
@@ -46,7 +42,8 @@ int	main(int ac, char **av, char **env)
 		input = readline("➜ \033[93m\033[01m\033[05mPetit_shell$ \033[00m");
 		if (input == NULL) // CTRL+D -> EOF
 			exit(1);
-		add_history(input);
+		if (*input)
+			add_history(input);
 		input = lexical_analysis(input);
 		if (input && *input)
 		{
