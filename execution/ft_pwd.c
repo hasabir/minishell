@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/04 17:51:59 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/04 20:49:33 by namine           ###   ########.fr       */
+/*   Created: 2022/10/31 04:49:43 by namine            #+#    #+#             */
+/*   Updated: 2022/11/01 17:43:13 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "execution.h"
 
-int	ft_strncmp(const char	*s1, const char *s2, size_t n)
-{
-	size_t			i;
-	unsigned char	*s;
-	unsigned char	*ss;
-
-	if (n == 0)
-		return (0);
-	s = (unsigned char *)s1;
-	if (!s || !*s)
-		return (-1);
-	ss = (unsigned char *)s2;
-	i = 0;
-	while (s[i] && ss[i] && s[i] == ss[i] && i < n - 1)
-		i++;
-	return (s[i] - ss[i]);
-}
+// void    ft_pwd(void)
+// {
+//     char buf[100];
+//
+//     printf("%s\n", getcwd(buf, 1024));
+// }

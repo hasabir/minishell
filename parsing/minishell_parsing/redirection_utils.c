@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 17:51:07 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/03 18:17:54 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/05 18:28:55 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	open_out_file(t_list *list_command, char *matrix_input, int out_type, char *
 		expand_file(&out_file_name, env, 1);
 		list_command->data->output_file =
 			open(out_file_name,
-				O_WRONLY | O_TRUNC | O_CREAT, 0644);
+				O_RDWR | O_APPEND | O_CREAT , 0644);
 		if (list_command->data->output_file == -1)
 			return (0);
 	}
@@ -56,10 +56,11 @@ int	open_out_file(t_list *list_command, char *matrix_input, int out_type, char *
 		expand_file(&out_file_name, env, 1);
 		list_command->data->output_file =
 			open(out_file_name,
-				O_WRONLY| O_CREAT, 0644);
+				O_RDWR | O_CREAT, 0644);
 		if (list_command->data->output_file == -1)
 			return (0);
 	}
+	free(out_file_name);
 	return (1);
 }
 
@@ -76,10 +77,10 @@ int	open_in_file(t_list *list_command, char *matrix_input, int in_type, char **e
 		if (!*in_file_name)
 		{
 			//ft_error
-			write(1, "Petit_shell: ", 14);
-			write(1, in_file_name,
+			write(2, "Petit_shell: ", 14);
+			write(2, in_file_name,
 				ft_strlen(in_file_name));
-			write(1, "ambiguous redirect\n", 20);
+			write(2, "ambiguous redirect\n", 20);
 			return (0);
 		}
 		list_command->data->input_file =
@@ -87,8 +88,8 @@ int	open_in_file(t_list *list_command, char *matrix_input, int in_type, char **e
 		if (list_command->data->input_file == -1)
 		{
 			//ft_error
-			write(1, "Petit_shell: ", 14);
-			write(1, in_file_name,
+			write(2, "Petit_shell: ", 14);
+			write(2, in_file_name,
 				ft_strlen(in_file_name));
 			perror(" ");
 			return (0);
@@ -96,9 +97,10 @@ int	open_in_file(t_list *list_command, char *matrix_input, int in_type, char **e
 	}
 	else
 	{
-		free(in_file_name);
+		// free(in_file_name);
 		list_command->data->input_file = -1;
 		return (-1);
 	}
+	free(in_file_name);
 	return (1);
 }

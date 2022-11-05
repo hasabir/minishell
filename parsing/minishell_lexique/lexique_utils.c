@@ -6,16 +6,22 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:59:46 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/03 18:21:07 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/05 15:59:17 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
 
-void	*define_expand(char *ptr)
+void	*define_expand(char *ptr, char c)
 {
-	if (!ft_isalnum(ptr[1]) && ptr[1] != '_')
-			*ptr = EXPAND_CHARACTER;
+	if (*ptr == '$' && c == 'n')
+	{
+		*ptr = EXPAND_CHARACTER;
+		ptr++;
+		*ptr = EXPAND_CHARACTER;
+	}
+	if (!ft_isalnum(ptr[1]) && ptr[1] != '_' && c == 'd')
+		*ptr = EXPAND_CHARACTER;
 	return (ptr);
 }
 
@@ -37,7 +43,7 @@ void	*define_double_quote(char	*ptr)
 		else if (*ptr == '\'')
 			*ptr = SINGLE_QUOTE;
 		else if (*ptr == '$')
-			define_expand(ptr);
+			define_expand(ptr, 'd');
 		ptr++;
 	}
 	return(ptr);
@@ -70,7 +76,9 @@ void	*define_single_quote(char	*ptr)
 int	check_pipe_syntax(char *input)
 {
 	int	c;
+	char *input_ptr;
 
+	input_ptr = input;
 	c = 0;
 	while (*input)
 	{
@@ -87,13 +95,13 @@ int	check_pipe_syntax(char *input)
 		if (*input == PIPE_CHARACTER)
 		{
 			if (c == 0)
-				return (ft_error(1, PIPE_CHARACTER, NULL));
+				return (ft_error(1, PIPE_CHARACTER, NULL, input_ptr));
 			c = 0;
 		}
 		input++;
 	}
 	if (!*input && c == 0)
-		return(ft_error(1, PIPE_CHARACTER,  NULL));
+		return(ft_error(1, PIPE_CHARACTER,  NULL, input_ptr));
 	return (1);
 }
 
@@ -119,7 +127,7 @@ int	check_lg_syntax(char *input)
 				characters++;
 		}
 		if (characters == 0)
-			return(ft_error(1, '<', NULL));
+			return(ft_error(1, '<', NULL, input));
 		characters = 0;
 	}
 	ft_free(matrix_input);
@@ -129,9 +137,11 @@ int	check_lg_syntax(char *input)
 
 int	check_less_great_syntax(char *input)
 {
-	int characters;
-	int	n;
+	int		characters;
+	char	*input_ptr;
+	int		n;
 
+	input_ptr = input;
 	characters = 0;
 	n = 0;
 	while (*input && (is_space(*input) || *input == ' '))
@@ -161,7 +171,7 @@ int	check_less_great_syntax(char *input)
 		{
 			n++;
 			if (input[1] == '<')
-				return (ft_error(1, '<', NULL));
+				return (ft_error(1, '<', NULL, input_ptr));
 			characters = 0;
 		}
 		// if (*input == '>')
@@ -171,10 +181,10 @@ int	check_less_great_syntax(char *input)
 		// 		input[1] = PIPE_FLAG;
 		// }
 		if (n > 2)
-			return(ft_error(1, '>', NULL)); // a gerer
+			return(ft_error(1, '>', NULL, input_ptr)); // a gerer
 		input++;
 	}
 	if (!*input && characters == 0)
-		return (ft_error(2, 0, "newline"));
+		return (ft_error(2, 0, "newline", input_ptr));
 	return (1);
 }

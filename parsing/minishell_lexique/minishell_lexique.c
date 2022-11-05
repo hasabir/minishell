@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 17:31:44 by hasabir           #+#    #+#             */
-/*   Updated: 2022/10/28 13:10:39 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/05 22:47:20 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,19 @@ char	*define_characters(char *input)
 			if (*ptr != '\'')
 				return (NULL);
 		}
+		else if (*ptr == '$')
+		{
+			if (ptr[1] && ptr[1] == '$')
+			{
+				*ptr = EXPAND_CHARACTER;
+				ptr++;
+				*ptr = EXPAND_CHARACTER;
+			}
+			else if (!ptr[1])
+				*ptr = EXPAND_CHARACTER;
+		}
+		else if (*ptr == '>' && ptr[1] && ptr[1] == '|')
+			ptr[1] = PIPE_FLAG;
 		else if (is_space(*ptr))
 			*ptr = ' ';
 		ptr++;

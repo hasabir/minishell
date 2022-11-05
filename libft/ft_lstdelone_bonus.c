@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_lstdelone_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/04 17:51:59 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/04 20:49:33 by namine           ###   ########.fr       */
+/*   Created: 2021/11/12 13:50:49 by namine            #+#    #+#             */
+/*   Updated: 2022/10/27 22:31:47 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strncmp(const char	*s1, const char *s2, size_t n)
+void	ft_lstdelone(t_linked_list *lst, void (*del)(void*))
 {
-	size_t			i;
-	unsigned char	*s;
-	unsigned char	*ss;
-
-	if (n == 0)
-		return (0);
-	s = (unsigned char *)s1;
-	if (!s || !*s)
-		return (-1);
-	ss = (unsigned char *)s2;
-	i = 0;
-	while (s[i] && ss[i] && s[i] == ss[i] && i < n - 1)
-		i++;
-	return (s[i] - ss[i]);
+	if (!lst || !del)
+		return ;
+	del(lst->content);
+	free(lst);
 }

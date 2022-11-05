@@ -6,14 +6,15 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 22:26:11 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/03 17:54:09 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/05 21:47:01 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-#include "../minishell.h"
+#include "../execution/execution.h"
+#include <unistd.h>
 
 enum characters{
 	
@@ -57,7 +58,7 @@ typedef struct s_list t_list;
 
 char	*lexical_analysis(char *input);
 int		search(char *str, char c);
-int		ft_error(int n, char option, char *str_option);
+int		ft_error(int n, char option, char *str_option, char *input);
 
 t_list	*creat_list_of_command_2();
 void	creat_list_of_command(t_list **command_line);
@@ -109,11 +110,13 @@ int		open_in_file(t_list *list_command, char *matrix_input, int in_type, char **
 
 int		get_length_options(char **matrix_command_line, int j);
 int		get_length_arguments(char **matrix_command_line, int j);
-int		open_heredoc_files(char *matrix_input, int i,char **env);
+char	*open_heredoc_files(char *matrix_input, int i,char **env);
 void	expand_file(char **file_name, char **env, int n);
 void	print_list_command(t_list *list_command);
 
+char 	*get_str(char *str, int j);
 
 char	*ft_strstr(const char *s1, const char *s2);
 int		search_str(const char *s1, const char *s2);
-#endif
+
+# endif

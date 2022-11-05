@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:57:17 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/03 10:40:50 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/05 22:48:20 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ t_list	*creat_list_of_command_2(void)
 	new_command_line->data->options = NULL;
 	new_command_line->data->input_file = 0;
 	new_command_line->data->output_file = 1;
-	// new_command_line->data->out_file_name = NULL;
-	// new_command_line->data->in_file_name = NULL;
-	// new_command_line->data->heredoc = NULL;
 	new_command_line->next = NULL;
 	return (new_command_line);
 }

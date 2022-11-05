@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/04 17:51:59 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/04 20:49:33 by namine           ###   ########.fr       */
+/*   Created: 2021/11/12 10:33:25 by namine            #+#    #+#             */
+/*   Updated: 2022/10/27 22:32:53 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strncmp(const char	*s1, const char *s2, size_t n)
+t_linked_list	*ft_lstlast(t_linked_list *lst)
 {
-	size_t			i;
-	unsigned char	*s;
-	unsigned char	*ss;
-
-	if (n == 0)
-		return (0);
-	s = (unsigned char *)s1;
-	if (!s || !*s)
-		return (-1);
-	ss = (unsigned char *)s2;
-	i = 0;
-	while (s[i] && ss[i] && s[i] == ss[i] && i < n - 1)
-		i++;
-	return (s[i] - ss[i]);
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
 }
