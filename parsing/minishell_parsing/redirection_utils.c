@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 17:51:07 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/05 18:28:55 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/06 21:41:32 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,33 @@ int	open_out_file(t_list *list_command, char *matrix_input, int out_type, char *
 		expand_file(&out_file_name, env, 1);
 		list_command->data->output_file =
 			open(out_file_name,
-				O_RDWR | O_APPEND | O_CREAT , 0644);
+				O_RDWR | O_TRUNC | O_CREAT , 0644);
 		if (list_command->data->output_file == -1)
+		{
+			write(2, "Petit_shell: ", 14);
+			write(2, out_file_name,
+				ft_strlen(out_file_name));
+			perror(" ");
 			return (0);
+		}
 	}
 	else
 	{
+		printf("I AM TYPE 2\n");
 		free(out_file_name);
 		out_file_name = get_file_name(matrix_input);
 		expand_file(&out_file_name, env, 1);
 		list_command->data->output_file =
 			open(out_file_name,
-				O_RDWR | O_CREAT, 0644);
+				O_RDWR | O_APPEND | O_CREAT, 0644);
 		if (list_command->data->output_file == -1)
+		{
+			write(2, "Petit_shell: ", 14);
+			write(2, out_file_name,
+				ft_strlen(out_file_name));
+			perror(" ");
 			return (0);
+		}
 	}
 	free(out_file_name);
 	return (1);
