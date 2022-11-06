@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 17:51:07 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/06 21:41:32 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/06 21:51:57 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	open_out_file(t_list *list_command, char *matrix_input, int out_type, char *
 	}
 	else
 	{
-		printf("I AM TYPE 2\n");
 		free(out_file_name);
 		out_file_name = get_file_name(matrix_input);
 		expand_file(&out_file_name, env, 1);
