@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 10:18:28 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/05 18:58:43 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/07 10:39:50 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ int	read_from_heredoc(int heredoc_fd, char *delimiter, char **env, int n)
 		if (n == 0 && search(input , '$'))
 			input = expand(input, env);
 		line = ft_strjoin(input, "\n");
-		free(input);
 		ft_putstr_fd(line, heredoc_fd);
+		free(input);
+		free(line);
 		input = readline(">");
 	}
 	free(input);

@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:35:06 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/05 23:19:28 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/07 10:28:28 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,14 @@ char	*expand(char *arg, char **env)
 			env_value = search_env(env, stock[i], &tmp);
 			free(stock[i]);
 			if (env_value && *tmp && *tmp != '_' && !ft_isalnum(*tmp))
-			{
 				stock[i] = ft_strjoin(env_value, tmp);
-			}
 			else
 			{
 				if (i != 0 || arg[0] == '$')
 					tmp = get_str(tmp, -1);
 				stock[i] = ft_strdup(tmp);
 			}
-			// if (*tmp != '\0')
-				// free(tmp);
-			// if (*tmp)
-				// free(tmp);
+			free(tmp);
 		}
 		free(arg);
 		i = -1;

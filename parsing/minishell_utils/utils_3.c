@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 17:56:52 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/05 23:16:11 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/07 10:28:05 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,10 @@ char *get_str(char *str, int j)
 	else
 	{
 		n = -1;
-		while (*str && ++n < j)
+		while (str && *str && ++n < j)
 			str++;
 	}
 	stock = ft_strdup(str);
-	if (!*stock)
-		free(stock);
 	free(str_ptr);
 	return (stock);
 }
