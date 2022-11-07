@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 17:31:44 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/07 16:43:45 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/07 19:19:45 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*define_expand_characters(char *ptr)
 		ptr++;
 		*ptr = EXPAND_CHARACTER;
 	}
-	else if (!ptr[1])
+	else if (!ptr[1] || (!ft_isalnum(ptr[1]) && ptr[1] != '?'))
 		*ptr = EXPAND_CHARACTER;
 	return (ptr);
 }
