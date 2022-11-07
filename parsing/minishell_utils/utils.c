@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:57:17 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/05 22:48:20 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/07 19:04:34 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_list	*creat_list_of_command_2(void)
 {
-	t_list *new_command_line;
-	
+	t_list	*new_command_line;
+
 	new_command_line = malloc(sizeof(t_list));
 	if (!new_command_line)
 		exit (EXIT_FAILURE);
@@ -33,7 +33,7 @@ t_list	*creat_list_of_command_2(void)
 
 char	*set_redirection_to_origin(char *arg)
 {
-	int i;
+	int	i;
 
 	if (!arg)
 		return (arg);
@@ -75,12 +75,11 @@ char	*set_origin(char *arg)
 	return (arg);
 }
 
-
-int which_type_quote(char *cmd)
+int	which_type_quote(char *cmd)
 {
-	int i;
-	i = 0;
+	int	i;
 
+	i = 0;
 	while (cmd[i])
 	{
 		if (cmd[i] == '"')
@@ -94,7 +93,7 @@ int which_type_quote(char *cmd)
 
 int	is_space(char c)
 {
-	if (c == '\t'|| c == '\f' || c == '\v' || c == '\r' || c == ' ')
+	if (c == '\t' || c == '\f' || c == '\v' || c == '\r' || c == ' ')
 		return (1);
 	return (0);
 }

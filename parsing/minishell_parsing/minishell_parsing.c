@@ -46,13 +46,12 @@ int	parsing(char *input, t_list	**list_command, char **env)
 				return (0);
 			free(matrix_command_line);
 			matrix_command_line = NULL;
-		}
-		// printf("fd = %d\n", )
 			if (list_ptr->data->input_file == -1)
 				list_ptr->data->input_file = open(heredoc, O_RDONLY);
-			i++;
-			if (matrix_input[i])
-				ft_list_last(&list_ptr, creat_list_of_command_2());
+		}
+		i++;
+		if (matrix_input[i])
+			ft_list_last(&list_ptr, creat_list_of_command_2());
 		free(heredoc);
 	}
 	free(matrix_input);

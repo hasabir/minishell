@@ -6,133 +6,105 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:59:46 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/05 15:59:17 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/07 17:08:12 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
 
-void	*define_expand(char *ptr, char c)
+int	pipe_syntax(char input, char c)
 {
-	if (*ptr == '$' && c == 'n')
+	if (input != SPACE_CHARACTER && input != PIPE_CHARACTER)
+			c++;
+	if (input == '<')
+			c = 0;
+	if (input == PIPE_CHARACTER)
 	{
-		*ptr = EXPAND_CHARACTER;
-		ptr++;
-		*ptr = EXPAND_CHARACTER;
+		if (c == 0)
+			return (-1);
+		c = 0;
 	}
-	if (!ft_isalnum(ptr[1]) && ptr[1] != '_' && c == 'd')
-		*ptr = EXPAND_CHARACTER;
-	return (ptr);
-}
-
-void	*define_double_quote(char	*ptr)
-{
-	ptr++;
-	while (*ptr != '"' && *ptr)
-	{
-		if (*ptr == SPACE_CHARACTER)
-				*ptr = SPACE_FLAG;
-		else if (*ptr == PIPE_CHARACTER)
-			*ptr = PIPE_FLAG;
-		else if (*ptr == '<')
-			*ptr = LESS_REDIRECTION;
-		else if (*ptr == '>')
-			*ptr = GREAT_REDIRECTION;
-		else if (*ptr == '-')
-			*ptr = OPTION_CHARACTER;
-		else if (*ptr == '\'')
-			*ptr = SINGLE_QUOTE;
-		else if (*ptr == '$')
-			define_expand(ptr, 'd');
-		ptr++;
-	}
-	return(ptr);
-}
-
-void	*define_single_quote(char	*ptr)
-{
-	ptr++;
-	while (*ptr != '\'' && *ptr)
-	{
-		if (*ptr == SPACE_CHARACTER)
-				*ptr = SPACE_FLAG;
-		else if (*ptr == PIPE_CHARACTER)
-			*ptr = PIPE_FLAG;
-		else if (*ptr == '<')
-			*ptr = LESS_REDIRECTION;
-		else if (*ptr == '>')
-			*ptr = GREAT_REDIRECTION;
-		else if (*ptr == '-')
-			*ptr = OPTION_CHARACTER;
-		else if (*ptr == '"')
-			*ptr = DOUBLE_QUOTE;	
-		else if (*ptr == '$')
-			*ptr = EXPAND_CHARACTER;	
-		ptr++;
-	}
-	return(ptr);
+	return (c);
 }
 
 int	check_pipe_syntax(char *input)
 {
-	int	c;
-	char *input_ptr;
+	int		c;
+	char	*input_ptr;
 
 	input_ptr = input;
 	c = 0;
 	while (*input)
 	{
-		if (*input != SPACE_CHARACTER && *input != PIPE_CHARACTER)
-			c++;
-		if (*input == '<')
-			c = 0;
+		c = pipe_syntax(*input, c);
+		if (c == -1)
+			return (ft_error(1, PIPE_CHARACTER, NULL, input_ptr));
 		if (*input == '>')
 		{
 			input++;
 			if (is_space(*input))
 				c = 0;
 		}
-		if (*input == PIPE_CHARACTER)
-		{
-			if (c == 0)
-				return (ft_error(1, PIPE_CHARACTER, NULL, input_ptr));
-			c = 0;
-		}
 		input++;
 	}
 	if (!*input && c == 0)
-		return(ft_error(1, PIPE_CHARACTER,  NULL, input_ptr));
+		return (ft_error(1, PIPE_CHARACTER, NULL, input_ptr));
 	return (1);
 }
 
 int	check_lg_syntax(char *input)
 {
-	char	**matrix_input;
+	char	**ptr;
 	int		i;
 	int		j;
 	int		characters;
 	char	*tmp;
 
 	tmp = ft_strdup(input);
-	matrix_input = ft_split_v2(tmp, '<', '>');
+	ptr = ft_split_v2(tmp, '<', '>');
 	i = -1;
 	characters = 0;
-	while (matrix_input[++i])
+	while (ptr[++i])
 	{
 		j = -1;
-		while (matrix_input[i][++j])
+		while (ptr[i][++j])
 		{
-			if (matrix_input[i][j] != SPACE_CHARACTER && matrix_input[i][j] != '<'
-					&& matrix_input[i][j] != '>')
+			if (ptr[i][j] != ' ' && ptr[i][j] != '<' && ptr[i][j] != '>')
 				characters++;
 		}
 		if (characters == 0)
-			return(ft_error(1, '<', NULL, input));
+			return (ft_error(1, '<', NULL, input));
 		characters = 0;
 	}
-	ft_free(matrix_input);
+	ft_free(ptr);
 	free(tmp);
 	return (0);
+}
+
+int	less_great_syntax(char *input, char *input_ptr, int *n, int *characters)
+{
+	if (*input != SPACE_CHARACTER && *input != '<' && *input != '>')
+	{
+		*n = 0;
+		(*characters)++;
+	}
+	if (*input == '<')
+	{
+		(*n)++;
+		if (input[1] == '>' && *n < 2)
+			input[1] = GREAT_REDIRECTION;
+		*characters = 0;
+	}
+	if (*input == '>')
+	{
+		(*n)++;
+		if (input[1] == '<')
+			return (ft_error(1, '<', NULL, input_ptr));
+		*characters = 0;
+	}
+	if (*n > 2)
+		return (ft_error(1, *input, NULL, input_ptr));
+	return (1);
 }
 
 int	check_less_great_syntax(char *input)
@@ -144,44 +116,12 @@ int	check_less_great_syntax(char *input)
 	input_ptr = input;
 	characters = 0;
 	n = 0;
-	while (*input && (is_space(*input) || *input == ' '))
-		input++;
-	if (check_lg_syntax(input) == -1)
+	if (skip_characters(&input, &characters) == -1)
 		return (-1);
-	while (*input && *input != SPACE_CHARACTER && *input != '<' && *input != '>')
-	{
-		characters++;
-		input++;
-	}
 	while (*input)
 	{
-		// printf("input = %s\n", input);
-		if (*input != SPACE_CHARACTER && *input != '<' && *input != '>')
-		{
-			n = 0;
-			characters++;
-		}
-		if (*input == '<')
-		{
-			n++;
-			if (input[1] == '>')
-				return (-1);
-		}
-		if (*input == '>')
-		{
-			n++;
-			if (input[1] == '<')
-				return (ft_error(1, '<', NULL, input_ptr));
-			characters = 0;
-		}
-		// if (*input == '>')
-		// {
-		// 	n++;
-		// 	if (input[1] == '|')
-		// 		input[1] = PIPE_FLAG;
-		// }
-		if (n > 2)
-			return(ft_error(1, '>', NULL, input_ptr)); // a gerer
+		if (less_great_syntax(input, input_ptr, &n, &characters) == -1)
+			return (-1);
 		input++;
 	}
 	if (!*input && characters == 0)

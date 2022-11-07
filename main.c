@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:25:57 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/07 10:42:35 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/07 17:40:58 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	main(int ac, char **av, char **env)
 			list_command = creat_list_of_command_2();
 			ptr_env = convert_to_arr(param->env); // CHECK POSITION IN THE WHILE
 			parsing(input, &list_command, ptr_env);
-			// if (parsing(input, &list_command, env_ptr))
+			// if (parsing(input, &list_command, env))
 				// print_list_command(list_command);
 			execution(list_command, ptr_env, param);
 		}

@@ -6,20 +6,20 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:35:06 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/07 10:28:28 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/07 18:43:56 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
 
-int    check_arg(char *arg)
+int	check_arg(char *arg)
 {
-	int    i;
-	int    n;
+	int	i;
+	int	n;
 
 	i = 0;
 	n = 0;
-	while(arg[i] != '$')
+	while (arg[i] != '$')
 		i++;
 	i++;
 	while (arg[i] && arg[i] == '$')
@@ -40,7 +40,7 @@ char	*expand(char *arg, char **env)
 	char	**stock;
 	char	*tmp;
 	char	*env_value;
-	
+
 	if (check_arg(arg))
 		return (arg);
 	stock = ft_split(arg, '$');
@@ -52,7 +52,7 @@ char	*expand(char *arg, char **env)
 			tmp = ft_strdup(stock[i]);
 			env_value = search_env(env, stock[i], &tmp);
 			free(stock[i]);
-			if (env_value && *tmp && *tmp != '_' && !ft_isalnum(*tmp))
+			if (env_value && *tmp != '_' && !ft_isalnum(*tmp))
 				stock[i] = ft_strjoin(env_value, tmp);
 			else
 			{
@@ -129,14 +129,12 @@ char	*ft_single_quote(char *cmd)
 		cmd = ft_strjoin(tmp, stock[i]);
 		free(tmp);
 	}
-		// cmd = ft_strjoin(cmd, stock[i]);
 	i = -1;
 	while (stock[++i])
 		free (stock[i]);
 	free(stock);
 	return (cmd);
 }
-
 
 int	search_index(const char *s1, const char *s2, size_t len)
 {
@@ -148,8 +146,6 @@ int	search_index(const char *s1, const char *s2, size_t len)
 		return (0);
 	if (s1[i] == 0 && s2[i] == 0)
 		return (0);
-	// if (!*s2)
-		// return ((char *)s1);
 	while (s1[i] && i < len)
 	{
 		j = 0;

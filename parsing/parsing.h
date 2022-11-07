@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 22:26:11 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/05 21:47:01 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/07 16:26:50 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ enum characters{
 	SPACE_CHARACTER = ' ',
 	PIPE_CHARACTER = '|',
 	NULL_CHARACTER = '\0',
-	PIPE_FLAG = -8,
+	PIPE_FLAG = -10,
 	SPACE_FLAG,
 	LESS_REDIRECTION,
 	GREAT_REDIRECTION,
@@ -29,8 +29,6 @@ enum characters{
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
 	EXPAND_CHARACTER,
-	GREAT,
-	LESS,
 	DOUBLE_GREAT,
 	DOUBLE_LESS
 
@@ -119,4 +117,6 @@ char 	*get_str(char *str, int j);
 char	*ft_strstr(const char *s1, const char *s2);
 int		search_str(const char *s1, const char *s2);
 
+
+int	skip_characters(char **input, int *characters);
 # endif
