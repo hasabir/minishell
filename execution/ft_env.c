@@ -6,7 +6,7 @@
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:37:16 by namine            #+#    #+#             */
-/*   Updated: 2022/11/05 04:38:49 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/07 11:12:11 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 void    ft_env(t_list *list_command, t_param *param)
 {
     t_ev *tmp;
-
+    
+    if (!param)
+        return ;
     tmp = param->env;
     while (tmp)
     {

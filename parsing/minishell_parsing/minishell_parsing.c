@@ -24,31 +24,37 @@ int	pars_command(char **matrix_command_line, t_list **list_command, char **env)
 	return (1);
 }
 
+int	pars_matrix_input(t_list *list_ptr, char **input, char *heredoc, char **env)
+{
+	char	**matrix_command_line;
+
+	*input = ft_double_quote(*input, env, 1);
+	matrix_command_line = ft_split(*input, ' ');
+	if (!pars_command(matrix_command_line, &list_ptr, env))
+		return (0);
+	free(matrix_command_line);
+	matrix_command_line = NULL;
+	if (list_ptr->data->input_file == -1)
+		list_ptr->data->input_file = open(heredoc, O_RDONLY);
+	return (1);
+}
+
 int	parsing(char *input, t_list	**list_command, char **env)
 {
 	char	**matrix_input;
-	char	**matrix_command_line;
 	char	*heredoc;
 	t_list	*list_ptr;
 	int		i;
 
-	matrix_input = ft_split(input, '|');
 	i = 0;
+	matrix_input = ft_split(input, '|');
 	list_ptr = *list_command;
 	while (matrix_input[i])
 	{
 		heredoc = open_heredoc_files(matrix_input[i], i, env);
 		if (take_in_out_files(list_ptr, matrix_input[i], env))
-		{
-			matrix_command_line = ft_split(matrix_input[i], ' ');
-			free(matrix_input[i]);
-			if (!pars_command(matrix_command_line, &list_ptr, env))
-				return (0);
-			free(matrix_command_line);
-			matrix_command_line = NULL;
-			if (list_ptr->data->input_file == -1)
-				list_ptr->data->input_file = open(heredoc, O_RDONLY);
-		}
+			pars_matrix_input(list_ptr, &matrix_input[i], heredoc, env);
+		free(matrix_input[i]);
 		i++;
 		if (matrix_input[i])
 			ft_list_last(&list_ptr, creat_list_of_command_2());

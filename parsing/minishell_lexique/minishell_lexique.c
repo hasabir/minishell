@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 17:31:44 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/07 19:19:45 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/08 16:24:28 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ char	*define_expand_characters(char *ptr)
 		ptr++;
 		*ptr = EXPAND_CHARACTER;
 	}
-	else if (!ptr[1] || (!ft_isalnum(ptr[1]) && ptr[1] != '?'))
+	else if (!ptr[1] || (!ft_isalnum(ptr[1])
+			&& ptr[1] != '?' && ptr[1] != '"' && ptr[1] != '\'')
+		|| is_space(ptr[1]))
 		*ptr = EXPAND_CHARACTER;
 	return (ptr);
 }
@@ -67,6 +69,8 @@ char	*define_characters(char *input)
 			ptr = define_expand_characters(ptr);
 		else
 			ptr = define_special_characters(ptr);
+		if (!ptr)
+			return (ptr);
 		ptr++;
 	}
 	return (input);
@@ -77,7 +81,7 @@ char	*lexical_analysis(char *input)
 	input = define_characters(input);
 	if (!input)
 	{
-		printf(">\n");
+		printf("Petit_shell: syntax error expected \"\n");
 		return (NULL);
 	}
 	if (search(input, PIPE_CHARACTER) != 0)

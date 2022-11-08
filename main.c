@@ -6,44 +6,77 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:25:57 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/07 17:40:58 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/08 18:20:41 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution/execution.h"
 
-void	initialize_env(t_param **param, char **env)
+void	initialize_env(t_param *param, char **env)
 {
 	char	**ptr;
 	t_ev	*tmp;
 	int		i;
-
-	(*param)->env = malloc(sizeof(t_ev));
-	tmp = (*param)->env;
+	
+	param->env = malloc(sizeof(t_ev));
+	if (!param->env)
+		return ;
+	tmp = param->env;
 	i = 0;
 	while (env[i])
 	{
 		ptr = ft_split(env[i], '=');
 		tmp->env_var = ft_strdup(ptr[0]);
 		tmp->value = ft_strdup(ptr[1]);
-		// ft_free(ptr);
+		ft_free(ptr);
 		tmp->next = malloc(sizeof(t_ev));
 		if (env[i + 1])
 			tmp = tmp->next;
+		else
+			free(tmp->next);
 		i++;
 	}
 	tmp->next = NULL;
 }
 
-char	**convert_to_arr(t_ev *node)
+void	initialize_export(t_param *param, char **env)
+{
+	char	**ptr;
+	t_ev	*tmp;
+	int		i;
+
+	param->export = malloc(sizeof(t_ev));
+	if (!param->export)
+		return ;
+	tmp = param->export;
+	i = 0;
+	while (env[i])
+	{
+		ptr = ft_split(env[i], '=');
+		tmp->env_var = ft_strdup(ptr[0]);
+		tmp->value = ft_strdup(ptr[1]);
+		ft_free(ptr);
+		tmp->next = malloc(sizeof(t_ev));
+		if (env[i + 1])
+			tmp = tmp->next;
+		else
+			free(tmp->next);
+		i++;
+	}
+	tmp->next = NULL;
+}
+
+char	**convert_to_arr(t_param *param)
 {
 	char	**env_arr;
 	t_ev	*tmp;
 	char	*s1;
 	char	*s2;
-	int i;
+	int		i;
 	
-	tmp = node;
+	if (!param)
+		return (NULL);
+	tmp = param->env;
 	i = 0;
 	while (tmp)
 	{
@@ -52,12 +85,15 @@ char	**convert_to_arr(t_ev *node)
 	}
 	env_arr = malloc(sizeof(char *) * (i + 1));
 	i = 0;
-	while (node)
+	tmp = param->env;
+	while (tmp)
 	{
-		s1 = ft_strjoin(node->env_var, "=");
-		s2 = ft_strjoin(s1, node->value);
+		s1 = ft_strjoin(tmp->env_var, "=");
+		s2 = ft_strjoin(s1, tmp->value);
+		free(s1);
 		env_arr[i] = ft_strdup(s2);
-		node = node->next;
+		free(s2);
+		tmp = tmp->next;
 		i++;
 	}
 	env_arr[i] = NULL;
@@ -92,7 +128,8 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	param = malloc(sizeof(t_param));
-	initialize_env(&param, env);
+	initialize_env(param, env);
+	initialize_export(param, env);
 	while(1)
 	{
 		input = readline("Petit_shell$ ");
@@ -103,17 +140,18 @@ int	main(int ac, char **av, char **env)
 		input = lexical_analysis(input);
 		if (input && *input)
 		{
+			ptr_env = convert_to_arr(param);
 			list_command = creat_list_of_command_2();
-			ptr_env = convert_to_arr(param->env); // CHECK POSITION IN THE WHILE
 			parsing(input, &list_command, ptr_env);
-			// if (parsing(input, &list_command, env))
-				// print_list_command(list_command);
+			// if (parsing(input, &list_command, ptr_env))
+			// 	print_list_command(list_command);
 			execution(list_command, ptr_env, param);
+			ft_free(ptr_env);
 		}
 		if (input && *input)
 			free_list(list_command);
-		if (input)
-			free(input);
+		free(input);
+		input = NULL;
 		// system("leaks minishell");
 	}
 	return (0);

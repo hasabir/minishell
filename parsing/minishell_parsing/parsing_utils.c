@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:51:50 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/07 18:46:11 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/08 16:57:26 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,26 @@ void	take_cmd(t_list *list_command, char **matrix_command_line, int *j)
 	return ;
 }
 
-void	take_options(t_list *list_command, char **matrix_command_line, int *j)
+void	take_options(t_list *list_command, char **matrix, int *j)
 {
 	int	i;
 	int	len;
 
 	i = 0;
-	len = get_length_options(matrix_command_line, *j);
+	len = get_length_options(matrix, *j);
 	if (!len)
 		return ;
 	(list_command)->data->options = malloc((len + 2) * sizeof(char *));
-	while (matrix_command_line[*j])
+	if (!list_command->data->options)
+		return ;
+	while (matrix[*j])
 	{
-		skip_indirections(matrix_command_line, &j);
-		if (search_characters(matrix_command_line[*j]) == 1
-			&& matrix_command_line[*j][0] == '-')
+		skip_indirections(matrix, &j);
+		if (search_characters(matrix[*j]) == 1 && matrix[*j][0] == '-')
 		{
-			matrix_command_line[*j]
-				= set_redirection_to_origin(matrix_command_line[*j]);
-			(list_command)->data->options[i]
-				= ft_strdup(matrix_command_line[*j]);
-			free(matrix_command_line[*j]);
+			matrix[*j] = set_redirection_to_origin(matrix[*j]);
+			(list_command)->data->options[i] = ft_strdup(matrix[*j]);
+			free(matrix[*j]);
 			i++;
 			(*j)++;
 		}
@@ -52,7 +51,6 @@ void	take_options(t_list *list_command, char **matrix_command_line, int *j)
 			break ;
 	}
 	list_command->data->options[i] = NULL;
-	return ;
 }
 
 void	take_argument(t_list *list_command, char **matrix_command_line, int *j)
@@ -85,10 +83,9 @@ void	set_arg(char ***matrix_command_line, char **env)
 	int	i;
 
 	i = 0;
+	(void)env;
 	while (*(*matrix_command_line + i))
 	{
-		*(*matrix_command_line + i)
-			= ft_double_quote(*(*matrix_command_line + i), env, 1);
 		*(*matrix_command_line + i)
 			= ft_single_quote(*(*matrix_command_line + i));
 		*(*matrix_command_line + i) = set_origin(*(*matrix_command_line + i));

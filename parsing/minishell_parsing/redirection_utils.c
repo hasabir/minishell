@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 17:51:07 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/07 18:53:48 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/08 14:58:04 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	open_out_file(t_list *list_command, char *matrix, int out_type, char **env)
 		free(out_file_name);
 		out_file_name = get_file_name(matrix);
 		expand_file(&out_file_name, env, 1);
-		printf("file name = %s\n", out_file_name);
 		list_command->data->output_file
 			= open(out_file_name,
 				O_RDWR | O_APPEND | O_CREAT, 0644);
@@ -90,6 +89,7 @@ int	open_in_file(t_list *list_command, char *input, int in_type, char **env)
 		expand_file(&in_file_name, env, 1);
 		if (!*in_file_name)
 		{
+			free(in_file_name);
 			write(2, "Petit_shell: ", 14);
 			write(2, in_file_name,
 				ft_strlen(in_file_name));
@@ -99,6 +99,7 @@ int	open_in_file(t_list *list_command, char *input, int in_type, char **env)
 		list_command->data->input_file = open(in_file_name, O_RDONLY);
 		if (list_command->data->input_file == -1)
 		{
+			free(in_file_name);
 			write(2, "Petit_shell: ", 14);
 			write(2, in_file_name,
 				ft_strlen(in_file_name));

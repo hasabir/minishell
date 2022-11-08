@@ -6,7 +6,7 @@
 #    By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/30 18:29:03 by hasabir           #+#    #+#              #
-#    Updated: 2022/11/07 18:38:48 by hasabir          ###   ########.fr        #
+#    Updated: 2022/11/08 18:27:50 by hasabir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,21 +17,22 @@ PARSING = parsing/minishell_parsing
 LEXIQUE = parsing/minishell_lexique
 EXECUTION = execution
 SRCS = 	main.c ${LIBFT} \
-	${UTILS}/utils.c ${LEXIQUE}/minishell_lexique.c \
-	${UTILS}/minishell_split.c ${PARSING}/minishell_parsing.c \
-	${PARSING}/parsing_utils.c ${LEXIQUE}/lexique_utils.c \
-	${PARSING}/parsing_utils_2.c ${PARSING}/heredoc.c \
-	${UTILS}/utils_2.c ${PARSING}/parsing_redirec.c \
-	${PARSING}/redirection_utils.c ${PARSING}/parsing_utils_3.c \
-	${LEXIQUE}/lexique_utils_2.c \
-	${EXECUTION}/ft_echo.c ${EXECUTION}/execution.c \
-	${EXECUTION}/ft_env.c ${EXECUTION}/ft_unset.c ${UTILS}/utils_3.c \
+		${UTILS}/utils.c ${LEXIQUE}/minishell_lexique.c \
+		${UTILS}/minishell_split.c ${PARSING}/minishell_parsing.c \
+		${PARSING}/parsing_utils.c ${LEXIQUE}/lexique_utils.c \
+		${PARSING}/parsing_utils_2.c ${PARSING}/heredoc.c \
+		${UTILS}/utils_2.c ${PARSING}/parsing_redirec.c \
+		${PARSING}/redirection_utils.c ${PARSING}/parsing_utils_3.c \
+		${EXECUTION}/ft_echo.c ${EXECUTION}/execution.c \
+		${EXECUTION}/ft_env.c ${EXECUTION}/ft_unset.c ${EXECUTION}/ft_export.c \
+		${UTILS}/utils_3.c ${LEXIQUE}/lexique_utils_2.c ${EXECUTION}/ft_exit.c \
+		${UTILS}/utils_4.c\
 
 OBJS = ${SRCS:.c=.o}
 
 CC = gcc 
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror 
 
 all : ${NAME}
 
@@ -40,9 +41,9 @@ ${LIBFT} :
 
 %.o: %.c
 	@$(CC) ${CFLAGS} -c -o $@ $<
-
+# -fsanitize=address
 ${NAME} :${OBJS}
-	@$(CC) $(OBJS) -lreadline -o $(NAME)
+	@$(CC) $(OBJS) -lreadline  -o $(NAME)
 	@echo "\033[92m|  Compilation Done  |\033[00m"
 
 clean:

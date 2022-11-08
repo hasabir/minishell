@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 17:56:52 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/07 10:28:05 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/07 20:40:48 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,3 +115,4 @@ void	ft_list_last(t_list **lst, t_list *new)
 	(*lst)->next = new;
 	(*lst) = new;
 }
+

@@ -6,7 +6,7 @@
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 18:49:46 by namine            #+#    #+#             */
-/*   Updated: 2022/11/05 10:38:39 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/08 05:08:26 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,22 +112,49 @@ char	**get_args(t_list	*list_command)
 	return (argv);
 }
 
-// void is_builtin(t_list *list_command)
-// {
-// 	ft_echo(list_command);
-// }
+int	is_builtins(char *cmd)
+{
+	return (
+	!ft_strncmp(cmd, "echo", 5) ||
+	!ft_strncmp(cmd, "cd", 3) ||
+	!ft_strncmp(cmd, "pwd", 4) ||
+	!ft_strncmp(cmd, "export", 7) ||
+	!ft_strncmp(cmd, "unset", 6) ||
+	!ft_strncmp(cmd, "env", 4) ||
+	!ft_strncmp(cmd, "exit", 5));
+}
+
+void execute_builtins(t_list *list_command, t_param *param, char *cmd)
+{
+	if (!ft_strncmp(cmd, "echo", 5))
+		ft_echo(list_command);
+	if (!ft_strncmp(cmd, "cd", 3))
+		printf("mazal..\n");
+	if (!ft_strncmp(cmd, "pwd", 4))
+		printf("mazal..\n");
+	if (!ft_strncmp(cmd, "export", 7))
+		ft_export(list_command, param);
+	if(!ft_strncmp(cmd, "unset", 6))
+		ft_unset(list_command, param);
+	if (!ft_strncmp(cmd, "env", 4))
+		ft_env(list_command, param);
+	if (!ft_strncmp(cmd, "exit", 5))
+		ft_exit(list_command);
+}
 
 void	execution(t_list *list_command, char **ptr_env, t_param *param)
 {
 	char	*path;
-	int		save;
 	int		fd[2];
-	(void)param;
+	int		save;
+	t_list *tmp;
 	
+	tmp = list_command;
 	save = -1;
-	// ft_unset(list_command, param);
-	// return ;
-	while (list_command)
+	if (ft_lstsize((t_linked_list *)list_command) == 1 && is_builtins(tmp->data->cmd))
+		execute_builtins(list_command, param, tmp->data->cmd);
+	else{
+	while (tmp)
 	{
 		if (pipe(fd) == -1)
 			return ;
@@ -137,7 +164,7 @@ void	execution(t_list *list_command, char **ptr_env, t_param *param)
 		if (pid1 ==  0)
 		{
 			close(fd[0]);
-			if (list_command->next)
+			if (tmp->next)
 			{
 				dup2(fd[1], 1);
 				close (fd[1]);	
@@ -147,26 +174,29 @@ void	execution(t_list *list_command, char **ptr_env, t_param *param)
 				dup2(save, 0);
 				close (save);
 			}
-			if(list_command->data->output_file != 1)
-				dup2(list_command->data->output_file, 1); // close
-			if(list_command->data->input_file != 0)
-				dup2(list_command->data->input_file, 0);
-			path = get_path(ptr_env, list_command->data->cmd);
+			if(tmp->data->output_file != 1)
+				dup2(tmp->data->output_file, 1); // close
+			if(tmp->data->input_file != 0)
+			{
+				dup2(tmp->data->input_file, 0);
+				close(tmp->data->input_file);
+			}
+			if (is_builtins(tmp->data->cmd) == 1)
+			{
+				execute_builtins(list_command, param, tmp->data->cmd);
+				exit(127);
+			}
+			path = get_path(ptr_env, tmp->data->cmd);
 			if (!path)
 			{
 				write(2, "Petit_shell: ", 14);
-				write(2, list_command->data->cmd, ft_strlen(list_command->data->cmd));
+				write(2, tmp->data->cmd, ft_strlen(tmp->data->cmd));
 				write(2, ": command not found\n", 21);
 				exit (127);
 			}
-			if (!ft_strncmp(list_command->data->cmd, "echo", 5))
-			{
-				ft_echo(list_command);
-				exit(127);
-			}
-			execve(path, get_args(list_command), ptr_env);
+			execve(path, get_args(tmp), ptr_env);
 			write(2, "Petit_shell: ", 14);
-			write(2, list_command->data->cmd, ft_strlen(list_command->data->cmd));
+			write(2, tmp->data->cmd, ft_strlen(tmp->data->cmd));
 			perror(" ");
 			exit(127);
 		}
@@ -174,8 +204,9 @@ void	execution(t_list *list_command, char **ptr_env, t_param *param)
 			close (save);
 		save = fd[0];
 		close (fd[1]);
-		list_command = list_command->next;
+		tmp = tmp->next;
 	}
 	close (fd[0]);
 	while(waitpid(-1, NULL, 0) != -1);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:26:09 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/05 06:37:03 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/08 03:52:08 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,14 @@ typedef struct s_param
 }t_param;
 
 typedef struct s_list	t_list;
-void	execute_cmd(char **ptr_env, t_list *list_command);
-void	ft_execve(char **ptr_env, t_list *list_command);
-char	*get_path(char **ptr_env, char *str);
-int		get_len(t_list	*list_command);
-char	**get_args(t_list	*list_command);
-void	ft_execve(char **ptr_env, t_list *list_command);
 void	execution(t_list *list_command, char **ptr_env, t_param *param);
-void	ft_echo(t_list *list_command);
-void	ft_pipe();
-void    ft_env(t_list *list_command, t_param *param);
+void	ft_execve(char **ptr_env, t_list *list_command);
+void	ft_export(t_list *list_command, t_param *param);
 void    ft_unset(t_list *list_command, t_param *param);
+void    ft_env(t_list *list_command, t_param *param);
+char	*get_path(char **ptr_env, char *str);
+char	**get_args(t_list	*list_command);
+int		get_len(t_list	*list_command);
+void	ft_echo(t_list *list_command);
+void 	ft_exit(t_list *list_command);
 #endif

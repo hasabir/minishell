@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 10:18:28 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/07 18:39:47 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/08 14:59:43 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*open_heredoc(char *delimeter, char *heredoc_name, char **env, int n)
 	return (heredoc);
 }
 
-char	*heredoc_file(char **input_ptr, char *delimiter, char **env, int c)
+char	*heredoc_file(char **input_ptr, char **delimiter, char **env, int c)
 {
 	int		n;
 	char	*heredoc_file_name;
@@ -80,10 +80,10 @@ char	*heredoc_file(char **input_ptr, char *delimiter, char **env, int c)
 	if (search(heredoc_file_name, '"') || search(heredoc_file_name, '\''))
 		n = 1;
 	expand_file(&heredoc_file_name, env, 0);
-	free(delimiter);
-	delimiter = ft_strdup(heredoc_file_name);
+	free(*delimiter);
+	*delimiter = ft_strdup(heredoc_file_name);
 	get_heredoc_name(&heredoc_file_name, c);
-	heredoc_file_name = open_heredoc(delimiter, heredoc_file_name, env, n);
+	heredoc_file_name = open_heredoc(*delimiter, heredoc_file_name, env, n);
 	return (heredoc_file_name);
 }
 
@@ -102,7 +102,7 @@ char	*open_heredoc_files(char *input, int c, char **env)
 	while (input_ptr && *input_ptr)
 	{
 		free(heredoc_file_name);
-		heredoc_file_name = heredoc_file(&input_ptr, delimiter, env, c);
+		heredoc_file_name = heredoc_file(&input_ptr, &delimiter, env, c);
 		input_ptr = ft_strstr(input_ptr, "<<");
 	}
 	free(delimiter);
