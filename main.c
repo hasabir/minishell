@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:25:57 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/09 06:44:31 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/09 20:02:17 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,9 +143,9 @@ int	main(int ac, char **av, char **env)
 		{
 			ptr_env = convert_to_arr(param);
 			list_command = creat_list_of_command_2();
-			parsing(input, &list_command, ptr_env);
-			// if (parsing(input, &list_command, ptr_env))
-			// 	print_list_command(list_command);
+			// parsing(input, &list_command, ptr_env);
+			if (parsing(input, &list_command, ptr_env))
+				print_list_command(list_command);
 			execution(list_command, ptr_env, param);
 			ft_free(ptr_env);
 		}

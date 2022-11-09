@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+         #
+#    By: namine <namine@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/30 18:29:03 by hasabir           #+#    #+#              #
-#    Updated: 2022/11/08 18:27:50 by hasabir          ###   ########.fr        #
+#    Updated: 2022/11/09 04:28:56 by namine           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,7 @@ UTILS = parsing/minishell_utils
 PARSING = parsing/minishell_parsing
 LEXIQUE = parsing/minishell_lexique
 EXECUTION = execution
-SRCS = 	main.c ${LIBFT} \
-		${UTILS}/utils.c ${LEXIQUE}/minishell_lexique.c \
+SRCS = 	main.c ${LIBFT} ${UTILS}/utils.c ${LEXIQUE}/minishell_lexique.c \
 		${UTILS}/minishell_split.c ${PARSING}/minishell_parsing.c \
 		${PARSING}/parsing_utils.c ${LEXIQUE}/lexique_utils.c \
 		${PARSING}/parsing_utils_2.c ${PARSING}/heredoc.c \
@@ -26,7 +25,8 @@ SRCS = 	main.c ${LIBFT} \
 		${EXECUTION}/ft_echo.c ${EXECUTION}/execution.c \
 		${EXECUTION}/ft_env.c ${EXECUTION}/ft_unset.c ${EXECUTION}/ft_export.c \
 		${UTILS}/utils_3.c ${LEXIQUE}/lexique_utils_2.c ${EXECUTION}/ft_exit.c \
-		${UTILS}/utils_4.c\
+		${UTILS}/utils_4.c ${EXECUTION}/utils.c ${EXECUTION}/ft_pwd.c \
+		${EXECUTION}/ft_cd.c \
 
 OBJS = ${SRCS:.c=.o}
 
