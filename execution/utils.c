@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 16:37:16 by namine            #+#    #+#             */
-/*   Updated: 2022/11/09 00:17:29 by namine           ###   ########.fr       */
+/*   Created: 2022/11/09 01:42:58 by namine            #+#    #+#             */
+/*   Updated: 2022/11/09 01:43:24 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void    ft_env(t_list *list_command, t_param *param)
+int	ft_strcmp(const char	*s1, const char *s2)
 {
-    t_ev *tmp;
-    
-    tmp = param->env;
-    while (tmp)
-    {
-        ft_putstr_fd(tmp->env_var, list_command->data->output_file);
-        ft_putstr_fd("=", list_command->data->output_file);
-        ft_putstr_fd(tmp->value, list_command->data->output_file);
-        ft_putstr_fd("\n", list_command->data->output_file);
-        tmp = tmp->next;
-    }
+	size_t			i;
+	unsigned char	*s;
+	unsigned char	*ss;
+
+	s = (unsigned char *)s1;
+	if (!s || !*s)
+		return (-1);
+	ss = (unsigned char *)s2;
+	i = 0;
+	while (s[i] && ss[i] && s[i] == ss[i])
+		i++;
+	return (s[i] - ss[i]);
 }

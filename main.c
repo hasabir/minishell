@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:25:57 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/09 13:23:03 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/09 06:44:31 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
+	(void)env;
 	param = malloc(sizeof(t_param));
 	initialize_env(param, env);
 	initialize_export(param, env);

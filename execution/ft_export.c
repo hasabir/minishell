@@ -6,7 +6,7 @@
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:33:39 by namine            #+#    #+#             */
-/*   Updated: 2022/11/07 23:56:09 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/09 03:30:57 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,14 @@ char **ft_split_customized(char *str)
 	while (i < len)
 		ptr[0][i++] = *str++;
 	ptr[0][i] = '\0';
+	ptr[1] = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (*str == '=')
 		str++;
-	ptr[1] = malloc(sizeof(char) * (ft_strlen(str) + 1));
+	else
+	{
+		ptr[1] = NULL;
+		return (ptr);
+	}
 	i = 0;
 	while (*str)
 		ptr[1][i++] = *str++;
@@ -61,6 +66,31 @@ void add_node(t_ev *list, char **ptr)
 	tmp->next = NULL;
 }
 
+int it_exists(t_ev *list, char *str)
+{
+	while (list)
+	{
+		if (!ft_strcmp((str), list->env_var))
+			return (1);
+		list = list->next;
+	}
+	return (0);
+}
+
+void ft_replace(t_ev *list, char **ptr)
+{
+	while (list)
+	{
+		if (!ft_strcmp((ptr[0]), list->env_var))
+		{
+			free(list->value);
+			list->value = ft_strdup(ptr[1]);
+			break ;
+		}
+		list = list->next;
+	}
+}
+
 void	ft_export(t_list *list_command, t_param *param)
 {
 	char	**ptr;
@@ -86,12 +116,25 @@ void	ft_export(t_list *list_command, t_param *param)
 		while (list_command->data->arguments[i])
 		{
 			ptr = ft_split_customized(list_command->data->arguments[i]);
-			add_node(param->env, ptr);
-			add_node(param->export, ptr);
+			if (ptr[1])
+			{
+				if (!it_exists(param->env, ptr[0]))
+					add_node(param->env, ptr);
+				if (!it_exists(param->export, ptr[0]))
+					add_node(param->export, ptr);
+				else
+				{
+					ft_replace(param->env, ptr);
+					ft_replace(param->export, ptr);
+				}
+			}
+			else if (ptr[1] == NULL && !it_exists(param->export, ptr[0]))
+			{
+				add_node(param->export, ptr);
+			}
 			ft_free(ptr);
 			i++;
 		}
 	}
 }
 // chekc name >> first chart >> aplaa le reste alphanum
-// when to add ?? 

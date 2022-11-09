@@ -6,7 +6,7 @@
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:37:22 by namine            #+#    #+#             */
-/*   Updated: 2022/11/08 00:27:40 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/09 01:43:19 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,6 @@ void		free_node(t_ev *node)
 	if (node->value)
 		free(node->value);
 	free(node);
-}
-
-int	ft_strcmp(const char	*s1, const char *s2)
-{
-	size_t			i;
-	unsigned char	*s;
-	unsigned char	*ss;
-
-	s = (unsigned char *)s1;
-	if (!s || !*s)
-		return (-1);
-	ss = (unsigned char *)s2;
-	i = 0;
-	while (s[i] && ss[i] && s[i] == ss[i])
-		i++;
-	return (s[i] - ss[i]);
 }
 
 void		remove_node(t_param *param, t_ev *node)

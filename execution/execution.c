@@ -6,7 +6,7 @@
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 18:49:46 by namine            #+#    #+#             */
-/*   Updated: 2022/11/08 05:08:26 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/09 06:47:05 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,9 +129,9 @@ void execute_builtins(t_list *list_command, t_param *param, char *cmd)
 	if (!ft_strncmp(cmd, "echo", 5))
 		ft_echo(list_command);
 	if (!ft_strncmp(cmd, "cd", 3))
-		printf("mazal..\n");
+		ft_cd(list_command, param);
 	if (!ft_strncmp(cmd, "pwd", 4))
-		printf("mazal..\n");
+		ft_pwd(list_command, param);
 	if (!ft_strncmp(cmd, "export", 7))
 		ft_export(list_command, param);
 	if(!ft_strncmp(cmd, "unset", 6))
