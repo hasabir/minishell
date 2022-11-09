@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   utils_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 17:56:52 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/07 20:40:48 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/09 14:35:40 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
 
-int search(char *str, char c)
+int	search(char *str, char c)
 {
-	int i;
-	int counter;
+	int	i;
+	int	counter;
 
 	i = 0;
 	counter = 0;
@@ -28,7 +28,7 @@ int search(char *str, char c)
 	return (counter);
 }
 
-char *get_str(char *str, int j)
+char	*get_str(char *str, int j)
 {
 	int		n;
 	char	*stock;
@@ -81,38 +81,45 @@ char	*search_env(char **env, char *to_find, char **tmp)
 	return (0);
 }
 
-int ft_error(int n, char option, char *str_option, char *input)
-{
-	if (option && !str_option)
-		printf("Petit_shell: syntax error near unexpected token `%c'\n", option);
-	else if (str_option && !option)
-		printf("Petit_shell: syntax error near unexpected token `%s'\n", str_option);
-	else
-	{
-		if (n == 0)
-			printf("Petit_shell: syntax error near unexpected token `%c'\n", option);
-		else if (n == 1)
-			printf("Petit_shell: syntax error near unexpected token `%s'\n", str_option);
-	}
-	free(input);
-	return (-1);
-}
-
-void	ft_free(char **str)
+int	search_characters(char *arg)
 {
 	int	i;
 
-	i = -1;
-	while (str[++i])
-		free(str[i]);
-	free (str);
+	i = 0;
+	if (!arg)
+		return (0);
+	while (arg[i])
+	{
+		if (arg[i] == '|' || arg[i] == '"' || arg[i] == '\''
+			|| arg[i] == '>' || arg[i] == '<' || arg[i] == ' ')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
-void	ft_list_last(t_list **lst, t_list *new)
+int	search_str(const char *s1, const char *s2)
 {
-	while ((*lst)->next)
-		(*lst) = (*lst)->next;
-	(*lst)->next = new;
-	(*lst) = new;
-}
+	int	i;
+	int	j;
+	int	len;
 
+	i = 0;
+	if (!s1 && s2[i] == 0)
+		return (0);
+	if (s1[i] == 0 && s2[i] == 0)
+		return (0);
+	if (s1)
+		len = ft_strlen(s1);
+	while (s1[i] && i < len)
+	{
+		j = 0;
+		while (s1[i + j] && s2[j] && s2[j] == s1[i + j]
+			&& i + j < len)
+			j++;
+		if (s2[j] == 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}

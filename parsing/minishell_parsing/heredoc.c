@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 10:18:28 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/08 14:59:43 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/09 15:51:11 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	read_from_heredoc(int heredoc_fd, char *delimiter, char **env, int n)
 
 	line = NULL;
 	input = readline(">");
-	while ((!*input || ft_strncmp(input, delimiter, ft_strlen(input))))
+	while (!*input || ft_strcmp(input, delimiter))
 	{
 		if ((!delimiter || !*delimiter) && !*input)
 			break ;
@@ -55,7 +55,7 @@ char	*open_heredoc(char *delimeter, char *heredoc_name, char **env, int n)
 	char	*heredoc;
 	int		heredoc_fd;
 
-	heredoc = ft_strjoin("/tmp/", heredoc_name);
+	heredoc = ft_strjoin("/tmp/.", heredoc_name);
 	free(heredoc_name);
 	heredoc_fd
 		= open(heredoc, O_CREAT | O_RDWR | O_TRUNC, 0600);

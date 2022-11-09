@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 16:26:43 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/07 18:48:29 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/09 14:58:11 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,43 +22,39 @@ int	need_to_be_moved(char *str)
 	if ((len == 1 && (str[0] == '>' || str[0] == '<'))
 		|| ft_strncmp(str, "<<", len) == 0
 		|| ft_strncmp(str, ">>", len) == 0)
+	{
+		free(str);
 		return (0);
-	if (str[--len] == '>' || str[len] == '<')
-		return (-1);
+	}
 	return (1);
 }
 
-void	skip_indirections(char **matrix_command_line, int **j)
+void	skip_redirection(char **matrix, int **j)
 {
-	while (matrix_command_line[**j])
+	while (matrix[**j])
 	{
-		if (need_to_be_moved(matrix_command_line[**j]) == 0)
+		if (need_to_be_moved(matrix[**j]) == 0)
 		{
-			free(matrix_command_line[**j]);
-			(**j)++;
-			if (!matrix_command_line[**j])
+			if (!matrix[++(**j)])
 				return ;
 		}
-		else if (search(matrix_command_line[**j], '>')
-			|| search(matrix_command_line[**j], '<'))
+		if (search(matrix[**j], '>') || search(matrix[**j], '>'))
 		{
-			if (!(matrix_command_line[**j][0] == '>'
-				|| matrix_command_line[**j][0] == '<'))
+			if (!search(matrix[**j], FILE_NAME) || (matrix[**j][0] != FILE_NAME
+				&& (matrix[**j][0] != '<' && matrix[**j][0] != '>')))
 			{
-				ft_get_str(&matrix_command_line[**j]);
+				ft_get_str(&matrix[**j]);
 				return ;
 			}
 		}
+		if (search(matrix[**j], FILE_NAME))
+		{
+			free(matrix[**j]);
+			if (!matrix[++(**j)])
+				return ;
+		}
 		else
 			return ;
-		if (need_to_be_moved(matrix_command_line[**j]) == -1)
-		{
-			free(matrix_command_line[**j]);
-			(**j)++;
-		}
-		free(matrix_command_line[**j]);
-		if (matrix_command_line[**j])
-			(**j)++;
 	}
 }
 
@@ -92,4 +88,25 @@ int	get_length_arguments(char **matrix_command_line, int j)
 		j++;
 	}
 	return (count);
+}
+
+char	*get_file_name(char	*str)
+{
+	int		i;
+	int		len;
+	char	*file_name;
+
+	len = 0;
+	while (str[len] && str[len] != '>'
+		&& str[len] != '<' && !is_space(str[len]))
+		len++;
+	file_name = malloc(sizeof(char) * (len + 1));
+	i = -1;
+	while (++i < len)
+	{
+		file_name[i] = str[i];
+		str[0] = FILE_NAME;
+	}
+	file_name[i] = '\0';
+	return (file_name);
 }

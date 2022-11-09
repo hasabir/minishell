@@ -58,6 +58,8 @@ int	parsing(char *input, t_list	**list_command, char **env)
 		i++;
 		if (matrix_input[i])
 			ft_list_last(&list_ptr, creat_list_of_command_2());
+		if (unlink(heredoc) == -1)
+			ft_perror("", 1);
 		free(heredoc);
 	}
 	free(matrix_input);

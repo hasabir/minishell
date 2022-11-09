@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:26:09 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/08 03:52:08 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/09 10:54:00 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,5 @@ char	**get_args(t_list	*list_command);
 int		get_len(t_list	*list_command);
 void	ft_echo(t_list *list_command);
 void 	ft_exit(t_list *list_command);
+int		ft_strcmp(const char	*s1, const char *s2);
 #endif
