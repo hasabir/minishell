@@ -6,7 +6,7 @@
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:33:39 by namine            #+#    #+#             */
-/*   Updated: 2022/11/09 03:30:57 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/10 05:21:28 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ char **ft_split_customized(char *str)
 	while (i < len)
 		ptr[0][i++] = *str++;
 	ptr[0][i] = '\0';
-	ptr[1] = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (*str == '=')
 		str++;
 	else
@@ -36,6 +35,7 @@ char **ft_split_customized(char *str)
 		ptr[1] = NULL;
 		return (ptr);
 	}
+	ptr[1] = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	i = 0;
 	while (*str)
 		ptr[1][i++] = *str++;
@@ -95,7 +95,7 @@ void	ft_export(t_list *list_command, t_param *param)
 {
 	char	**ptr;
 	t_ev	*tmp;
-    int		i;
+    int		arg_index;
 	
 	if (list_command->data->arguments == NULL)
     {
@@ -104,18 +104,30 @@ void	ft_export(t_list *list_command, t_param *param)
 		{
 			ft_putstr_fd("declare -x ", list_command->data->output_file);
 			ft_putstr_fd(tmp->env_var, list_command->data->output_file);
-			ft_putstr_fd("=\"", list_command->data->output_file);
+			if (tmp->value)
+				ft_putstr_fd("=\"", list_command->data->output_file);
 			ft_putstr_fd(tmp->value, list_command->data->output_file);
-			ft_putstr_fd("\"\n", list_command->data->output_file);
+			if (tmp->value)
+				ft_putstr_fd("\"", list_command->data->output_file);
+			ft_putstr_fd("\n", list_command->data->output_file);
 			tmp = tmp->next;
 		}
     }
 	else
 	{
-		i = 0;
-		while (list_command->data->arguments[i])
+		arg_index = 0;
+		while (list_command->data->arguments[arg_index])
 		{
-			ptr = ft_split_customized(list_command->data->arguments[i]);
+			ptr = ft_split_customized(list_command->data->arguments[arg_index]);
+			if (!check_argument(ptr[0]))
+			{
+				error_msg(list_command, ": not a valid identifier\n", arg_index);
+				arg_index++;
+				ft_free(ptr);
+				continue;
+			}
+			add_node(param->export, ptr);
+			add_node(param->env, ptr);
 			if (ptr[1])
 			{
 				if (!it_exists(param->env, ptr[0]))
@@ -128,13 +140,10 @@ void	ft_export(t_list *list_command, t_param *param)
 					ft_replace(param->export, ptr);
 				}
 			}
-			else if (ptr[1] == NULL && !it_exists(param->export, ptr[0]))
-			{
+			if (ptr[1] == NULL && !it_exists(param->export, ptr[0]))
 				add_node(param->export, ptr);
-			}
 			ft_free(ptr);
-			i++;
+			arg_index++;
 		}
 	}
 }
-// chekc name >> first chart >> aplaa le reste alphanum

@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:25:57 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/09 20:02:17 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/10 17:30:12 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,22 @@ void	free_list(t_list *list_command)
 		free(list_command);
 		list_command = list_command->next;
 	}
-	free(list_command);
+	if (list_command)
+		free(list_command);
 	list_command = NULL;
+}
+
+int	is_only_spaces(char *input)
+{
+	int	i;
+
+	i = -1;
+	while (input[++i])
+	{
+		if (!is_space(input[i]))
+			return (0);
+	}
+	return (1);
 }
 
 int	main(int ac, char **av, char **env)
@@ -127,7 +141,6 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	(void)env;
 	param = malloc(sizeof(t_param));
 	initialize_env(param, env);
 	initialize_export(param, env);
@@ -139,13 +152,13 @@ int	main(int ac, char **av, char **env)
 		if (input && *input)
 			add_history(input);
 		input = lexical_analysis(input);
-		if (input && *input)
+		if (input)
 		{
 			ptr_env = convert_to_arr(param);
 			list_command = creat_list_of_command_2();
-			// parsing(input, &list_command, ptr_env);
-			if (parsing(input, &list_command, ptr_env))
-				print_list_command(list_command);
+			parsing(input, &list_command, ptr_env);
+			// if (parsing(input, &list_command, ptr_env))
+			// 	print_list_command(list_command);
 			execution(list_command, ptr_env, param);
 			ft_free(ptr_env);
 		}

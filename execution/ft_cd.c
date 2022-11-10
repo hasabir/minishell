@@ -6,7 +6,7 @@
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 04:49:41 by namine            #+#    #+#             */
-/*   Updated: 2022/11/09 08:11:40 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/10 05:13:05 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,5 @@ void    ft_cd(t_list *list_command, t_param *param)
             tmp = tmp->next;
         }
         // update_old_path();
-        
     }
 }

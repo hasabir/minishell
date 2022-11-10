@@ -6,26 +6,13 @@
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:37:22 by namine            #+#    #+#             */
-/*   Updated: 2022/11/09 01:43:19 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/10 02:06:51 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int check_argument(char *str) // redo !!!!
-{
-    if (!ft_isalpha(*str))
-        return (0);
-	while (*str)
-	{
-		if (!ft_isalnum(*str))
-			return (0);
-		str++;
-	}
-	return (1);
-}
-
-void		free_node(t_ev *node)
+void	free_node(t_ev *node)
 {
 	if(node->env_var)
 		free(node->env_var);
@@ -34,12 +21,12 @@ void		free_node(t_ev *node)
 	free(node);
 }
 
-void		remove_node(t_param *param, t_ev *node)
+void	remove_node(t_ev *list, t_ev *node)
 {
 	t_ev	*previous;
 	t_ev	*current;
 
-	current = param->env;
+	current = list;
 	previous = NULL;
 	if (current == NULL || node == NULL)
 		return ;
@@ -48,8 +35,8 @@ void		remove_node(t_param *param, t_ev *node)
 	{
 		if(current == node)
 		{
-			if(current == param->env)
-				param->env = param->env->next;
+			if(current == list)
+				list = list->next;
 			if (previous != NULL)
 				previous->next = current->next;
 			free_node(current);
@@ -61,27 +48,27 @@ void		remove_node(t_param *param, t_ev *node)
 	}
 }
 
-void		remove_node_by_index(t_param *param, int index)
+void	remove_node_by_index(t_ev *list, int index)
 {
 	t_ev	*current;
 	int		i;
 
 	i = 0;
-	current = param->env;
+	current = list;
 	while (i < index && current)
 	{
 		current = current->next;
 		i++;
 	}
-	remove_node(param, current);
+	remove_node(list, current);
 }
 
-int get_index(t_param *param, char *arg)
+int		get_index(t_ev *list, char *arg)
 {
 	t_ev	*tmp;
 	int		index;
 	
-	tmp = param->env;
+	tmp = list;
 	index = 0;
 	while (tmp)
 	{
@@ -93,33 +80,23 @@ int get_index(t_param *param, char *arg)
 	return (index);
 }	
 
-void	check_args(t_list *list_command, t_param *param)
+void	ft_unset(t_list *list_command, t_param *param)
 {
-	// int	ret;
-	int	i;
-	
-	i = 0;
+	int	arg_index;
+
 	if (list_command->data->arguments)
 	{
-		while (list_command->data->arguments[i])
+		arg_index = 0;
+		while (list_command->data->arguments[arg_index])
 		{
-			// ret = check_argument(list_command->data->arguments[i]);
-			// if (ret == 0)
-			// {
-			// 	write(2, "Petit_shell: ", 14);
-			// 	write(2, list_command->data->cmd, ft_strlen(list_command->data->cmd));
-			// 	write(2, ": ", 2);
-			// 	write(2, list_command->data->arguments[i], ft_strlen(list_command->data->arguments[i]));
-			// 	write(2, ": not a valid identifier\n", 26);
-			// }
-			// else
-				remove_node_by_index(param, get_index(param, list_command->data->arguments[i])); //unset dans env et export
-			i++;
+			if (!check_argument(list_command->data->arguments[arg_index]))
+				error_msg(list_command, ": not a valid identifier\n", arg_index);
+			else
+			{
+				remove_node_by_index(param->env, get_index(param->env, list_command->data->arguments[arg_index]));
+				remove_node_by_index(param->export, get_index(param->export, list_command->data->arguments[arg_index]));
+			}
+			arg_index++;
 		}
 	}
-}
-
-void    ft_unset(t_list *list_command, t_param *param)
-{
-	check_args(list_command, param);
 }

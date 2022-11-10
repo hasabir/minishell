@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 18:49:46 by namine            #+#    #+#             */
-/*   Updated: 2022/11/09 06:47:05 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/10 16:51:15 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*get_path(char **ptr_env, char *str)
 	i = 0;
 	while (paths[i] && access(paths[i], X_OK))
 		i++;
-	return (paths[i]);
+	return (paths[i]); // A REGLER !! PATH NOT FOUND
 }
 
 int		get_len(t_list	*list_command)
@@ -144,15 +144,18 @@ void execute_builtins(t_list *list_command, t_param *param, char *cmd)
 
 void	execution(t_list *list_command, char **ptr_env, t_param *param)
 {
-	char	*path;
+	// if (list_command->data->cmd){
+	char	*path = NULL;
 	int		fd[2];
 	int		save;
 	t_list *tmp;
-	
+
 	tmp = list_command;
 	save = -1;
 	if (ft_lstsize((t_linked_list *)list_command) == 1 && is_builtins(tmp->data->cmd))
-		execute_builtins(list_command, param, tmp->data->cmd);
+	{
+		execute_builtins(tmp, param, tmp->data->cmd);
+	}
 	else{
 	while (tmp)
 	{
@@ -167,15 +170,17 @@ void	execution(t_list *list_command, char **ptr_env, t_param *param)
 			if (tmp->next)
 			{
 				dup2(fd[1], 1);
-				close (fd[1]);	
+				close (fd[1]);
 			}
 			if (save != -1)
-			{
+			{	
 				dup2(save, 0);
 				close (save);
 			}
 			if(tmp->data->output_file != 1)
+			{
 				dup2(tmp->data->output_file, 1); // close
+			}
 			if(tmp->data->input_file != 0)
 			{
 				dup2(tmp->data->input_file, 0);
@@ -183,22 +188,25 @@ void	execution(t_list *list_command, char **ptr_env, t_param *param)
 			}
 			if (is_builtins(tmp->data->cmd) == 1)
 			{
-				execute_builtins(list_command, param, tmp->data->cmd);
-				exit(127);
+				execute_builtins(tmp, param, tmp->data->cmd);
+				exit(127); // a regler !
 			}
-			path = get_path(ptr_env, tmp->data->cmd);
-			if (!path)
+			if (tmp->data->cmd)
 			{
+				path = get_path(ptr_env, tmp->data->cmd);
+				if (!path)
+				{
+					write(2, "Petit_shell: ", 14);
+					write(2, tmp->data->cmd, ft_strlen(tmp->data->cmd));
+					write(2, ": command not found\n", 21);
+					exit (127);
+				}
+				execve(path, get_args(tmp), ptr_env);
 				write(2, "Petit_shell: ", 14);
 				write(2, tmp->data->cmd, ft_strlen(tmp->data->cmd));
-				write(2, ": command not found\n", 21);
-				exit (127);
+				perror(" ");
+				exit(127);
 			}
-			execve(path, get_args(tmp), ptr_env);
-			write(2, "Petit_shell: ", 14);
-			write(2, tmp->data->cmd, ft_strlen(tmp->data->cmd));
-			perror(" ");
-			exit(127);
 		}
 		if (save != -1)
 			close (save);
@@ -207,6 +215,9 @@ void	execution(t_list *list_command, char **ptr_env, t_param *param)
 		tmp = tmp->next;
 	}
 	close (fd[0]);
+	// wait for the last pipe
+	// get exit code
 	while(waitpid(-1, NULL, 0) != -1);
 	}
+	// }
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: namine <namine@student.42.fr>              +#+  +:+       +#+         #
+#    By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/30 18:29:03 by hasabir           #+#    #+#              #
-#    Updated: 2022/11/09 04:28:56 by namine           ###   ########.fr        #
+#    Updated: 2022/11/10 16:54:33 by hasabir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ OBJS = ${SRCS:.c=.o}
 
 CC = gcc 
 
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror
 
 all : ${NAME}
 
@@ -41,9 +41,9 @@ ${LIBFT} :
 
 %.o: %.c
 	@$(CC) ${CFLAGS} -c -o $@ $<
-# -fsanitize=address
+#
 ${NAME} :${OBJS}
-	@$(CC) $(OBJS) -lreadline  -o $(NAME)
+	@$(CC) $(OBJS) -lreadline -o $(NAME) -g3 -fsanitize=address
 	@echo "\033[92m|  Compilation Done  |\033[00m"
 
 clean:

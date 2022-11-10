@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 16:59:43 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/09 14:37:04 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/10 16:37:18 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ int	ft_perror(char *str, int flag)
 		perror(" ");
 		free(str);
 		return (0);
+	}
+	if (flag == 2)
+	{
+		ft_putstr_fd("Petit_shell: : command not found\n", 2);
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 10:18:28 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/09 15:51:11 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/10 15:51:36 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,22 @@ void	get_heredoc_name(char **heredoc_file_name, int c)
 	return ;
 }
 
+void handle_sigint(int sig)
+{
+	(void)sig;
+	return ;
+}
+
 int	read_from_heredoc(int heredoc_fd, char *delimiter, char **env, int n)
 {
 	char	*input;
 	char	*line;
 
+
+	// signal(SIGINT, handle_sigint);
 	line = NULL;
 	input = readline(">");
-	while (!*input || ft_strcmp(input, delimiter))
+	while (input && (!*input || ft_strcmp(input, delimiter)))
 	{
 		if ((!delimiter || !*delimiter) && !*input)
 			break ;
@@ -54,6 +62,7 @@ char	*open_heredoc(char *delimeter, char *heredoc_name, char **env, int n)
 {
 	char	*heredoc;
 	int		heredoc_fd;
+	int		id;
 
 	heredoc = ft_strjoin("/tmp/.", heredoc_name);
 	free(heredoc_name);
@@ -64,7 +73,18 @@ char	*open_heredoc(char *delimeter, char *heredoc_name, char **env, int n)
 		perror(NULL);
 		return (NULL);
 	}
-	read_from_heredoc(heredoc_fd, delimeter, env, n);
+	id = fork();
+	if (id == -1)
+	{
+		perror(NULL);
+		return (NULL);
+	}
+	if (id == 0)
+		read_from_heredoc(heredoc_fd, delimeter, env, n);
+	else
+	{
+		wait(NULL);
+	}
 	return (heredoc);
 }
 

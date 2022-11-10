@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 17:51:07 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/09 20:47:39 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/09 21:20:18 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,10 @@ int	open_in_type_1(t_list *list_command, char *input, char **env)
 		input++;
 		n = 1;
 	}
-	int i = -1;
-	while (is_space(input[++i]));
-	in_file_name = get_file_name(input + i);
+	// int i = -1;
+	while (is_space(*input))
+		input ++;
+	in_file_name = get_file_name(input);
 	expand_file(&in_file_name, env, 1);
 	if (!*in_file_name)
 		return (ft_perror(in_file_name, 0));
