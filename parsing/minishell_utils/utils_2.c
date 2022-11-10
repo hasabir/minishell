@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:39:19 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/09 14:30:54 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/10 19:39:40 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	print_list_command(t_list *list_command)
 		list_command = list_command->next;
 		printf("\033[91m\n*******************************************\033[00m\n");
 	}
+	printf("\n\n\n");
 }
 
 char	*ft_strstr(const char *s1, const char *s2)

@@ -6,11 +6,26 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:35:06 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/08 18:54:17 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/10 20:29:40 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
+
+char	*define_single_double_quote(char *arg)
+{
+	int	i;
+
+	i = -1;
+	while (arg[++i])
+	{
+		if (arg[i] == '"')
+			arg[i] = DOUBLE_QUOTE;
+		else if (arg[i] == '\'')
+			arg[i] = SINGLE_QUOTE;
+	}
+	return (arg);
+}
 
 void	expand_stock(int i, char *arg, char **stock, char **env)
 {
@@ -21,7 +36,10 @@ void	expand_stock(int i, char *arg, char **stock, char **env)
 	env_value = search_env(env, *stock, &tmp);
 	free(*stock);
 	if (env_value && *tmp != '_' && !ft_isalnum(*tmp))
+	{
+		env_value = define_single_double_quote(env_value);
 		*stock = ft_strjoin(env_value, tmp);
+	}
 	else
 	{
 		if (i != 0 || arg[0] == '$')
@@ -42,6 +60,7 @@ char	*new_arg(char *stock, char *arg)
 	free(stock);
 	return (arg);
 }
+
 
 char	*expand(char *arg, char **env)
 {

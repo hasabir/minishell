@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:25:57 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/10 17:30:12 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/10 19:44:36 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,19 +117,6 @@ void	free_list(t_list *list_command)
 	if (list_command)
 		free(list_command);
 	list_command = NULL;
-}
-
-int	is_only_spaces(char *input)
-{
-	int	i;
-
-	i = -1;
-	while (input[++i])
-	{
-		if (!is_space(input[i]))
-			return (0);
-	}
-	return (1);
 }
 
 int	main(int ac, char **av, char **env)

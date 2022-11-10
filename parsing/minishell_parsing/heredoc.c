@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 10:18:28 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/10 15:51:36 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/10 18:40:05 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,7 @@ char	*open_heredoc(char *delimeter, char *heredoc_name, char **env, int n)
 	}
 	if (id == 0)
 		read_from_heredoc(heredoc_fd, delimeter, env, n);
-	else
-	{
-		wait(NULL);
-	}
+	wait(NULL);
 	return (heredoc);
 }
 

@@ -6,7 +6,7 @@
 #    By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/30 18:29:03 by hasabir           #+#    #+#              #
-#    Updated: 2022/11/10 16:54:33 by hasabir          ###   ########.fr        #
+#    Updated: 2022/11/10 18:10:18 by hasabir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,9 +41,9 @@ ${LIBFT} :
 
 %.o: %.c
 	@$(CC) ${CFLAGS} -c -o $@ $<
-#
+#-g3 -fsanitize=address
 ${NAME} :${OBJS}
-	@$(CC) $(OBJS) -lreadline -o $(NAME) -g3 -fsanitize=address
+	@$(CC) $(OBJS) -lreadline -o $(NAME) 
 	@echo "\033[92m|  Compilation Done  |\033[00m"
 
 clean:

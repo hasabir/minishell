@@ -34,7 +34,6 @@ int	pars_matrix_input(t_list *list_ptr, char **input, char *heredoc, char **env)
 	char	**matrix_command_line;
 
 	*input = ft_double_quote(*input, env, 1);
-
 	matrix_command_line = ft_split(*input, ' ');
 	if (!pars_command(matrix_command_line, &list_ptr, env))
 		return (0);
@@ -45,7 +44,7 @@ int	pars_matrix_input(t_list *list_ptr, char **input, char *heredoc, char **env)
 	if (heredoc)
 	{
 		if (unlink(heredoc) == -1)
-			ft_perror("", 1);
+			ft_perror(heredoc, 2);
 	}
 	return (1);
 }
