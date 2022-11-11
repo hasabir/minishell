@@ -6,7 +6,7 @@
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:33:39 by namine            #+#    #+#             */
-/*   Updated: 2022/11/10 05:21:28 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/11 05:32:14 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,59 +91,69 @@ void ft_replace(t_ev *list, char **ptr)
 	}
 }
 
-void	ft_export(t_list *list_command, t_param *param)
+void print_export(t_list *list_command, t_param *param)
 {
-	char	**ptr;
 	t_ev	*tmp;
-    int		arg_index;
 	
-	if (list_command->data->arguments == NULL)
-    {
-		tmp = param->export;
-		while (tmp)
-		{
-			ft_putstr_fd("declare -x ", list_command->data->output_file);
-			ft_putstr_fd(tmp->env_var, list_command->data->output_file);
-			if (tmp->value)
-				ft_putstr_fd("=\"", list_command->data->output_file);
-			ft_putstr_fd(tmp->value, list_command->data->output_file);
-			if (tmp->value)
-				ft_putstr_fd("\"", list_command->data->output_file);
-			ft_putstr_fd("\n", list_command->data->output_file);
-			tmp = tmp->next;
-		}
-    }
-	else
+	tmp = param->export;
+	while (tmp)
 	{
-		arg_index = 0;
-		while (list_command->data->arguments[arg_index])
-		{
-			ptr = ft_split_customized(list_command->data->arguments[arg_index]);
-			if (!check_argument(ptr[0]))
-			{
-				error_msg(list_command, ": not a valid identifier\n", arg_index);
-				arg_index++;
-				ft_free(ptr);
-				continue;
-			}
-			add_node(param->export, ptr);
+		ft_putstr_fd("declare -x ", list_command->data->output_file);
+		ft_putstr_fd(tmp->env_var, list_command->data->output_file);
+		if (tmp->value)
+			ft_putstr_fd("=\"", list_command->data->output_file);
+		ft_putstr_fd(tmp->value, list_command->data->output_file);
+		if (tmp->value)
+			ft_putstr_fd("\"", list_command->data->output_file);
+		ft_putstr_fd("\n", list_command->data->output_file);
+		tmp = tmp->next;
+	}
+}
+
+void check_possibilities(t_param *param, char	**ptr)
+{
+	if (ptr[1])
+	{
+		if (!it_exists(param->env, ptr[0]))
 			add_node(param->env, ptr);
-			if (ptr[1])
-			{
-				if (!it_exists(param->env, ptr[0]))
-					add_node(param->env, ptr);
-				if (!it_exists(param->export, ptr[0]))
-					add_node(param->export, ptr);
-				else
-				{
-					ft_replace(param->env, ptr);
-					ft_replace(param->export, ptr);
-				}
-			}
-			if (ptr[1] == NULL && !it_exists(param->export, ptr[0]))
-				add_node(param->export, ptr);
-			ft_free(ptr);
-			arg_index++;
+		if (!it_exists(param->export, ptr[0]))
+			add_node(param->export, ptr);
+		else
+		{
+			ft_replace(param->env, ptr);
+			ft_replace(param->export, ptr);
 		}
 	}
+	if (ptr[1] == NULL && !it_exists(param->export, ptr[0]))
+		add_node(param->export, ptr);
+}
+
+void add_to_export(t_list *list_command, t_param *param)
+{
+    int		arg_index;
+	char	**ptr;
+	
+	arg_index = 0;
+	while (list_command->data->arguments[arg_index])
+	{
+		ptr = ft_split_customized(list_command->data->arguments[arg_index]);
+		if (!check_argument_name(ptr[0]))
+		{
+			error_msg(list_command, list_command->data->cmd, ": not a valid identifier\n", list_command->data->arguments[arg_index]);
+			arg_index++;
+			ft_free(ptr);
+			continue;
+		}
+		check_possibilities(param, ptr);
+		ft_free(ptr);
+		arg_index++;
+	}
+}
+
+void	ft_export(t_list *list_command, t_param *param)
+{
+	if (list_command->data->arguments == NULL)
+		print_export(list_command, param);
+	else
+		add_to_export(list_command, param);
 }

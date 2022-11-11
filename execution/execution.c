@@ -3,47 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 18:49:46 by namine            #+#    #+#             */
-/*   Updated: 2022/11/10 16:51:15 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/11 09:42:56 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-#include <errno.h>
+
+int path_exists(char **ptr_env)
+{
+	int	i;
+	
+	i = 0;
+	while (ptr_env[i])
+	{
+		if (!ft_strncmp("PATH", ptr_env[i], 4))
+			return (i);
+		i++;
+	}
+	return (-1);
+}
 
 char	*get_path(char **ptr_env, char *str)
 {
 	char **paths;
 	int i;
-	int j;
-	
-	if (*str == '/' || *str == '.')
+	char *s;
+
+	if (*str == '/' || *str == '.') // check stat function
 		return (str);
-	i = 0;
-	while (ptr_env[i])
-	{
-		if (!strncmp("PATH", ptr_env[i], 4))
-			break;
-		i++;
-	}
-	j = 0;
-	while (ptr_env[i][j] != '=')
-		j++;
-	j++;
-	paths = ft_split(ptr_env[i], ':');
+	i = path_exists(ptr_env);
+	if (i == -1)
+		return (NULL);
+	s = ft_strdup(ptr_env[i]);
+	while (*s && *s != '=')
+		s++;
+	s++;
+	paths = ft_split(s, ':');
 	i = 0;
 	while (paths[i])
 	{
 		paths[i] = ft_strjoin(paths[i], "/");
 		paths[i] = ft_strjoin(paths[i], str);
+		if (!access(paths[i], X_OK)) // x_ok ?
+			return (paths[i]);
 		i++;
 	}
-	i = 0;
-	while (paths[i] && access(paths[i], X_OK))
-		i++;
-	return (paths[i]); // A REGLER !! PATH NOT FOUND
+	return (NULL);
 }
 
 int		get_len(t_list	*list_command)
@@ -82,31 +90,23 @@ char	**get_args(t_list	*list_command)
 	int		j;
 
 	argv = malloc(sizeof(char *) * (get_len(list_command) + 1));
-	i = 0;
+	if (!argv)
+		return (NULL);
+	i = -1;
 	if(list_command->data->cmd)
-	{
-		argv[i] = ft_strdup(list_command->data->cmd);
-		i++;
-	}
-	j = 0;
+		argv[++i] = ft_strdup(list_command->data->cmd);
+	i++;
+	j = -1;
 	if (list_command->data->options)
 	{
-		while (list_command->data->options[j])
-		{
-			argv[i] = ft_strdup(list_command->data->options[j]);
-			i++;
-			j++;
-		}
+		while (list_command->data->options[++j])
+			argv[i++] = ft_strdup(list_command->data->options[j]);
 	}
-	j = 0;
+	j = -1;
 	if (list_command->data->arguments)
 	{
-		while (list_command->data->arguments[j])
-		{
-			argv[i] = ft_strdup(list_command->data->arguments[j]);
-			j++;
-			i++;
-		}		
+		while (list_command->data->arguments[++j])
+			argv[i++] = ft_strdup(list_command->data->arguments[j]);		
 	}
 	argv[i] = NULL;
 	return (argv);
@@ -115,109 +115,111 @@ char	**get_args(t_list	*list_command)
 int	is_builtins(char *cmd)
 {
 	return (
-	!ft_strncmp(cmd, "echo", 5) ||
-	!ft_strncmp(cmd, "cd", 3) ||
-	!ft_strncmp(cmd, "pwd", 4) ||
-	!ft_strncmp(cmd, "export", 7) ||
-	!ft_strncmp(cmd, "unset", 6) ||
-	!ft_strncmp(cmd, "env", 4) ||
-	!ft_strncmp(cmd, "exit", 5));
+	!ft_strcmp(cmd, "echo") ||
+	!ft_strcmp(cmd, "cd") ||
+	!ft_strcmp(cmd, "pwd") ||
+	!ft_strcmp(cmd, "export") ||
+	!ft_strcmp(cmd, "unset") ||
+	!ft_strcmp(cmd, "env") ||
+	!ft_strcmp(cmd, "exit"));
 }
 
-void execute_builtins(t_list *list_command, t_param *param, char *cmd)
+void execute_builtins(t_list *list_command, t_param *param)
 {
-	if (!ft_strncmp(cmd, "echo", 5))
+	if (!ft_strcmp(list_command->data->cmd, "echo"))
 		ft_echo(list_command);
-	if (!ft_strncmp(cmd, "cd", 3))
+	if (!ft_strcmp(list_command->data->cmd, "cd"))
 		ft_cd(list_command, param);
-	if (!ft_strncmp(cmd, "pwd", 4))
+	if (!ft_strcmp(list_command->data->cmd, "pwd"))
 		ft_pwd(list_command, param);
-	if (!ft_strncmp(cmd, "export", 7))
+	if (!ft_strcmp(list_command->data->cmd, "export"))
 		ft_export(list_command, param);
-	if(!ft_strncmp(cmd, "unset", 6))
+	if(!ft_strcmp(list_command->data->cmd, "unset"))
 		ft_unset(list_command, param);
-	if (!ft_strncmp(cmd, "env", 4))
+	if (!ft_strcmp(list_command->data->cmd, "env"))
 		ft_env(list_command, param);
-	if (!ft_strncmp(cmd, "exit", 5))
+	if (!ft_strcmp(list_command->data->cmd, "exit"))
 		ft_exit(list_command);
 }
 
-void	execution(t_list *list_command, char **ptr_env, t_param *param)
+void ft_dup(t_list *list_command, int fd[2], int save)
 {
-	// if (list_command->data->cmd){
-	char	*path = NULL;
-	int		fd[2];
-	int		save;
-	t_list *tmp;
-
-	tmp = list_command;
-	save = -1;
-	if (ft_lstsize((t_linked_list *)list_command) == 1 && is_builtins(tmp->data->cmd))
+	if (list_command->next)
 	{
-		execute_builtins(tmp, param, tmp->data->cmd);
+		dup2(fd[1], 1);
+		close (fd[1]);
 	}
-	else{
-	while (tmp)
+	if (save != -1)
+	{	
+		dup2(save, 0);
+		close (save);
+	}
+	if(list_command->data->output_file != 1)
+		dup2(list_command->data->output_file, 1);
+	if(list_command->data->input_file != 0)
+	{
+		dup2(list_command->data->input_file, 0);
+		close(list_command->data->input_file);
+	}
+}
+
+void execute_cmd(char **ptr_env, t_list *list_command, t_param *param)
+{
+	char	*path;
+	
+	if (is_builtins(list_command->data->cmd) == 1)
+		execute_builtins(list_command, param);
+	else if (list_command->data->cmd)
+	{
+		if (path_exists(ptr_env) == -1)
+			error_msg(list_command, list_command->data->cmd, "No such file or directory\n", 0);
+		else 
+		{
+			path = get_path(ptr_env, list_command->data->cmd);
+			if (execve(path, get_args(list_command), ptr_env) == -1)
+				error_msg(list_command, list_command->data->cmd, "command not found\n", 0);
+		}
+	}
+}
+
+void multiple_pipes(char **ptr_env, t_list *list_command, t_param *param, int save)
+{
+	int		fd[2];
+	int		pid;
+	
+	while (list_command)
 	{
 		if (pipe(fd) == -1)
 			return ;
-		int pid1 = fork();
-		if (pid1 < 0)
+		pid = fork();
+		if (pid < 0)
 			return ;
-		if (pid1 ==  0)
+		if (pid == 0)
 		{
 			close(fd[0]);
-			if (tmp->next)
-			{
-				dup2(fd[1], 1);
-				close (fd[1]);
-			}
-			if (save != -1)
-			{	
-				dup2(save, 0);
-				close (save);
-			}
-			if(tmp->data->output_file != 1)
-			{
-				dup2(tmp->data->output_file, 1); // close
-			}
-			if(tmp->data->input_file != 0)
-			{
-				dup2(tmp->data->input_file, 0);
-				close(tmp->data->input_file);
-			}
-			if (is_builtins(tmp->data->cmd) == 1)
-			{
-				execute_builtins(tmp, param, tmp->data->cmd);
-				exit(127); // a regler !
-			}
-			if (tmp->data->cmd)
-			{
-				path = get_path(ptr_env, tmp->data->cmd);
-				if (!path)
-				{
-					write(2, "Petit_shell: ", 14);
-					write(2, tmp->data->cmd, ft_strlen(tmp->data->cmd));
-					write(2, ": command not found\n", 21);
-					exit (127);
-				}
-				execve(path, get_args(tmp), ptr_env);
-				write(2, "Petit_shell: ", 14);
-				write(2, tmp->data->cmd, ft_strlen(tmp->data->cmd));
-				perror(" ");
-				exit(127);
-			}
+			ft_dup(list_command, fd, save);
+			execute_cmd(ptr_env, list_command, param);
+			exit(127);
 		}
 		if (save != -1)
 			close (save);
 		save = fd[0];
 		close (fd[1]);
-		tmp = tmp->next;
+		list_command = list_command->next;
 	}
 	close (fd[0]);
-	// wait for the last pipe
-	// get exit code
 	while(waitpid(-1, NULL, 0) != -1);
-	}
-	// }
 }
+
+void execution(t_list *list_command, char **ptr_env, t_param *param)
+{
+	int		save;
+	
+	save = -1;
+	if (ft_lstsize((t_linked_list *)list_command) == 1 && is_builtins(list_command->data->cmd))
+		execute_builtins(list_command, param);
+	else
+		multiple_pipes(ptr_env, list_command, param, save);
+}
+// wait for the last pipe
+// get exit code

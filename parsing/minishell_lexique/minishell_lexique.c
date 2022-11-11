@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 17:31:44 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/08 16:24:28 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/11 13:40:36 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ char	*define_expand_characters(char *ptr)
 		*ptr = EXPAND_CHARACTER;
 	}
 	else if (!ptr[1] || (!ft_isalnum(ptr[1])
-			&& ptr[1] != '?' && ptr[1] != '"' && ptr[1] != '\'')
+			&& ptr[1] != '?' && ptr[1] != '"' && ptr[1] != '\''
+			&& ptr[1] != '_')
 		|| is_space(ptr[1]))
 		*ptr = EXPAND_CHARACTER;
 	return (ptr);
@@ -70,7 +71,10 @@ char	*define_characters(char *input)
 		else
 			ptr = define_special_characters(ptr);
 		if (!ptr)
+		{
+			free(input);
 			return (ptr);
+		}
 		ptr++;
 	}
 	return (input);

@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 22:26:11 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/09 15:09:19 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/11 23:29:11 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include "../execution/execution.h"
 # include <unistd.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <signal.h>
 
 enum e_characters{
 	SPACE_CHARACTER = ' ',
@@ -30,6 +33,12 @@ enum e_characters{
 	EXPAND_CHARACTER,
 	FILE_NAME
 };
+
+typedef struct s_heredoc
+{
+	char	*heredoc_name;
+	struct	s_heredoc *next;
+}t_heredoc;
 
 typedef struct s_data
 {
@@ -89,6 +98,8 @@ void	take_cmd(t_list *list_command, char **matrix_command_line, int *j);
 void	take_argument(t_list *list_command, char **matrix_command_line, int *j);
 void	expand_file(char **file_name, char **env, int n);
 
+int		open_file(t_list *list_command, char *in_file_name);
+
 /*---------------Minishell_utils------------------*/
 
 char	**ft_split_v2(char *str, char c, char c2);
@@ -97,13 +108,14 @@ char	*ft_strstr(const char *s1, const char *s2);
 void	ft_get_str(char **matrix_command_line);
 void	ft_list_last(t_list **lst, t_list *(new));
 char	*search_env(char **env, char *to_find, char **arg);
+char	*define_single_double_quote(char *arg);
 
 int		search(char *str, char c);
 char	*get_str(char *str, int j);
 int		search_str(const char *s1, const char *s2);
 int		search_characters(char *arg);
 
-t_list	*creat_list_of_command_2(void);
+t_list	*creat_list_of_command(void);
 char	*set_redirection_to_origin(char *arg);
 char	*set_origin(char *arg);
 int		which_type_quote(char *cmd);
@@ -114,5 +126,6 @@ void	ft_free(char **str);
 int		ft_perror(char *str, int flag);
 
 void	print_list_command(t_list *list_command);
-
+void	rl_replace_line (const char *text, int clear_undo);
+void	handle_signals(int sig);
 #endif

@@ -6,26 +6,11 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:35:06 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/10 20:29:40 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/11 10:22:31 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
-
-char	*define_single_double_quote(char *arg)
-{
-	int	i;
-
-	i = -1;
-	while (arg[++i])
-	{
-		if (arg[i] == '"')
-			arg[i] = DOUBLE_QUOTE;
-		else if (arg[i] == '\'')
-			arg[i] = SINGLE_QUOTE;
-	}
-	return (arg);
-}
 
 void	expand_stock(int i, char *arg, char **stock, char **env)
 {
@@ -60,7 +45,6 @@ char	*new_arg(char *stock, char *arg)
 	free(stock);
 	return (arg);
 }
-
 
 char	*expand(char *arg, char **env)
 {

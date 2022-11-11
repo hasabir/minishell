@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
+/*   redirection_utils_2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/12 10:33:34 by namine            #+#    #+#             */
-/*   Updated: 2022/11/11 02:33:08 by namine           ###   ########.fr       */
+/*   Created: 2022/11/11 10:35:16 by hasabir           #+#    #+#             */
+/*   Updated: 2022/11/11 18:09:35 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../parsing.h"
 
-int	ft_lstsize(t_linked_list *lst)
+int	open_file(t_list *list_command, char *in_file_name)
 {
-	int	length;
-
-	length = 0;
-	while (lst)
-	{
-		length++;
-		lst = lst->next;
-	}
-	return (length);
+	list_command->data->input_file = 0;
+	if (open(in_file_name, O_RDWR | O_TRUNC | O_CREAT, 0644) == -1)
+		return(ft_perror(in_file_name, 1));
+	return (1);
 }
+

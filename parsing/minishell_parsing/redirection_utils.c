@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 17:51:07 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/09 21:20:18 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/11 11:40:22 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,8 @@ int	open_in_type_1(t_list *list_command, char *input, char **env)
 		input++;
 		n = 1;
 	}
-	// int i = -1;
 	while (is_space(*input))
-		input ++;
+		input++;
 	in_file_name = get_file_name(input);
 	expand_file(&in_file_name, env, 1);
 	if (!*in_file_name)
@@ -67,12 +66,7 @@ int	open_in_type_1(t_list *list_command, char *input, char **env)
 	if (list_command->data->input_file == -1)
 	{
 		if (n)
-		{
-			list_command->data->input_file = 0;
-			if (!open(in_file_name, open(in_file_name, O_RDWR | O_TRUNC | O_CREAT, 0644)))
-				return(ft_perror(in_file_name, 1));
-			return (1);
-		}
+			return(open_file(list_command, in_file_name));
 		return (ft_perror(in_file_name, 1));
 	}
 	free(in_file_name);
@@ -98,7 +92,6 @@ int	open_in_file(t_list *list_command, char *input, int in_type, char **env)
 {
 	if (in_type == 1)
 	{
-		// printf
 		if (!open_in_type_1(list_command, input, env))
 			return (0);
 	}

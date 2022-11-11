@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:39:19 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/10 19:39:40 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/11 19:28:38 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,18 @@ void	ft_list_last(t_list **lst, t_list *new)
 		(*lst) = (*lst)->next;
 	(*lst)->next = new;
 	(*lst) = new;
+}
+
+char	*define_single_double_quote(char *arg)
+{
+	int	i;
+	i = -1;
+	while (arg[++i])
+	{
+		if (arg[i] == '"')
+			arg[i] = DOUBLE_QUOTE;
+		else if (arg[i] == '\'')
+			arg[i] = SINGLE_QUOTE;
+	}
+	return (arg);
 }

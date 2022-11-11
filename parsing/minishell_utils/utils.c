@@ -6,13 +6,13 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:57:17 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/07 19:04:34 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/11 18:21:30 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
 
-t_list	*creat_list_of_command_2(void)
+t_list	*creat_list_of_command(void)
 {
 	t_list	*new_command_line;
 

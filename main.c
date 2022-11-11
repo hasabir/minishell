@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:25:57 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/10 19:44:36 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/11 23:37:33 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,22 @@ void	free_list(t_list *list_command)
 		free(list_command);
 		list_command = list_command->next;
 	}
-	if (list_command)
-		free(list_command);
+	free(list_command);
 	list_command = NULL;
 }
+
+// void	handle_signals(int sig)
+// {
+// 	if (sig == 2)
+// 	{
+// 		// printf("\n");
+// 		rl_on_new_line();
+// 		rl_replace_line("", 0);
+// 		rl_redisplay();
+// 	}
+// 	// {	printf("You pressed Ctrl+C\n");
+// 	// else 
+// }
 
 int	main(int ac, char **av, char **env)
 {
@@ -128,6 +140,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
+	// signal(SIGINT, handle_signals);
 	param = malloc(sizeof(t_param));
 	initialize_env(param, env);
 	initialize_export(param, env);
@@ -135,25 +148,28 @@ int	main(int ac, char **av, char **env)
 	{
 		input = readline("Petit_shell$ ");
 		if (input == NULL) // CTRL+D -> EOF
-			exit(1);
+		{
+			printf("exit\n");
+			exit (0);
+		}
 		if (input && *input)
 			add_history(input);
 		input = lexical_analysis(input);
 		if (input)
 		{
 			ptr_env = convert_to_arr(param);
-			list_command = creat_list_of_command_2();
+			list_command = creat_list_of_command();
 			parsing(input, &list_command, ptr_env);
 			// if (parsing(input, &list_command, ptr_env))
 			// 	print_list_command(list_command);
 			execution(list_command, ptr_env, param);
 			ft_free(ptr_env);
 		}
-		if (input && *input)
+		if (input)
 			free_list(list_command);
 		free(input);
 		input = NULL;
-		// system("leaks minishell");
+		//  system("leaks minishell");
 	}
 	return (0);
 }

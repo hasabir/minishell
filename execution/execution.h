@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:26:09 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/10 14:33:19 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/11 23:28:59 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "../parsing/parsing.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 # include "../libft/libft.h"
 # include <sys/types.h>
 # include <sys/uio.h>
@@ -22,7 +23,6 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <stdio.h>
-# include <signal.h>
 
 typedef struct s_ev
 {
@@ -35,7 +35,6 @@ typedef struct s_param
 {
 	t_ev	*env;
 	t_ev	*export;
-	int		n;
 }t_param;
 
 typedef struct s_list	t_list;
@@ -52,6 +51,6 @@ char	**get_args(t_list	*list_command);
 int		get_len(t_list	*list_command);
 void	ft_echo(t_list *list_command);
 void 	ft_exit(t_list *list_command);
-int		check_argument(char *str);
-void	error_msg(t_list *list_command, char *msg, int arg_index);
+int		check_argument_name(char *str);
+void	error_msg(t_list *list_command, char *cmd, char *msg, char *arg);
 #endif

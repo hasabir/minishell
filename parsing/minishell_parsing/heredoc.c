@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 10:18:28 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/10 18:40:05 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/11 23:34:44 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,13 @@ void	get_heredoc_name(char **heredoc_file_name, int c)
 	return ;
 }
 
-void handle_sigint(int sig)
-{
-	(void)sig;
-	return ;
-}
+
 
 int	read_from_heredoc(int heredoc_fd, char *delimiter, char **env, int n)
 {
 	char	*input;
 	char	*line;
 
-
-	// signal(SIGINT, handle_sigint);
 	line = NULL;
 	input = readline(">");
 	while (input && (!*input || ft_strcmp(input, delimiter)))
@@ -54,15 +48,17 @@ int	read_from_heredoc(int heredoc_fd, char *delimiter, char **env, int n)
 		free(line);
 		input = readline(">");
 	}
+	if (input == NULL)
+		exit (0);
 	free(input);
-	return (0);
+	exit (1);
 }
 
 char	*open_heredoc(char *delimeter, char *heredoc_name, char **env, int n)
 {
-	char	*heredoc;
-	int		heredoc_fd;
-	int		id;
+	char		*heredoc;
+	int			heredoc_fd;
+	pid_t		id;
 
 	heredoc = ft_strjoin("/tmp/.", heredoc_name);
 	free(heredoc_name);
@@ -79,9 +75,17 @@ char	*open_heredoc(char *delimeter, char *heredoc_name, char **env, int n)
 		perror(NULL);
 		return (NULL);
 	}
+	// signal(SIGINT, handle_signals);
 	if (id == 0)
+	{
+		// signal(SIGINT, handle_signals);
+		// kill(0, SIGINT);
 		read_from_heredoc(heredoc_fd, delimeter, env, n);
-	wait(NULL);
+	}
+	else
+	{
+		wait(NULL);
+	}
 	return (heredoc);
 }
 
@@ -121,6 +125,14 @@ char	*open_heredoc_files(char *input, int c, char **env)
 		free(heredoc_file_name);
 		heredoc_file_name = heredoc_file(&input_ptr, &delimiter, env, c);
 		input_ptr = ft_strstr(input_ptr, "<<");
+		if (input_ptr && *input_ptr)
+		{
+			if (unlink(heredoc_file_name) == -1)
+			{
+				ft_perror(heredoc_file_name, 2);
+				return (NULL);
+			}
+		}
 	}
 	free(delimiter);
 	return (heredoc_file_name);

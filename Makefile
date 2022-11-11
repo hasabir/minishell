@@ -6,7 +6,7 @@
 #    By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/30 18:29:03 by hasabir           #+#    #+#              #
-#    Updated: 2022/11/10 18:10:18 by hasabir          ###   ########.fr        #
+#    Updated: 2022/11/11 23:37:53 by hasabir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,11 +26,11 @@ SRCS = 	main.c ${LIBFT} ${UTILS}/utils.c ${LEXIQUE}/minishell_lexique.c \
 		${EXECUTION}/ft_env.c ${EXECUTION}/ft_unset.c ${EXECUTION}/ft_export.c \
 		${UTILS}/utils_3.c ${LEXIQUE}/lexique_utils_2.c ${EXECUTION}/ft_exit.c \
 		${UTILS}/utils_4.c ${EXECUTION}/utils.c ${EXECUTION}/ft_pwd.c \
-		${EXECUTION}/ft_cd.c \
+		${EXECUTION}/ft_cd.c ${PARSING}/redirection_utils_2.c\
 
 OBJS = ${SRCS:.c=.o}
 
-CC = gcc 
+CC = cc 
 
 CFLAGS = -Wall -Wextra -Werror
 
@@ -42,8 +42,9 @@ ${LIBFT} :
 %.o: %.c
 	@$(CC) ${CFLAGS} -c -o $@ $<
 #-g3 -fsanitize=address
+#  -L ~/Desktop/.brew/opt/readline/lib -I ~/Desktop/.brew/opt/readline/include
 ${NAME} :${OBJS}
-	@$(CC) $(OBJS) -lreadline -o $(NAME) 
+	@$(CC) $(OBJS) -lreadline -o $(NAME)
 	@echo "\033[92m|  Compilation Done  |\033[00m"
 
 clean:
