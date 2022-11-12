@@ -6,13 +6,13 @@
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:33:39 by namine            #+#    #+#             */
-/*   Updated: 2022/11/11 05:32:14 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/11 10:13:39 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-char **ft_split_customized(char *str)
+char **ft_split_customized(char *str) // a optimiser
 {
 	char	**ptr;
 	int		len;

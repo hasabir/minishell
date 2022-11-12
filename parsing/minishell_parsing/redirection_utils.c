@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 17:51:07 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/11 11:40:22 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/12 19:51:57 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	open_in_type_1(t_list *list_command, char *input, char **env)
 	if (list_command->data->input_file == -1)
 	{
 		if (n)
-			return(open_file(list_command, in_file_name));
+			return (open_file(list_command, in_file_name));
 		return (ft_perror(in_file_name, 1));
 	}
 	free(in_file_name);

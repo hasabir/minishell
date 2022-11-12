@@ -6,41 +6,41 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:39:19 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/11 19:28:38 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/12 19:55:03 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
 
-void	print_list_command(t_list *list_command)
-{
-	int	i;
+// void	print_list_command(t_list *list_command)
+// {
+// 	int	i;
 
-	while (list_command)
-	{
-		printf("\n\033[95m-------------------------------\033[00m\n");
-		printf("input_file = %d\n", list_command->data->input_file);
-		printf("output_file = %d\n\n", list_command->data->output_file);
-		printf("cmd = %s\n", (list_command)->data->cmd);
-		printf("\033[95m-------------------------------\033[00m\n");
-		if (list_command->data->options)
-		{
-			i = -1;
-			while (list_command->data->options[++i])
-				printf("option = %s\n", list_command->data->options[i]);
-		}
-		printf("\033[95m-------------------------------\033[00m\n");
-		if (list_command->data->arguments)
-		{
-			i = -1;
-			while (list_command->data->arguments[++i])
-				printf("argument = %s\n", list_command->data->arguments[i]);
-		}
-		list_command = list_command->next;
-		printf("\033[91m\n*******************************************\033[00m\n");
-	}
-	printf("\n\n\n");
-}
+// 	while (list_command)
+// 	{
+// 		printf("\n\033[95m-------------------------------\033[00m\n");
+// 		printf("input_file = %d\n", list_command->data->input_file);
+// 		printf("output_file = %d\n\n", list_command->data->output_file);
+// 		printf("cmd = %s\n", (list_command)->data->cmd);
+// 		printf("\033[95m-------------------------------\033[00m\n");
+// 		if (list_command->data->options)
+// 		{
+// 			i = -1;
+// 			while (list_command->data->options[++i])
+// 				printf("option = %s\n", list_command->data->options[i]);
+// 		}
+// 		printf("\033[95m-------------------------------\033[00m\n");
+// 		if (list_command->data->arguments)
+// 		{
+// 			i = -1;
+// 			while (list_command->data->arguments[++i])
+// 				printf("argument = %s\n", list_command->data->arguments[i]);
+// 		}
+// 		list_command = list_command->next;
+// 		printf("\033[91m\n*******************************************\033[00m\n");
+// 	}
+// 	printf("\n\n\n");
+// }
 
 char	*ft_strstr(const char *s1, const char *s2)
 {
@@ -107,6 +107,7 @@ void	ft_list_last(t_list **lst, t_list *new)
 char	*define_single_double_quote(char *arg)
 {
 	int	i;
+
 	i = -1;
 	while (arg[++i])
 	{

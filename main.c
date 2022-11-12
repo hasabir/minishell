@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:25:57 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/11 23:37:33 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/12 22:40:17 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,19 +118,6 @@ void	free_list(t_list *list_command)
 	list_command = NULL;
 }
 
-// void	handle_signals(int sig)
-// {
-// 	if (sig == 2)
-// 	{
-// 		// printf("\n");
-// 		rl_on_new_line();
-// 		rl_replace_line("", 0);
-// 		rl_redisplay();
-// 	}
-// 	// {	printf("You pressed Ctrl+C\n");
-// 	// else 
-// }
-
 int	main(int ac, char **av, char **env)
 {
 	t_list	*list_command;
@@ -140,17 +127,20 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	// signal(SIGINT, handle_signals);
+	signal(SIGINT, handle_signals);
+	signal(SIGQUIT, SIG_IGN);
+	global.exit_status = 0;
 	param = malloc(sizeof(t_param));
 	initialize_env(param, env);
 	initialize_export(param, env);
 	while(1)
 	{
+		global.is_heredoc = 0;
 		input = readline("Petit_shell$ ");
 		if (input == NULL) // CTRL+D -> EOF
 		{
-			printf("exit\n");
-			exit (0);
+			write(1, "exit\n", 6);
+			exit (1);
 		}
 		if (input && *input)
 			add_history(input);
@@ -159,17 +149,18 @@ int	main(int ac, char **av, char **env)
 		{
 			ptr_env = convert_to_arr(param);
 			list_command = creat_list_of_command();
-			parsing(input, &list_command, ptr_env);
+			// parsing(input, &list_command, ptr_env);
+			if (parsing(input, &list_command, ptr_env))
+				execution(list_command, ptr_env, param);
 			// if (parsing(input, &list_command, ptr_env))
 			// 	print_list_command(list_command);
-			execution(list_command, ptr_env, param);
-			ft_free(ptr_env);
+			// ft_free(ptr_env);
 		}
 		if (input)
 			free_list(list_command);
 		free(input);
 		input = NULL;
-		//  system("leaks minishell");
+		 system("leaks minishell");
 	}
 	return (0);
 }

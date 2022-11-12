@@ -6,11 +6,24 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:35:06 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/11 10:22:31 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/12 12:23:29 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
+
+char	*new_arg(char *stock, char *arg, int flag)
+{
+	char	*tmp;
+
+	tmp = ft_strdup(arg);
+	free(arg);
+	arg = ft_strjoin(tmp, stock);
+	if (!flag)
+		free(stock);
+	free(tmp);
+	return (arg);
+}
 
 void	expand_stock(int i, char *arg, char **stock, char **env)
 {
@@ -25,6 +38,12 @@ void	expand_stock(int i, char *arg, char **stock, char **env)
 		env_value = define_single_double_quote(env_value);
 		*stock = ft_strjoin(env_value, tmp);
 	}
+	else if (*tmp == '?')
+	{
+		*stock = ft_itoa(global.exit_status);
+		if (tmp[1])
+			*stock = new_arg(tmp + 1, *stock, 1);
+	}
 	else
 	{
 		if (i != 0 || arg[0] == '$')
@@ -32,18 +51,6 @@ void	expand_stock(int i, char *arg, char **stock, char **env)
 		*stock = ft_strdup(tmp);
 	}
 	free(tmp);
-}
-
-char	*new_arg(char *stock, char *arg)
-{
-	char	*tmp;
-
-	tmp = ft_strdup(arg);
-	free(arg);
-	arg = ft_strjoin(tmp, stock);
-	free(tmp);
-	free(stock);
-	return (arg);
 }
 
 char	*expand(char *arg, char **env)
@@ -62,7 +69,7 @@ char	*expand(char *arg, char **env)
 		if (i == 0)
 			arg = stock[i];
 		else
-			arg = new_arg(stock[i], arg);
+			arg = new_arg(stock[i], arg, 0);
 	}
 	free(stock);
 	return (arg);

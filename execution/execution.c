@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 18:49:46 by namine            #+#    #+#             */
-/*   Updated: 2022/11/11 09:42:56 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/12 20:26:38 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+#include <errno.h>
 
 int path_exists(char **ptr_env)
 {
@@ -26,14 +27,12 @@ int path_exists(char **ptr_env)
 	return (-1);
 }
 
-char	*get_path(char **ptr_env, char *str)
+char	*get_path(char **ptr_env, char *cmd)
 {
 	char **paths;
-	int i;
 	char *s;
-
-	if (*str == '/' || *str == '.') // check stat function
-		return (str);
+	int i;
+	
 	i = path_exists(ptr_env);
 	if (i == -1)
 		return (NULL);
@@ -46,41 +45,12 @@ char	*get_path(char **ptr_env, char *str)
 	while (paths[i])
 	{
 		paths[i] = ft_strjoin(paths[i], "/");
-		paths[i] = ft_strjoin(paths[i], str);
-		if (!access(paths[i], X_OK)) // x_ok ?
+		paths[i] = ft_strjoin(paths[i], cmd);
+		if (!access(paths[i], X_OK | F_OK)) // x_ok ? and f_ok
 			return (paths[i]);
 		i++;
 	}
 	return (NULL);
-}
-
-int		get_len(t_list	*list_command)
-{
-	int count_args;
-	int i;
-	
-	count_args = 0;
-	if(list_command->data->cmd)
-		count_args++;
-	i = 0;
-	if (list_command->data->options)
-	{
-		while (list_command->data->options[i])
-		{
-			count_args++;
-			i++;
-		}
-	}
-	i = 0;
-	if (list_command->data->arguments)
-	{
-		if (list_command->data->arguments[i])
-		{
-			count_args++;
-			i++;
-		}
-	}
-	return (count_args);
 }
 
 char	**get_args(t_list	*list_command)
@@ -110,6 +80,35 @@ char	**get_args(t_list	*list_command)
 	}
 	argv[i] = NULL;
 	return (argv);
+}
+
+int		get_len(t_list	*list_command)
+{
+	int count_args;
+	int i;
+	
+	count_args = 0;
+	if(list_command->data->cmd)
+		count_args++;
+	i = 0;
+	if (list_command->data->options)
+	{
+		while (list_command->data->options[i])
+		{
+			count_args++;
+			i++;
+		}
+	}
+	i = 0;
+	if (list_command->data->arguments)
+	{
+		if (list_command->data->arguments[i])
+		{
+			count_args++;
+			i++;
+		}
+	}
+	return (count_args);
 }
 
 int	is_builtins(char *cmd)
@@ -163,43 +162,102 @@ void ft_dup(t_list *list_command, int fd[2], int save)
 	}
 }
 
+int ft(char *str)
+{
+	int i;
+	
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '/')
+		{
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 void execute_cmd(char **ptr_env, t_list *list_command, t_param *param)
 {
-	char	*path;
+	char	*path = NULL;
 	
 	if (is_builtins(list_command->data->cmd) == 1)
 		execute_builtins(list_command, param);
 	else if (list_command->data->cmd)
 	{
-		if (path_exists(ptr_env) == -1)
-			error_msg(list_command, list_command->data->cmd, "No such file or directory\n", 0);
-		else 
+		//./script.sh why ca marche pas ?
+		// use fstat or open !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!		
+		// int fd = open(list_command->data->cmd, O_RDONLY | O_TRUNC );
+		// 	printf("fd = %d\ncmd = %s\n", fd , list_command->data->cmd);
+		// if (fd == -1)
+		// {
+		// 	ft_perror(list_command->data->cmd, 1);
+		// }
+		if (ft(list_command->data->cmd) == 0)
 		{
-			path = get_path(ptr_env, list_command->data->cmd);
-			if (execve(path, get_args(list_command), ptr_env) == -1)
-				error_msg(list_command, list_command->data->cmd, "command not found\n", 0);
+			if (path_exists(ptr_env) == -1)
+				error_msg(list_command, list_command->data->cmd, "No such file or directory\n", 0);
+			else{
+				path = get_path(ptr_env, list_command->data->cmd);
+				if (execve(path, get_args(list_command), ptr_env) == -1)
+				{
+					error_msg(list_command, list_command->data->cmd, "cmd not found\n", 0);
+					global.exit_status = 127;
+				}
+			}
+		}
+		else
+		{
+			if (ft(list_command->data->cmd) == 1)
+			{
+				if (access(list_command->data->cmd, F_OK | X_OK) != 0)
+					printf("%s\n", strerror(errno));
+				else
+					path = ft_strdup(list_command->data->cmd);
+			}
+			if (path != NULL)
+			{
+				// execut script ???? 
+				if (execve(path, get_args(list_command), ptr_env) == -1)
+					error_msg(list_command, list_command->data->cmd, strerror(errno), 0);
+				printf("\n");
+			}
 		}
 	}
+}
+
+
+void	handle_sigint(int sig)
+{
+	(void)sig;
+
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		// write (1, "\n", 2);
 }
 
 void multiple_pipes(char **ptr_env, t_list *list_command, t_param *param, int save)
 {
 	int		fd[2];
 	int		pid;
+	int		status;
 	
 	while (list_command)
 	{
 		if (pipe(fd) == -1)
-			return ;
+			return ; // use perror or strerror 
 		pid = fork();
 		if (pid < 0)
 			return ;
+		signal(SIGINT, SIG_IGN);
 		if (pid == 0)
 		{
+			signal(SIGINT, SIG_DFL);
 			close(fd[0]);
 			ft_dup(list_command, fd, save);
 			execute_cmd(ptr_env, list_command, param);
-			exit(127);
+			exit(global.exit_status);
 		}
 		if (save != -1)
 			close (save);
@@ -208,7 +266,17 @@ void multiple_pipes(char **ptr_env, t_list *list_command, t_param *param, int sa
 		list_command = list_command->next;
 	}
 	close (fd[0]);
+	// --------------------------------
+	while(waitpid(pid, &status, 0) != -1);
+	if (WIFEXITED(status))
+		global.exit_status = WEXITSTATUS(status);
+	if (WIFSIGNALED(status)) //exit with signal
+	{
+		global.exit_status = 128 + WTERMSIG(status);
+		// write (1, "\n", 1);
+	}
 	while(waitpid(-1, NULL, 0) != -1);
+	signal(SIGINT, handle_signals);
 }
 
 void execution(t_list *list_command, char **ptr_env, t_param *param)
@@ -219,7 +287,7 @@ void execution(t_list *list_command, char **ptr_env, t_param *param)
 	if (ft_lstsize((t_linked_list *)list_command) == 1 && is_builtins(list_command->data->cmd))
 		execute_builtins(list_command, param);
 	else
-		multiple_pipes(ptr_env, list_command, param, save);
+		multiple_pipes(ptr_env, list_command, param, save); // name !!! 
 }
 // wait for the last pipe
 // get exit code

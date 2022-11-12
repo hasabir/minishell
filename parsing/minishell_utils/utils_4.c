@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 16:59:43 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/10 18:35:01 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/12 19:55:38 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,17 @@ int	ft_perror(char *str, int flag)
 	}
 	if (flag == 1 || flag == 2)
 	{
-		write(2, "Petit_shell: ", 14);
 		write(2, str,
 			ft_strlen(str));
 		perror(" ");
 		if (flag == 1)
 			free(str);
+		return (0);
+	}
+	if (!flag && !str)
+	{
+		write(2, "Petit_shell: ", 14);
+		perror(NULL);
 		return (0);
 	}
 	return (1);
@@ -56,6 +61,14 @@ int	ft_error(int n, char option, char *str_option, char *input)
 	return (-1);
 }
 
+char	*error(char *str)
+{	
+	write(2, "Petit_shell: ", 14);
+	if (!str)
+		perror(NULL);
+	return (NULL);
+}
+
 void	ft_free(char **str)
 {
 	int	i;
@@ -64,4 +77,13 @@ void	ft_free(char **str)
 	while (str[++i])
 		free(str[i]);
 	free (str);
+}
+
+void	handle_signals(int sig)
+{
+	(void)sig;
+	write (1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }

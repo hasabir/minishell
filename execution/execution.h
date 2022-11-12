@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:26:09 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/11 23:28:59 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/12 17:14:15 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 # include "../parsing/parsing.h"
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <signal.h>
 # include "../libft/libft.h"
 # include <sys/types.h>
 # include <sys/uio.h>
@@ -23,6 +22,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <signal.h>
 
 typedef struct s_ev
 {
@@ -37,7 +37,16 @@ typedef struct s_param
 	t_ev	*export;
 }t_param;
 
+typedef struct g_global
+{
+	int exit_status;
+	int is_heredoc;
+}t_global;
+
+t_global global;
+
 typedef struct s_list	t_list;
+void	error_msg(t_list *list_command, char *cmd, char *msg, char *arg);
 void	execution(t_list *list_command, char **ptr_env, t_param *param);
 void	ft_execve(char **ptr_env, t_list *list_command);
 void	ft_export(t_list *list_command, t_param *param);
@@ -48,9 +57,9 @@ void    ft_cd(t_list *list_command, t_param *param);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*get_path(char **ptr_env, char *str);
 char	**get_args(t_list	*list_command);
+char	*search_env_var(t_param *param, char *str);
+int		check_argument_name(char *str);
 int		get_len(t_list	*list_command);
 void	ft_echo(t_list *list_command);
 void 	ft_exit(t_list *list_command);
-int		check_argument_name(char *str);
-void	error_msg(t_list *list_command, char *cmd, char *msg, char *arg);
 #endif

@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 11:51:37 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/09 19:50:01 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/12 22:07:16 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ int	take_out_file(t_list *list_command, char *matrix_input, char **env)
 		out_type = 1;
 	while (is_space(*matrix_input))
 		matrix_input++;
+	if (list_command->data->output_file != 1)
+	{
+		if (close(list_command->data->output_file) == -1)
+			return (ft_perror(0, 0));
+	}
 	if (!open_out_file(list_command, matrix_input, out_type, env))
 		return (0);
 	return (out_type);
@@ -46,6 +51,11 @@ int	take_in_file(t_list *list_command, char *matrix_input, char **env)
 		in_type = 1;
 	while (is_space(*matrix_input))
 		matrix_input++;
+	if (list_command->data->input_file != 0)
+	{
+		if (close(list_command->data->input_file) == -1)
+			return (ft_perror(0, 0));
+	}
 	return_value = open_in_file(list_command, matrix_input, in_type, env);
 	if (!return_value)
 		return (0);

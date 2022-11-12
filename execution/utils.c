@@ -6,7 +6,7 @@
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 01:42:58 by namine            #+#    #+#             */
-/*   Updated: 2022/11/11 07:22:30 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/12 17:05:15 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,37 @@ int	check_argument_name(char *str)
 
 void	error_msg(t_list *list_command, char *cmd, char *msg, char *arg)
 {
-	if (ft_lstsize((t_linked_list *)list_command) == 1
+	if (list_command && ft_lstsize((t_linked_list *)list_command) == 1
 		&& !ft_strcmp(cmd, "exit"))
 		write(2, "exit\n", 6);
 	write(2, "Petit_shell: ", 14);
-	write(2, cmd, ft_strlen(cmd));
-	write(2, ": ", 3);
+	if (cmd)
+	{
+		write(2, cmd, ft_strlen(cmd));
+		write(2, ": ", 3);
+	}
 	if (arg)
+	{
 		write(2, arg, ft_strlen(arg));
-	write(2, msg, ft_strlen(msg));
+		write(2, ": ", 3);
+	}
+	if (msg)
+	{
+		write(2, msg, ft_strlen(msg));
+		write(2, "\n", 2);
+	}
+}
+
+char *search_env_var(t_param *param, char *str)
+{
+    t_ev *tmp;
+    
+    tmp = param->env;
+    while (tmp)
+    {
+        if (!ft_strcmp(str, tmp->env_var))
+            return(ft_strdup(tmp->value));
+        tmp = tmp->next;
+    }
+    return (NULL);
 }

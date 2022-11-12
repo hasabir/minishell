@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 22:26:11 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/11 23:29:11 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/12 19:46:53 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,9 @@ int		open_in_file(t_list *list_command,
 
 char	*open_heredoc_files(char *matrix_input, int i, char **env);
 
+void	exit_case(void);
+int		unlink_heredoc_file(char *input_ptr, char *heredoc_file_name);
+
 int		parsing(char *input, t_list **list_command, char **env);
 
 int		take_in_out_files(t_list *list_command, char *matrix_input, char **env);
@@ -124,8 +127,9 @@ int		is_space(char c);
 int		ft_error(int n, char option, char *str_option, char *input);
 void	ft_free(char **str);
 int		ft_perror(char *str, int flag);
+char	*error(char *str);
+void	handle_signals(int sig);
 
 void	print_list_command(t_list *list_command);
 void	rl_replace_line (const char *text, int clear_undo);
-void	handle_signals(int sig);
 #endif
