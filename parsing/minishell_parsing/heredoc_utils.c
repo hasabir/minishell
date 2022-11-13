@@ -6,30 +6,71 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:37:26 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/12 19:48:58 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/13 20:44:15 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
 
-void	exit_case(void)
+void	exit_case(char *heredoc_file_name, char *delimiter)
 {
 	global.exit_status = 1;
 	global.is_heredoc = -2;
 	write (1, ">\n", 2);
+	free(heredoc_file_name);
+	free(delimiter);
 }
 
-int	unlink_heredoc_file(char *input_ptr, char *heredoc_file_name)
+int	unlink_heredoc_file(char *input_ptr, char *heredoc_file_name, int flag)
 {
-	if ((input_ptr && *input_ptr) || global.is_heredoc == -2)
+	if (flag == 1)
 	{
-		if (unlink(heredoc_file_name) == -1)
+		if (ft_strcmp(heredoc_file_name, "NO"))
 		{
-			ft_perror(heredoc_file_name, 2);
-			return (0);
+			if (unlink(heredoc_file_name) == -1)
+				return (-1);
 		}
-		if (global.is_heredoc == -2)
-			return (0);
+	}
+	if (!flag)
+	{
+		if ((input_ptr && *input_ptr) || global.is_heredoc == -2)
+		{
+			// if (unlink(heredoc_file_name) == -1)
+			// {
+			// 	ft_perror(heredoc_file_name, 2);
+			// 	return (0);
+			// }
+			if (global.is_heredoc == -2)
+				return (0);
+		}
 	}
 	return (1);
+}
+
+void	get_heredoc_name(char **heredoc_file_name, int c)
+{
+	char	*tmp;
+	char	*stock;
+
+	tmp = ft_strjoin(*heredoc_file_name, ft_strstr(ttyname(1), "tty"));
+	free(*heredoc_file_name);
+	*heredoc_file_name = NULL;
+	stock = ft_itoa(c);
+	*heredoc_file_name = ft_strjoin(tmp, stock);
+	free(stock);
+	free(tmp);
+	return ;
+}
+
+char	**free_heredoc(char **heredoc_matrix)
+{
+	if (global.is_heredoc == -2)
+	{
+		if (*heredoc_matrix)
+			ft_free(heredoc_matrix);
+		else
+			free(heredoc_matrix);
+		return (NULL);
+	}
+	return(heredoc_matrix);
 }

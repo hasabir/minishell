@@ -6,7 +6,7 @@
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:37:22 by namine            #+#    #+#             */
-/*   Updated: 2022/11/11 07:27:52 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/13 11:36:16 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,29 @@ void	remove_node(t_ev *list, t_ev *node)
 	}
 }
 
-void	remove_node_by_index(t_ev *list, int index)
+void	remove_node_by_index(t_ev *list, int index, t_param *param)
 {
 	t_ev	*current;
 	int		i;
 
 	i = 0;
 	current = list;
-	while (i < index && current)
+	if (index == 0)
 	{
-		current = current->next;
-		i++;
+		list = list->next;
+		param->env = list;
+		param->export = list;
+		free(current);
 	}
-	remove_node(list, current);
+	else
+	{
+		while (i < index && current)
+		{
+			current = current->next;
+			i++;
+		}
+		remove_node(list, current);
+	}
 }
 
 int	get_index(t_ev *list, char *arg)
@@ -92,16 +102,12 @@ void	ft_unset(t_list *list_command, t_param *param)
 		{
 			if (!check_argument_name(list_command->data->arguments[arg_index]))
 				error_msg(list_command, list_command->data->cmd,
-					": not a valid identifier\n",
+					"not a valid identifier\n",
 					list_command->data->arguments[arg_index]);
 			else
 			{
-				remove_node_by_index(param->env,
-					get_index(param->env,
-						list_command->data->arguments[arg_index]));
-				remove_node_by_index(param->export,
-					get_index(param->export,
-						list_command->data->arguments[arg_index]));
+				remove_node_by_index(param->env, get_index(param->env, list_command->data->arguments[arg_index]), param);
+				remove_node_by_index(param->export, get_index(param->export, list_command->data->arguments[arg_index]) ,param);
 			}
 			arg_index++;
 		}

@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 18:49:46 by namine            #+#    #+#             */
-/*   Updated: 2022/11/12 20:26:38 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/13 13:24:10 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void execute_builtins(t_list *list_command, t_param *param)
 	if (!ft_strcmp(list_command->data->cmd, "cd"))
 		ft_cd(list_command, param);
 	if (!ft_strcmp(list_command->data->cmd, "pwd"))
-		ft_pwd(list_command, param);
+		ft_pwd(list_command);
 	if (!ft_strcmp(list_command->data->cmd, "export"))
 		ft_export(list_command, param);
 	if(!ft_strcmp(list_command->data->cmd, "unset"))
@@ -162,7 +162,7 @@ void ft_dup(t_list *list_command, int fd[2], int save)
 	}
 }
 
-int ft(char *str)
+int is_absolute_path(char *str)
 {
 	int i;
 	
@@ -170,9 +170,7 @@ int ft(char *str)
 	while (str[i])
 	{
 		if (str[i] == '/')
-		{
 			return (1);
-		}
 		i++;
 	}
 	return (0);
@@ -181,60 +179,54 @@ int ft(char *str)
 void execute_cmd(char **ptr_env, t_list *list_command, t_param *param)
 {
 	char	*path = NULL;
+	// int 	a;
 	
 	if (is_builtins(list_command->data->cmd) == 1)
 		execute_builtins(list_command, param);
 	else if (list_command->data->cmd)
-	{
-		//./script.sh why ca marche pas ?
-		// use fstat or open !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!		
-		// int fd = open(list_command->data->cmd, O_RDONLY | O_TRUNC );
-		// 	printf("fd = %d\ncmd = %s\n", fd , list_command->data->cmd);
-		// if (fd == -1)
-		// {
-		// 	ft_perror(list_command->data->cmd, 1);
-		// }
-		if (ft(list_command->data->cmd) == 0)
+	{	
+		if (!is_absolute_path(list_command->data->cmd))
 		{
 			if (path_exists(ptr_env) == -1)
-				error_msg(list_command, list_command->data->cmd, "No such file or directory\n", 0);
-			else{
+				error_msg(list_command, list_command->data->cmd, "No such file or directory", 0);
+			else
+			{
 				path = get_path(ptr_env, list_command->data->cmd);
 				if (execve(path, get_args(list_command), ptr_env) == -1)
 				{
-					error_msg(list_command, list_command->data->cmd, "cmd not found\n", 0);
+					error_msg(list_command, list_command->data->cmd, "command not found", 0);
 					global.exit_status = 127;
 				}
 			}
 		}
 		else
 		{
-			if (ft(list_command->data->cmd) == 1)
+			int i = chdir(list_command->data->cmd);
+			int a = access(list_command->data->cmd, F_OK);
+			int b = access(list_command->data->cmd, X_OK);
+			if (a == -1) // success
 			{
-				if (access(list_command->data->cmd, F_OK | X_OK) != 0)
-					printf("%s\n", strerror(errno));
-				else
-					path = ft_strdup(list_command->data->cmd);
+				printf("non trouvable\n");
 			}
+			else if (b == -1) // success
+			{
+				printf("non executable\n");
+			}
+			else if (i == 0)
+			{
+				printf("a directory\n");
+			}
+			else{
+			path = ft_strdup(list_command->data->cmd);
 			if (path != NULL)
 			{
-				// execut script ???? 
 				if (execve(path, get_args(list_command), ptr_env) == -1)
 					error_msg(list_command, list_command->data->cmd, strerror(errno), 0);
 				printf("\n");
 			}
-		}
+				}
+			}
 	}
-}
-
-
-void	handle_sigint(int sig)
-{
-	(void)sig;
-
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		// write (1, "\n", 2);
 }
 
 void multiple_pipes(char **ptr_env, t_list *list_command, t_param *param, int save)
@@ -254,7 +246,8 @@ void multiple_pipes(char **ptr_env, t_list *list_command, t_param *param, int sa
 		if (pid == 0)
 		{
 			signal(SIGINT, SIG_DFL);
-			close(fd[0]);
+			signal(SIGQUIT, SIG_DFL);
+			// close(fd[0]);
 			ft_dup(list_command, fd, save);
 			execute_cmd(ptr_env, list_command, param);
 			exit(global.exit_status);
@@ -266,14 +259,18 @@ void multiple_pipes(char **ptr_env, t_list *list_command, t_param *param, int sa
 		list_command = list_command->next;
 	}
 	close (fd[0]);
-	// --------------------------------
 	while(waitpid(pid, &status, 0) != -1);
 	if (WIFEXITED(status))
 		global.exit_status = WEXITSTATUS(status);
 	if (WIFSIGNALED(status)) //exit with signal
 	{
 		global.exit_status = 128 + WTERMSIG(status);
-		// write (1, "\n", 1);
+		if (global.exit_status == 131)
+		{
+			ft_putstr_fd("Quit: ", 1);
+			ft_putnbr_fd(global.exit_status - 128, 1);
+		}
+		write (1, "\n", 1);
 	}
 	while(waitpid(-1, NULL, 0) != -1);
 	signal(SIGINT, handle_signals);

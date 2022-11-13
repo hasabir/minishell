@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 22:26:11 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/12 19:46:53 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/13 20:38:41 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,6 @@ enum e_characters{
 	EXPAND_CHARACTER,
 	FILE_NAME
 };
-
-typedef struct s_heredoc
-{
-	char	*heredoc_name;
-	struct	s_heredoc *next;
-}t_heredoc;
 
 typedef struct s_data
 {
@@ -78,9 +72,12 @@ int		open_in_file(t_list *list_command,
 			char *matrix_input, int in_type, char **env);
 
 char	*open_heredoc_files(char *matrix_input, int i, char **env);
+char	**open_heredoc_matrix(char ***matrix_input, char **env);
+void	exit_case(char *heredoc_file_name, char *delimiter);
 
-void	exit_case(void);
-int		unlink_heredoc_file(char *input_ptr, char *heredoc_file_name);
+int		unlink_heredoc_file(char *input_ptr, char *heredoc_file_name, int flag);
+void	get_heredoc_name(char **heredoc_file_name, int c);
+char	**free_heredoc(char **heredoc_matrix);
 
 int		parsing(char *input, t_list **list_command, char **env);
 
@@ -117,6 +114,7 @@ int		search(char *str, char c);
 char	*get_str(char *str, int j);
 int		search_str(const char *s1, const char *s2);
 int		search_characters(char *arg);
+int		is_only_spaces(char *input);
 
 t_list	*creat_list_of_command(void);
 char	*set_redirection_to_origin(char *arg);
@@ -131,5 +129,6 @@ char	*error(char *str);
 void	handle_signals(int sig);
 
 void	print_list_command(t_list *list_command);
-void	rl_replace_line (const char *text, int clear_undo);
+void	rl_replace_line(const char *text, int clear_undo);
+
 #endif

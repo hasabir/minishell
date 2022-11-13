@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 01:42:58 by namine            #+#    #+#             */
-/*   Updated: 2022/11/12 17:05:15 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/12 20:14:48 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,27 @@ void	error_msg(t_list *list_command, char *cmd, char *msg, char *arg)
 	}
 }
 
-char *search_env_var(t_param *param, char *str)
+char *search_env_var(t_ev *list, char *str)
 {
-    t_ev *tmp;
-    
-    tmp = param->env;
-    while (tmp)
+    while (list)
     {
-        if (!ft_strcmp(str, tmp->env_var))
-            return(ft_strdup(tmp->value));
-        tmp = tmp->next;
+        if (!ft_strcmp(str, list->env_var))
+            return(ft_strdup(list->value));
+        list = list->next;
     }
     return (NULL);
+}
+
+void free_env_var_and_replace(t_ev *list, char *env_var, char *value)
+{
+    while (list)
+    {
+        if (!ft_strcmp(list->env_var, env_var))
+        {
+            free(list->value);
+            list->value = ft_strdup(value);
+            break;
+        }
+        list = list->next;
+    }
 }

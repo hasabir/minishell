@@ -6,7 +6,7 @@
 #    By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/30 18:29:03 by hasabir           #+#    #+#              #
-#    Updated: 2022/11/12 20:19:55 by hasabir          ###   ########.fr        #
+#    Updated: 2022/11/13 18:38:06 by hasabir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ SRCS = 	main.c ${LIBFT} ${UTILS}/utils.c ${LEXIQUE}/minishell_lexique.c \
 
 OBJS = ${SRCS:.c=.o}
 
-CC = cc 
+CC = cc #-g3 -fsanitize=address
 
 CFLAGS = -Wall -Wextra -Werror
 

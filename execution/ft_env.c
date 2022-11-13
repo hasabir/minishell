@@ -6,7 +6,7 @@
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:37:16 by namine            #+#    #+#             */
-/*   Updated: 2022/11/09 00:17:29 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/12 20:50:29 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,3 +26,5 @@ void    ft_env(t_list *list_command, t_param *param)
         tmp = tmp->next;
     }
 }
+// unset TMPDIR
+// env

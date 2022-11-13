@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 17:31:44 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/11 13:40:36 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/13 13:08:48 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,7 @@ char	*lexical_analysis(char *input)
 		if (check_less_great_syntax(input) == -1)
 			return (NULL);
 	}
+	if (!is_only_spaces(input))
+		return (NULL);
 	return (input);
 }

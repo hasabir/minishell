@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:35:06 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/12 12:23:29 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/13 15:41:23 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,11 @@ char	*ft_double_quote(char *cmd, char **env, int n)
 	char	*tmp;
 
 	if (n && search(cmd, '$'))
+	{
 		cmd = expand(cmd, env);
+		if (!*cmd)
+			return (cmd);
+	}
 	stock = ft_split(cmd, '"');
 	free(cmd);
 	cmd = NULL;

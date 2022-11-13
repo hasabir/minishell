@@ -1,3 +1,4 @@
+#!/bin/bash
 while [ 1 ]
 do 
     leaks minishell | grep "leaks for"

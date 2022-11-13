@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:25:57 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/12 22:40:17 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/13 19:24:11 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,18 +149,17 @@ int	main(int ac, char **av, char **env)
 		{
 			ptr_env = convert_to_arr(param);
 			list_command = creat_list_of_command();
-			// parsing(input, &list_command, ptr_env);
 			if (parsing(input, &list_command, ptr_env))
 				execution(list_command, ptr_env, param);
 			// if (parsing(input, &list_command, ptr_env))
-			// 	print_list_command(list_command);
-			// ft_free(ptr_env);
+				// print_list_command(list_command);
+			ft_free(ptr_env);
 		}
 		if (input)
 			free_list(list_command);
 		free(input);
 		input = NULL;
-		 system("leaks minishell");
+		//  system("leaks minishell");
 	}
 	return (0);
 }

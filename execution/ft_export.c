@@ -6,7 +6,7 @@
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:33:39 by namine            #+#    #+#             */
-/*   Updated: 2022/11/11 10:13:39 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/12 20:12:25 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,25 +70,11 @@ int it_exists(t_ev *list, char *str)
 {
 	while (list)
 	{
-		if (!ft_strcmp((str), list->env_var))
+		if (!ft_strcmp(str, list->env_var))
 			return (1);
 		list = list->next;
 	}
 	return (0);
-}
-
-void ft_replace(t_ev *list, char **ptr)
-{
-	while (list)
-	{
-		if (!ft_strcmp((ptr[0]), list->env_var))
-		{
-			free(list->value);
-			list->value = ft_strdup(ptr[1]);
-			break ;
-		}
-		list = list->next;
-	}
 }
 
 void print_export(t_list *list_command, t_param *param)
@@ -120,8 +106,8 @@ void check_possibilities(t_param *param, char	**ptr)
 			add_node(param->export, ptr);
 		else
 		{
-			ft_replace(param->env, ptr);
-			ft_replace(param->export, ptr);
+			free_env_var_and_replace(param->env, ptr[0], ptr[1]);
+			free_env_var_and_replace(param->export, ptr[0], ptr[1]);
 		}
 	}
 	if (ptr[1] == NULL && !it_exists(param->export, ptr[0]))
@@ -139,7 +125,7 @@ void add_to_export(t_list *list_command, t_param *param)
 		ptr = ft_split_customized(list_command->data->arguments[arg_index]);
 		if (!check_argument_name(ptr[0]))
 		{
-			error_msg(list_command, list_command->data->cmd, ": not a valid identifier\n", list_command->data->arguments[arg_index]);
+			error_msg(list_command, list_command->data->cmd, "not a valid identifier\n", list_command->data->arguments[arg_index]);
 			arg_index++;
 			ft_free(ptr);
 			continue;

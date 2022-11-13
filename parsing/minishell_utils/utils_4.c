@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 16:59:43 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/12 19:55:38 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/13 18:49:32 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,15 @@ int	ft_perror(char *str, int flag)
 	if (!flag)
 	{
 		write(2, "Petit_shell: ", 14);
-		write(2, str,
-			ft_strlen(str));
+		write(2, str, ft_strlen(str));
 		write(2, "ambiguous redirect\n", 20);
 		free(str);
 		return (0);
 	}
 	if (flag == 1 || flag == 2)
 	{
-		write(2, str,
-			ft_strlen(str));
+		write(2, "Petit_shell: ", 14);
+		write(2, str, ft_strlen(str));
 		perror(" ");
 		if (flag == 1)
 			free(str);

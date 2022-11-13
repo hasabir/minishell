@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:39:08 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/07 16:44:15 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/13 20:35:35 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,17 @@ int	skip_characters(char **input, int *characters)
 		(*input)++;
 	}
 	return (1);
+}
+
+int	is_only_spaces(char *input)
+{
+	int	i;
+
+	i = -1;
+	while (input[++i])
+	{
+		if (!is_space(input[i]))
+			return (1);
+	}
+	return (0);
 }

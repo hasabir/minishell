@@ -6,26 +6,11 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 10:18:28 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/12 19:47:49 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/13 20:43:11 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
-
-void	get_heredoc_name(char **heredoc_file_name, int c)
-{
-	char	*tmp;
-	char	*stock;
-
-	tmp = ft_strjoin(*heredoc_file_name, ft_strstr(ttyname(1), "tty"));
-	free(*heredoc_file_name);
-	*heredoc_file_name = NULL;
-	stock = ft_itoa(c);
-	*heredoc_file_name = ft_strjoin(tmp, stock);
-	free(stock);
-	free(tmp);
-	return ;
-}
 
 int	read_from_heredoc(int heredoc_fd, char *delimiter, char **env, int n)
 {
@@ -75,7 +60,7 @@ char	*open_heredoc(char *delimeter, char *heredoc_name, char **env, int n)
 		read_from_heredoc(heredoc_fd, delimeter, env, n);
 	waitpid(id, &status, 0);
 	if (WIFSIGNALED(status))
-		exit_case();
+		exit_case(heredoc, delimeter);
 	signal(SIGINT, handle_signals);
 	return (heredoc);
 }
@@ -116,9 +101,49 @@ char	*open_heredoc_files(char *input, int c, char **env)
 		free(heredoc_file_name);
 		heredoc_file_name = heredoc_file(&input_ptr, &delimiter, env, c);
 		input_ptr = ft_strstr(input_ptr, "<<");
-		if (!unlink_heredoc_file(input_ptr, heredoc_file_name))
+		if (!unlink_heredoc_file(input_ptr, heredoc_file_name, 0))
 			return (NULL);
 	}
 	free(delimiter);
 	return (heredoc_file_name);
+}
+
+char	**open_heredoc_matrix(char ***matrix_input, char **env)
+{
+	int		i;
+	char	*heredoc;
+	int		len;
+	char	**heredoc_matrix;
+
+	len = 0;
+	while (matrix_input[0][len])
+		len++;
+	heredoc_matrix = (char **)malloc(sizeof(char *) * (len + 1));
+	if (!heredoc_matrix)
+	{
+		perror("malloc ");
+		return (NULL);
+	}
+	i = 0;
+	while (*(*matrix_input + i))
+	{
+		heredoc = open_heredoc_files(matrix_input[0][i], i, env);
+		if (global.is_heredoc == -2)
+			break ;
+		if (!heredoc)
+			heredoc_matrix[i] = ft_strdup("NO");
+		else
+			heredoc_matrix[i] = heredoc;
+		i++;
+	}
+	heredoc_matrix[i] = NULL;
+	if (global.is_heredoc == -2)
+	{
+		if (*heredoc_matrix)
+			ft_free(heredoc_matrix);
+		else
+			free(heredoc_matrix);
+		return (NULL);
+	}
+	return (heredoc_matrix);
 }
