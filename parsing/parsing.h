@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 22:26:11 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/13 20:38:41 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/13 22:10:16 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ char	**ft_split_v2(char *str, char c, char c2);
 
 char	*ft_strstr(const char *s1, const char *s2);
 void	ft_get_str(char **matrix_command_line);
-void	ft_list_last(t_list **lst, t_list *(new));
+void	ft_list_last(t_list **lst, t_list *new);
 char	*search_env(char **env, char *to_find, char **arg);
 char	*define_single_double_quote(char *arg);
 
@@ -123,9 +123,11 @@ int		which_type_quote(char *cmd);
 int		is_space(char c);
 
 int		ft_error(int n, char option, char *str_option, char *input);
-void	ft_free(char **str);
+int		ft_free(char **str);
 int		ft_perror(char *str, int flag);
 char	*error(char *str);
+char	**malloc_error(char **matrix);
+
 void	handle_signals(int sig);
 
 void	print_list_command(t_list *list_command);

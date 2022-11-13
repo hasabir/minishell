@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 16:59:43 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/13 18:49:32 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/13 21:37:19 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*error(char *str)
 	return (NULL);
 }
 
-void	ft_free(char **str)
+int	ft_free(char **str)
 {
 	int	i;
 
@@ -76,13 +76,13 @@ void	ft_free(char **str)
 	while (str[++i])
 		free(str[i]);
 	free (str);
+	return (0);
 }
 
-void	handle_signals(int sig)
+char	**malloc_error(char **matrix)
 {
-	(void)sig;
-	write (1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	write(2, "Petit_shell: ", 14);
+	if (!matrix)
+		perror(NULL);
+	return (NULL);
 }

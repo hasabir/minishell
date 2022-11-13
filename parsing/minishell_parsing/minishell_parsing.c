@@ -54,41 +54,35 @@ int	pars_matrix_input(t_list *list_ptr, char **input, char *heredoc, char **env)
 		if (list_ptr->data->input_file == -1)
 			return (ft_perror(heredoc, 2));
 	}
-	// if (!unlink_heredoc_file(NULL, heredoc, 1))
-	// 	return (ft_perror(heredoc, 2));
 	return (1);
 }
 
 int	parsing(char *input, t_list	**list_command, char **env)
 {
-	char	**matrix_input;
+	char	**matrix;
 	t_list	*list_ptr;
-	char	**heredoc_matrix;
+	char	**heredoc;
 	int		i;
 	int		return_value;
 
 	i = 0;
 	return_value = 1;
-	matrix_input = ft_split(input, '|');
-	heredoc_matrix = open_heredoc_matrix(&matrix_input, env);
+	matrix = ft_split(input, '|');
+	heredoc = open_heredoc_matrix(&matrix, env);
 	if (global.is_heredoc == -2)
-	{
-		ft_free(matrix_input);
-		return (0);
-	}
+		return (ft_free(matrix));
 	list_ptr = *list_command;
-	while (return_value && matrix_input[i])
+	while (return_value && matrix[i])
 	{
-		if (take_in_out_files(list_ptr, matrix_input[i], env))
+		if (take_in_out_files(list_ptr, matrix[i], env))
 		{
-			if (!pars_matrix_input(list_ptr, &matrix_input[i], heredoc_matrix[i], env))
+			if (!pars_matrix_input(list_ptr, &matrix[i], heredoc[i], env))
 				return_value = 0;
 		}
-		if (matrix_input[++i])
+		if (matrix[++i])
 			ft_list_last(&list_ptr, creat_list_of_command());
 	}
-	ft_free(heredoc_matrix);
-	ft_free(matrix_input);
-	matrix_input = NULL;
+	ft_free(heredoc);
+	ft_free(matrix);
 	return (return_value);
 }

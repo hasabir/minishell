@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 11:51:37 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/13 19:00:28 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/13 21:52:08 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	take_in_file(t_list *list_command, char *input, char **env)
 	while (is_space(*input))
 		input++;
 	if (list_command->data->input_file != 0
-			&& list_command->data->input_file != -1)
+		&& list_command->data->input_file != -1)
 	{
 		if (close(list_command->data->input_file) == -1)
 			return (ft_perror(0, 0));

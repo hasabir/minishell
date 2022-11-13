@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:37:26 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/13 20:44:15 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/13 21:12:30 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,6 @@ int	unlink_heredoc_file(char *input_ptr, char *heredoc_file_name, int flag)
 	{
 		if ((input_ptr && *input_ptr) || global.is_heredoc == -2)
 		{
-			// if (unlink(heredoc_file_name) == -1)
-			// {
-			// 	ft_perror(heredoc_file_name, 2);
-			// 	return (0);
-			// }
 			if (global.is_heredoc == -2)
 				return (0);
 		}
@@ -72,5 +67,5 @@ char	**free_heredoc(char **heredoc_matrix)
 			free(heredoc_matrix);
 		return (NULL);
 	}
-	return(heredoc_matrix);
+	return (heredoc_matrix);
 }

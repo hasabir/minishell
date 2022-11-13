@@ -6,7 +6,7 @@
 #    By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/30 18:29:03 by hasabir           #+#    #+#              #
-#    Updated: 2022/11/13 18:38:06 by hasabir          ###   ########.fr        #
+#    Updated: 2022/11/13 21:10:43 by hasabir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRCS = 	main.c ${LIBFT} ${UTILS}/utils.c ${LEXIQUE}/minishell_lexique.c \
 		${UTILS}/utils_3.c ${LEXIQUE}/lexique_utils_2.c ${EXECUTION}/ft_exit.c \
 		${UTILS}/utils_4.c ${EXECUTION}/utils.c ${EXECUTION}/ft_pwd.c \
 		${EXECUTION}/ft_cd.c ${PARSING}/redirection_utils_2.c\
-		${PARSING}/heredoc_utils.c 
+		${PARSING}/heredoc_utils.c ${UTILS}/utils_5.c
 
 OBJS = ${SRCS:.c=.o}
 
