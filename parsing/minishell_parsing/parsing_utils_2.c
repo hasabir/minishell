@@ -6,23 +6,18 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:35:06 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/14 15:47:51 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/14 19:27:38 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
 
-char	*new_arg(char *stock, char *arg, int flag)
+void	expand_exit_status(char ***stock)
 {
-	char	*tmp;
-
-	tmp = ft_strdup(arg);
-	free(arg);
-	arg = ft_strjoin(tmp, stock);
-	if (!flag)
-		free(stock);
-	free(tmp);
-	return (arg);
+	if (g_global.pipe != 0)
+		**stock = ft_itoa(0);
+	else
+		**stock = ft_itoa(g_global.exit_status);
 }
 
 void	expand_stock(int i, char *arg, char **stock, char **env)
@@ -40,7 +35,7 @@ void	expand_stock(int i, char *arg, char **stock, char **env)
 	}
 	else if (*tmp == '?')
 	{
-		*stock = ft_itoa(g_global.exit_status);
+		expand_exit_status(&stock);
 		if (tmp[1])
 			*stock = new_arg(tmp + 1, *stock, 1);
 	}

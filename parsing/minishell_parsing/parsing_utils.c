@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:51:50 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/10 16:17:48 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/14 18:41:40 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	take_options(t_list *list_command, char **matrix, int *j)
 		return ;
 	(list_command)->data->options = malloc((len + 2) * sizeof(char *));
 	if (!list_command->data->options)
-		return ;
+		malloc_failed();
 	while (matrix[*j])
 	{
 		skip_redirection(matrix, &j);
@@ -64,6 +64,8 @@ void	take_argument(t_list *list_command, char **matrix_command_line, int *j)
 	if (!len)
 		return ;
 	list_command->data->arguments = malloc((len + 1) * sizeof(char *));
+	if (!list_command->data->arguments)
+		malloc_failed();
 	while (matrix_command_line[*j])
 	{
 		matrix_command_line[*j]

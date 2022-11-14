@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:39:08 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/13 20:35:35 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/14 21:06:02 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	*define_single_quote(char *ptr)
 int	skip_characters(char **input, int *characters)
 {
 	while (**input && (is_space(**input) || **input == ' '))
-		input++;
+		(*input)++;
 	if (check_lg_syntax(*input) == -1)
 		return (-1);
 	while (**input && **input != SPACE_CHARACTER
@@ -92,6 +92,8 @@ int	is_only_spaces(char *input)
 {
 	int	i;
 
+	if (!*input)
+		return (0);
 	i = -1;
 	while (input[++i])
 	{

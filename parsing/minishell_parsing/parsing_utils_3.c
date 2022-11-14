@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 16:26:43 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/10 16:25:17 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/14 18:41:02 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	skip_redirection(char **matrix, int **j)
 			if (!matrix[++(**j)])
 				return ;
 		}
-		if (search(matrix[**j], '>') || search(matrix[**j], '>'))
+		if (search(matrix[**j], '>') || search(matrix[**j], '<'))
 		{
 			if (!search(matrix[**j], FILE_NAME) || (matrix[**j][0] != FILE_NAME
 				&& (matrix[**j][0] != '<' && matrix[**j][0] != '>')))
@@ -102,7 +102,7 @@ char	*get_file_name(char	*str)
 		len++;
 	file_name = malloc(sizeof(char) * (len + 1));
 	if (!file_name)
-		return (0);
+		malloc_failed();
 	i = -1;
 	while (++i < len)
 	{

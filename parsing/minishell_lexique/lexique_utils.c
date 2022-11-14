@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:59:46 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/14 16:01:10 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/14 18:31:15 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,7 @@ int	check_pipe_syntax(char *input)
 	{
 		c = pipe_syntax(*input, c);
 		if (c == -1)
-		{
-			g_global.exit_status = 258;
-			return (ft_error(1, PIPE_CHARACTER, NULL, input_ptr));
-		}
+			return (ft_error(258, PIPE_CHARACTER, NULL, input_ptr));
 		if (*input == '>')
 		{
 			input++;
@@ -51,10 +48,7 @@ int	check_pipe_syntax(char *input)
 		input++;
 	}
 	if (!*input && c == 0)
-	{
-		g_global.exit_status = 1;
 		return (ft_error(1, PIPE_CHARACTER, NULL, input_ptr));
-	}
 	return (1);
 }
 
@@ -79,7 +73,7 @@ int	check_lg_syntax(char *input)
 				characters++;
 		}
 		if (characters == 0)
-			return (ft_error(1, '<', NULL, input));
+			return (ft_error(258, '<', NULL, input));
 		characters = 0;
 	}
 	ft_free(ptr);
@@ -105,11 +99,11 @@ int	less_great_syntax(char *input, char *input_ptr, int *n, int *characters)
 	{
 		(*n)++;
 		if (input[1] == '<')
-			return (ft_error(1, '<', NULL, input_ptr));
+			return (ft_error(258, '<', NULL, input_ptr));
 		*characters = 0;
 	}
 	if (*n > 2)
-		return (ft_error(1, *input, NULL, input_ptr));
+		return (ft_error(258, *input, NULL, input_ptr));
 	return (1);
 }
 
@@ -131,6 +125,6 @@ int	check_less_great_syntax(char *input)
 		input++;
 	}
 	if (!*input && characters == 0)
-		return (ft_error(2, 0, "newline", input_ptr));
+		return (ft_error(258, 0, "newline", input_ptr));
 	return (1);
 }

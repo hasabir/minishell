@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 10:18:28 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/14 15:49:54 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/14 22:25:13 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,12 @@ char	**open_heredoc_matrix(char *input, char ***matrix_input, char **env)
 		len++;
 	heredoc_matrix = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!heredoc_matrix)
-		return (malloc_error(heredoc_matrix));
+		malloc_failed();
 	i = -1;
 	while (matrix_input[0][++i])
 	{
 		heredoc = open_heredoc_files(matrix_input[0][i], i, env);
-		if (g_global.is_heredoc == -2)
+		if (g_global.is_heredoc == -2 || i == 16)
 			break ;
 		if (!heredoc)
 			heredoc_matrix[i] = ft_strdup("NO");

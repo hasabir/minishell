@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 17:31:44 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/14 17:54:24 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/14 21:07:01 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ char	*lexical_analysis(char *input)
 	input = define_characters(input);
 	if (!input)
 	{
-		write (2, "Petit_shell: syntax error expected \"\n", 38);
 		g_global.exit_status = 1;
 		return (NULL);
 	}

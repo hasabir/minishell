@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:57:17 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/11 18:21:30 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/14 18:42:47 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ t_list	*creat_list_of_command(void)
 
 	new_command_line = malloc(sizeof(t_list));
 	if (!new_command_line)
-		exit (EXIT_FAILURE);
+		malloc_failed();
 	new_command_line->data = malloc(sizeof(t_data));
 	if (!new_command_line->data)
-		exit (EXIT_FAILURE);
+		malloc_failed();
 	new_command_line->data->cmd = NULL;
 	new_command_line->data->arguments = NULL;
 	new_command_line->data->options = NULL;

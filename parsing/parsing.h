@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 22:26:11 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/14 11:19:49 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/14 19:28:06 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ char	*error(char *str);
 char	**malloc_error(char **matrix);
 
 void	handle_signals(int sig);
+char	*new_arg(char *stock, char *arg, int flag);
 
 void	print_list_command(t_list *list_command);
 void	rl_replace_line(const char *text, int clear_undo);

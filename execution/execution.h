@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:26:09 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/14 13:50:16 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/14 19:18:44 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_global
 {
 	int	exit_status;
 	int	is_heredoc;
+	int	pipe;
 }t_global;
 
 t_global g_global;
@@ -78,5 +79,8 @@ void 	execute_builtins(t_list *list_command, t_param *param);
 int 	is_absolute_path(char *str);
 void	ft_dup(t_list *list_command, int fd[2], int save);
 char	**convert_to_arr(t_param *param);
+void	initialize_export(t_param *param, char **env);//////
+void	initialize_env(t_param *param, char **env);//////
+void	free_list(t_list *list_command);////
 
 #endif
