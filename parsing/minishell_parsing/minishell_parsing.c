@@ -67,9 +67,8 @@ int	parsing(char *input, t_list	**list_command, char **env)
 
 	i = 0;
 	return_value = 1;
-	matrix = ft_split(input, '|');
-	heredoc = open_heredoc_matrix(&matrix, env);
-	if (global.is_heredoc == -2)
+	heredoc = open_heredoc_matrix(input, &matrix, env);
+	if (g_global.is_heredoc == -2)
 		return (ft_free(matrix));
 	list_ptr = *list_command;
 	while (return_value && matrix[i])

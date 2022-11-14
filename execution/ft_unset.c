@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:37:22 by namine            #+#    #+#             */
-/*   Updated: 2022/11/13 11:36:16 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/14 17:16:18 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,26 +88,31 @@ int	get_index(t_ev *list, char *arg)
 		index++;
 		tmp = tmp->next;
 	}
-	return (index);
+	return (-1);
 }	
 
 void	ft_unset(t_list *list_command, t_param *param)
 {
 	int	arg_index;
-
+	int	index;
+	
+	g_global.exit_status = 0;
 	if (list_command->data->arguments)
 	{
 		arg_index = 0;
 		while (list_command->data->arguments[arg_index])
 		{
 			if (!check_argument_name(list_command->data->arguments[arg_index]))
-				error_msg(list_command, list_command->data->cmd,
-					"not a valid identifier\n",
-					list_command->data->arguments[arg_index]);
+				ft_exit_status(list_command, "not a valid identifier",
+					list_command->data->arguments[arg_index], 1);
 			else
 			{
-				remove_node_by_index(param->env, get_index(param->env, list_command->data->arguments[arg_index]), param);
-				remove_node_by_index(param->export, get_index(param->export, list_command->data->arguments[arg_index]) ,param);
+				index = get_index(param->export, list_command->data->arguments[arg_index]);
+				if (index != -1)
+					remove_node_by_index(param->export, index, param);
+				index = get_index(param->env, list_command->data->arguments[arg_index]);
+				if (index != -1)
+					remove_node_by_index(param->env, index, param); 
 			}
 			arg_index++;
 		}

@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:37:26 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/13 21:12:30 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/14 15:49:20 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	exit_case(char *heredoc_file_name, char *delimiter)
 {
-	global.exit_status = 1;
-	global.is_heredoc = -2;
+	g_global.exit_status = 1;
+	g_global.is_heredoc = -2;
 	write (1, ">\n", 2);
 	free(heredoc_file_name);
 	free(delimiter);
@@ -33,9 +33,9 @@ int	unlink_heredoc_file(char *input_ptr, char *heredoc_file_name, int flag)
 	}
 	if (!flag)
 	{
-		if ((input_ptr && *input_ptr) || global.is_heredoc == -2)
+		if ((input_ptr && *input_ptr) || g_global.is_heredoc == -2)
 		{
-			if (global.is_heredoc == -2)
+			if (g_global.is_heredoc == -2)
 				return (0);
 		}
 	}
@@ -59,7 +59,7 @@ void	get_heredoc_name(char **heredoc_file_name, int c)
 
 char	**free_heredoc(char **heredoc_matrix)
 {
-	if (global.is_heredoc == -2)
+	if (g_global.is_heredoc == -2)
 	{
 		if (*heredoc_matrix)
 			ft_free(heredoc_matrix);

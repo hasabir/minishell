@@ -6,7 +6,7 @@
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 01:42:58 by namine            #+#    #+#             */
-/*   Updated: 2022/11/12 20:14:48 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/14 11:50:02 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ int	check_argument_name(char *str)
 
 void	error_msg(t_list *list_command, char *cmd, char *msg, char *arg)
 {
-	if (list_command && ft_lstsize((t_linked_list *)list_command) == 1
-		&& !ft_strcmp(cmd, "exit"))
-		write(2, "exit\n", 6);
+	(void)list_command;
 	write(2, "Petit_shell: ", 14);
 	if (cmd)
 	{
@@ -65,27 +63,27 @@ void	error_msg(t_list *list_command, char *cmd, char *msg, char *arg)
 	}
 }
 
-char *search_env_var(t_ev *list, char *str)
+char	*search_env_var(t_ev *list, char *str)
 {
-    while (list)
-    {
-        if (!ft_strcmp(str, list->env_var))
-            return(ft_strdup(list->value));
-        list = list->next;
-    }
-    return (NULL);
+	while (list)
+	{
+		if (!ft_strcmp(str, list->env_var))
+			return (ft_strdup(list->value));
+		list = list->next;
+	}
+	return (NULL);
 }
 
-void free_env_var_and_replace(t_ev *list, char *env_var, char *value)
+void	free_env_var_and_replace(t_ev *list, char *env_var, char *value)
 {
-    while (list)
-    {
-        if (!ft_strcmp(list->env_var, env_var))
-        {
-            free(list->value);
-            list->value = ft_strdup(value);
-            break;
-        }
-        list = list->next;
-    }
+	while (list)
+	{
+		if (!ft_strcmp(list->env_var, env_var))
+		{
+			free(list->value);
+			list->value = ft_strdup(value);
+			break ;
+		}
+		list = list->next;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 22:26:11 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/13 22:10:16 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/14 11:19:49 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int		open_in_file(t_list *list_command,
 			char *matrix_input, int in_type, char **env);
 
 char	*open_heredoc_files(char *matrix_input, int i, char **env);
-char	**open_heredoc_matrix(char ***matrix_input, char **env);
+char	**open_heredoc_matrix(char *input, char ***matrix_input, char **env);
 void	exit_case(char *heredoc_file_name, char *delimiter);
 
 int		unlink_heredoc_file(char *input_ptr, char *heredoc_file_name, int flag);

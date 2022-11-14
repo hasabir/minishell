@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:59:46 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/07 17:08:12 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/14 16:01:10 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ int	check_pipe_syntax(char *input)
 	{
 		c = pipe_syntax(*input, c);
 		if (c == -1)
+		{
+			g_global.exit_status = 258;
 			return (ft_error(1, PIPE_CHARACTER, NULL, input_ptr));
+		}
 		if (*input == '>')
 		{
 			input++;
@@ -48,7 +51,10 @@ int	check_pipe_syntax(char *input)
 		input++;
 	}
 	if (!*input && c == 0)
+	{
+		g_global.exit_status = 1;
 		return (ft_error(1, PIPE_CHARACTER, NULL, input_ptr));
+	}
 	return (1);
 }
 

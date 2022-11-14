@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:37:18 by namine            #+#    #+#             */
-/*   Updated: 2022/11/11 21:08:33 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/14 17:51:22 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #define L_MAX 9223372036854775807
 
-int	arg_is_valid(char *arg)
+int	valid_arg(char *arg)
 {
 	unsigned long int	nbr;
 	int					sign;
@@ -41,11 +41,11 @@ int	arg_is_valid(char *arg)
 	return (1);
 }
 
-int args_len(t_list	*list_command)
+int	args_len(t_list	*list_command)
 {
 	int	len;
 	int	i;
-	
+
 	len = 0;
 	i = -1;
 	if (list_command->data->options)
@@ -62,42 +62,55 @@ int args_len(t_list	*list_command)
 	return (len);
 }
 
-void many_args(t_list *list_command, int len)
+void	many_args(t_list *list_command, int len)
 {
-	if ((len  > 1 && (list_command->data->arguments && arg_is_valid(list_command->data->arguments[0]))) ||
-		(len  > 1 && (list_command->data->options)))
-		error_msg(list_command, list_command->data->cmd, "too many arguments\n", NULL);
-	else if (len  > 1 && (list_command->data->arguments && !arg_is_valid(list_command->data->arguments[0]))) 
+	char	*arg;
+
+	arg = list_command->data->arguments[0];
+	if ((len > 1 && (list_command->data->arguments && valid_arg(arg)))
+		|| (len > 1 && (list_command->data->options)))
+		ft_exit_status(list_command, "too many arguments",
+			0, ft_atoi(arg) % 256);
+	else if (len > 1 && (list_command->data->arguments && !valid_arg(arg)))
 	{
-		error_msg(list_command, list_command->data->cmd, "numeric argument required\n", list_command->data->arguments[0]);
-		exit(255);
+		ft_exit_status(list_command, "numeric argument required",
+			list_command->data->arguments[0], ft_atoi(arg) % 256);
+		exit(g_global.exit_status);
 	}
 }
 
-void one_arg(t_list *list_command, int len)
+void	one_arg(t_list *list_command, int len)
 {
-	if (len == 1 && (list_command->data->arguments && !arg_is_valid(list_command->data->arguments[0])))
+	char	*arg;
+		
+	if (list_command->data->arguments)
+		arg = list_command->data->arguments[0];
+	else if (list_command->data->options)
+		arg = list_command->data->options[0];
+	if (len == 1 && (!valid_arg(arg)))
 	{
-		error_msg(list_command, list_command->data->cmd, "numeric argument required\n", list_command->data->arguments[0]);
-		exit(255);
+		ft_exit_status(list_command, "numeric argument required",
+			arg, 255);
+		exit(g_global.exit_status);
 	}
-	if ((len == 1 && (list_command->data->arguments && arg_is_valid(list_command->data->arguments[0]))) ||
-		(len == 1 && (list_command->data->options)))
+	if (len == 1 && valid_arg(arg))
 	{
 		write(2, "exit\n", 6);
-    	exit(0);
+		g_global.exit_status = ft_atoi(arg) % 256;
+		exit(g_global.exit_status);
 	}
 }
 
-void ft_exit(t_list *list_command)
+void	ft_exit(t_list *list_command)
 {
 	int	len;
-	
+
 	len = args_len(list_command);
-    if (!list_command->data->arguments && !list_command->data->options)
+	if (!list_command->data->arguments && !list_command->data->options)
 	{
 		write(2, "exit\n", 6);
-    	exit(0);
+		g_global.exit_status = 0;
+		exit(g_global.exit_status);
 	}
 	one_arg(list_command, len);
 	many_args(list_command, len);

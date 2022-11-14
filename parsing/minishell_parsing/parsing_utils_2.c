@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:35:06 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/13 15:41:23 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/14 15:47:51 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	expand_stock(int i, char *arg, char **stock, char **env)
 	}
 	else if (*tmp == '?')
 	{
-		*stock = ft_itoa(global.exit_status);
+		*stock = ft_itoa(g_global.exit_status);
 		if (tmp[1])
 			*stock = new_arg(tmp + 1, *stock, 1);
 	}
@@ -98,12 +98,7 @@ char	*ft_double_quote(char *cmd, char **env, int n)
 		cmd = ft_strjoin(tmp, stock[i]);
 		free(tmp);
 	}
-	i = -1;
-	while (stock[++i])
-		free (stock[i]);
-	free(stock);
-	if (!cmd)
-		cmd = ft_strdup("\0");
+	ft_free(stock);
 	return (cmd);
 }
 
@@ -126,9 +121,6 @@ char	*ft_single_quote(char *cmd)
 		cmd = ft_strjoin(tmp, stock[i]);
 		free(tmp);
 	}
-	i = -1;
-	while (stock[++i])
-		free (stock[i]);
-	free(stock);
+	ft_free(stock);
 	return (cmd);
 }

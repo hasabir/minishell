@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 16:59:43 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/13 21:37:19 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/14 17:57:43 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	ft_error(int n, char option, char *str_option, char *input)
 	free(input);
 	return (-1);
 }
+
+
 
 char	*error(char *str)
 {	

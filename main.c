@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:25:57 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/13 19:24:11 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/14 16:49:44 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ void	initialize_env(t_param *param, char **env)
 	t_ev	*tmp;
 	int		i;
 	
+    if (!env || !*env)
+    {
+        param->env = NULL;
+        return ;
+    }
 	param->env = malloc(sizeof(t_ev));
 	if (!param->env)
 		return ;
@@ -45,6 +50,11 @@ void	initialize_export(t_param *param, char **env)
 	t_ev	*tmp;
 	int		i;
 
+    if (!env || !*env)
+    {
+        param->export = NULL;
+        return ;
+    }
 	param->export = malloc(sizeof(t_ev));
 	if (!param->export)
 		return ;
@@ -129,30 +139,32 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	signal(SIGINT, handle_signals);
 	signal(SIGQUIT, SIG_IGN);
-	global.exit_status = 0;
+	g_global.exit_status = 0;
 	param = malloc(sizeof(t_param));
 	initialize_env(param, env);
 	initialize_export(param, env);
 	while(1)
 	{
-		global.is_heredoc = 0;
+		g_global.is_heredoc = 0;
 		input = readline("Petit_shell$ ");
 		if (input == NULL) // CTRL+D -> EOF
 		{
 			write(1, "exit\n", 6);
-			exit (1);
+			exit (g_global.exit_status);
 		}
 		if (input && *input)
+		{
 			add_history(input);
-		input = lexical_analysis(input);
+			input = lexical_analysis(input);
+		}
 		if (input)
 		{
 			ptr_env = convert_to_arr(param);
 			list_command = creat_list_of_command();
 			if (parsing(input, &list_command, ptr_env))
-				execution(list_command, ptr_env, param);
-			// if (parsing(input, &list_command, ptr_env))
-				// print_list_command(list_command);
+				execution(list_command, param);
+			// parsing(input, &list_command, ptr_env);
+			// print_list_command(list_command);
 			ft_free(ptr_env);
 		}
 		if (input)

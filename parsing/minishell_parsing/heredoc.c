@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 10:18:28 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/13 21:11:27 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/14 15:49:54 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	read_from_heredoc(int heredoc_fd, char *delimiter, char **env, int n)
 	signal(SIGINT, SIG_DFL);
 	line = NULL;
 	input = readline(">");
-	global.is_heredoc = -1;
+	g_global.is_heredoc = -1;
 	while (input && (!*input || ft_strcmp(input, delimiter)))
 	{
 		if ((!delimiter || !*delimiter) && !*input)
@@ -108,13 +108,14 @@ char	*open_heredoc_files(char *input, int c, char **env)
 	return (heredoc_file_name);
 }
 
-char	**open_heredoc_matrix(char ***matrix_input, char **env)
+char	**open_heredoc_matrix(char *input, char ***matrix_input, char **env)
 {
 	int		i;
 	char	*heredoc;
 	int		len;
 	char	**heredoc_matrix;
 
+	*matrix_input = ft_split(input, '|');
 	len = 0;
 	while (matrix_input[0][len])
 		len++;
@@ -125,7 +126,7 @@ char	**open_heredoc_matrix(char ***matrix_input, char **env)
 	while (matrix_input[0][++i])
 	{
 		heredoc = open_heredoc_files(matrix_input[0][i], i, env);
-		if (global.is_heredoc == -2)
+		if (g_global.is_heredoc == -2)
 			break ;
 		if (!heredoc)
 			heredoc_matrix[i] = ft_strdup("NO");
