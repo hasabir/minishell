@@ -73,7 +73,8 @@ int	parsing(char *input, t_list	**list_command, char **env)
 	{
 		if (take_in_out_files(list_ptr, matrix[g_global.pipe], env))
 		{
-			if (!pars_matrix_input(list_ptr, &matrix[g_global.pipe], heredoc[g_global.pipe], env))
+			if (!pars_matrix_input(list_ptr, &matrix[g_global.pipe],
+					heredoc[g_global.pipe], env))
 				return_value = 0;
 		}
 		if (matrix[++g_global.pipe])
@@ -83,33 +84,3 @@ int	parsing(char *input, t_list	**list_command, char **env)
 	ft_free(matrix);
 	return (return_value);
 }
-
-// int	parsing(char *input, t_list	**list_command, char **env)
-// {
-// 	char	**matrix;
-// 	t_list	*list_ptr;
-// 	char	**heredoc;
-// 	// int		i;
-// 	int		return_value;
-
-// 	// i = 0;
-// 	g_global.pipe = 0;
-// 	return_value = 1;
-// 	heredoc = open_heredoc_matrix(input, &matrix, env);
-// 	if (g_global.is_heredoc == -2)
-// 		return (ft_free(matrix));
-// 	list_ptr = *list_command;
-// 	while (return_value && matrix[i])
-// 	{
-// 		if (take_in_out_files(list_ptr, matrix[i], env))
-// 		{
-// 			if (!pars_matrix_input(list_ptr, &matrix[i], heredoc[i], env))
-// 				return_value = 0;
-// 		}
-// 		if (matrix[++i])
-// 			ft_list_last(&list_ptr, creat_list_of_command());
-// 	}
-// 	ft_free(heredoc);
-// 	ft_free(matrix);
-// 	return (return_value);
-// }

@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 17:31:44 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/14 21:07:01 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/15 01:11:47 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ char	*define_special_characters(char *ptr)
 		if (*ptr != '\'')
 			return (NULL);
 	}
-	else if (*ptr == '>' && ptr[1] && ptr[1] == '|')
-		ptr[1] = PIPE_FLAG;
 	else if (is_space(*ptr))
 		*ptr = ' ';
 	return (ptr);
@@ -86,6 +84,7 @@ char	*lexical_analysis(char *input)
 	if (!input)
 	{
 		g_global.exit_status = 1;
+		write(2, "syntax error expected closed quotes\n", 37);
 		return (NULL);
 	}
 	if (search(input, PIPE_CHARACTER) != 0)

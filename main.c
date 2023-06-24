@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:25:57 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/14 22:42:31 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/15 03:43:11 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 void	free_list(t_list *list_command)
 {
+	t_list	*tmp;
+
 	while (list_command)
 	{
+		tmp = list_command;
 		if (list_command->data->cmd)
 			free(list_command->data->cmd);
 		if (list_command->data->arguments)
@@ -23,14 +26,14 @@ void	free_list(t_list *list_command)
 		if (list_command->data->options)
 			ft_free(list_command->data->options);
 		free (list_command->data);
-		free(list_command);
 		list_command = list_command->next;
+		free(tmp);
 	}
 	free(list_command);
 	list_command = NULL;
 }
 
-void	initialize_main(char ***env, t_param **param, int ac, char **av)
+void	initialize_main(char **env, t_param **param, int ac, char **av)
 {
 	(void)ac;
 	(void)av;
@@ -38,8 +41,10 @@ void	initialize_main(char ***env, t_param **param, int ac, char **av)
 	signal(SIGQUIT, SIG_IGN);
 	g_global.exit_status = 0;
 	*param = malloc(sizeof(t_param));
-	initialize_env(*param, *env);
-	initialize_export(*param, *env);
+	if (!*param)
+		malloc_failed();
+	initialize_env(*param, env, -1);
+	initialize_export(*param, env, -1);
 }
 
 void	initialize_input(char **input)
@@ -65,8 +70,8 @@ int	main(int ac, char **av, char **env)
 	t_param	*param;
 	char	*input;
 
-	initialize_main(&env, &param, ac, av);
-	while(1)
+	initialize_main(env, &param, ac, av);
+	while (1)
 	{
 		g_global.is_heredoc = 0;
 		input = readline("Petit_shell$ ");
@@ -75,7 +80,7 @@ int	main(int ac, char **av, char **env)
 		{
 			ptr_env = convert_to_arr(param);
 			list_command = creat_list_of_command();
-			if (parsing(input, &list_command, ptr_env))
+			if (parsing(input, &list_command, ptr_env) && input[0])
 				execution(list_command, param);
 			ft_free(ptr_env);
 		}
@@ -83,8 +88,6 @@ int	main(int ac, char **av, char **env)
 			free_list(list_command);
 		free(input);
 		input = NULL;
-		// system("leaks minishell");
-		// printf("input after parsing = %p\n", input);
 	}
 	return (0);
 }

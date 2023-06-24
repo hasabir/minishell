@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:37:22 by namine            #+#    #+#             */
-/*   Updated: 2022/11/14 17:16:18 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/15 03:15:25 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,18 @@ void	remove_node(t_ev *list, t_ev *node)
 	}
 }
 
-void	remove_node_by_index(t_ev *list, int index, t_param *param)
+void	remove_node_by_index(t_ev **list, int index, t_param *param)
 {
 	t_ev	*current;
 	int		i;
 
 	i = 0;
-	current = list;
+	current = *list;
+	(void)param;
 	if (index == 0)
 	{
-		list = list->next;
-		param->env = list;
-		param->export = list;
-		free(current);
+		*list = (*list)->next;
+		free_node(current);
 	}
 	else
 	{
@@ -70,11 +69,11 @@ void	remove_node_by_index(t_ev *list, int index, t_param *param)
 			current = current->next;
 			i++;
 		}
-		remove_node(list, current);
+		remove_node(*list, current);
 	}
 }
 
-int	get_index(t_ev *list, char *arg)
+int	id(t_ev *list, char *arg)
 {
 	t_ev	*tmp;
 	int		index;
@@ -94,8 +93,8 @@ int	get_index(t_ev *list, char *arg)
 void	ft_unset(t_list *list_command, t_param *param)
 {
 	int	arg_index;
-	int	index;
-	
+	int	i;
+
 	g_global.exit_status = 0;
 	if (list_command->data->arguments)
 	{
@@ -107,12 +106,12 @@ void	ft_unset(t_list *list_command, t_param *param)
 					list_command->data->arguments[arg_index], 1);
 			else
 			{
-				index = get_index(param->export, list_command->data->arguments[arg_index]);
-				if (index != -1)
-					remove_node_by_index(param->export, index, param);
-				index = get_index(param->env, list_command->data->arguments[arg_index]);
-				if (index != -1)
-					remove_node_by_index(param->env, index, param); 
+				i = id(param->export, list_command->data->arguments[arg_index]);
+				if (i != -1)
+					remove_node_by_index(&(param->export), i, param);
+				i = id(param->env, list_command->data->arguments[arg_index]);
+				if (i != -1)
+					remove_node_by_index(&(param->env), i, param);
 			}
 			arg_index++;
 		}

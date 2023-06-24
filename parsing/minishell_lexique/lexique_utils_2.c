@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexique_utils_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:39:08 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/14 21:06:02 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/14 23:02:20 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	*define_expand(char *ptr, char c)
 		ptr++;
 		*ptr = EXPAND_CHARACTER;
 	}
-	if (!ft_isalnum(ptr[1]) && ptr[1] != '_' && c == 'd')
+	if (!ft_isalnum(ptr[1]) && ptr[1] != '_' && c == 'd'
+		&& ptr[1] != '?')
 		*ptr = EXPAND_CHARACTER;
 	return (ptr);
 }

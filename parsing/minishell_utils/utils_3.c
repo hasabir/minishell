@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 17:56:52 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/09 14:35:40 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/15 03:42:57 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,8 @@ char	*get_str(char *str, int j)
 	str_ptr = str;
 	if (j == -1)
 	{
-		if (*str && ft_isdigit(*str))
+		while (*str && (ft_isalnum(*str) || *str == '_'))
 			str++;
-		else
-		{
-			while (*str && (ft_isalnum(*str) || *str == '_'))
-				str++;
-		}
 	}
 	else
 	{

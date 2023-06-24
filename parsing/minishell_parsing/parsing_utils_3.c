@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 16:26:43 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/14 18:41:02 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/15 00:14:13 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	need_to_be_moved(char *str)
 		return (1);
 	if ((len == 1 && (str[0] == '>' || str[0] == '<'))
 		|| ft_strncmp(str, "<<", len) == 0
-		|| ft_strncmp(str, ">>", len) == 0 || search(str, GREAT_REDIRECTION))
+		|| ft_strncmp(str, ">>", len) == 0)
 	{
 		free(str);
 		return (0);

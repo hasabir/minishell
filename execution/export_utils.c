@@ -6,7 +6,7 @@
 /*   By: namine <namine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 12:30:30 by namine            #+#    #+#             */
-/*   Updated: 2022/11/14 12:31:14 by namine           ###   ########.fr       */
+/*   Updated: 2022/11/14 19:24:52 by namine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	**ft_split_customized(char *str)
 	char	**ptr;
 	int		len;
 	int		i;
-	
+
 	ptr = malloc(sizeof(char *) * 3);
 	if (!ptr)
 		malloc_failed();
@@ -39,10 +39,10 @@ char	**ft_split_customized(char *str)
 	return (ptr);
 }
 
-void add_node(t_ev **list, char **ptr)
+void	add_node(t_ev **list, char **ptr)
 {
-	t_ev *tmp;
-	
+	t_ev	*tmp;
+
 	tmp = *list;
 	if (!*list)
 	{

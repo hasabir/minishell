@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:59:46 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/14 18:31:15 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/15 01:10:12 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	check_pipe_syntax(char *input)
 		if (*input == '>')
 		{
 			input++;
+			if (*input == '|')
+				return (ft_error(1, PIPE_CHARACTER, NULL, input_ptr));
 			if (is_space(*input))
 				c = 0;
 		}
@@ -91,8 +93,8 @@ int	less_great_syntax(char *input, char *input_ptr, int *n, int *characters)
 	if (*input == '<')
 	{
 		(*n)++;
-		if (input[1] == '>' && *n < 2)
-			input[1] = GREAT_REDIRECTION;
+		if (input[1] == '>')
+			return (ft_error(258, '>', NULL, input_ptr));
 		*characters = 0;
 	}
 	if (*input == '>')

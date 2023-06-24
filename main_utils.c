@@ -6,7 +6,7 @@
 /*   By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 18:49:54 by hasabir           #+#    #+#             */
-/*   Updated: 2022/11/14 22:41:17 by hasabir          ###   ########.fr       */
+/*   Updated: 2022/11/15 02:00:40 by hasabir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,10 @@ int	check_env(t_param *param, char **env, int flag)
 	return (1);
 }
 
-void	initialize_env(t_param *param, char **env)
+void	initialize_env(t_param *param, char **env, int i)
 {
 	char	**ptr;
 	t_ev	*tmp;
-	int		i;
 
 	if (!check_env(param, env, 1))
 		return ;
@@ -45,7 +44,6 @@ void	initialize_env(t_param *param, char **env)
 	if (!param->env)
 		malloc_failed();
 	tmp = param->env;
-	i = -1;
 	while (env[++i])
 	{
 		ptr = ft_split(env[i], '=');
@@ -53,6 +51,8 @@ void	initialize_env(t_param *param, char **env)
 		tmp->value = ft_strdup(ptr[1]);
 		ft_free(ptr);
 		tmp->next = malloc(sizeof(t_ev));
+		if (!tmp->next)
+			malloc_failed();
 		if (env[i + 1])
 			tmp = tmp->next;
 		else
@@ -61,11 +61,10 @@ void	initialize_env(t_param *param, char **env)
 	tmp->next = NULL;
 }
 
-void	initialize_export(t_param *param, char **env)
+void	initialize_export(t_param *param, char **env, int i)
 {
 	char	**ptr;
 	t_ev	*tmp;
-	int		i;
 
 	if (!check_env(param, env, 0))
 		return ;
@@ -73,7 +72,6 @@ void	initialize_export(t_param *param, char **env)
 	if (!param->export)
 		malloc_failed();
 	tmp = param->export;
-	i = -1;
 	while (env[++i])
 	{
 		ptr = ft_split(env[i], '=');
@@ -81,6 +79,8 @@ void	initialize_export(t_param *param, char **env)
 		tmp->value = ft_strdup(ptr[1]);
 		ft_free(ptr);
 		tmp->next = malloc(sizeof(t_ev));
+		if (!tmp->next)
+			malloc_failed();
 		if (env[i + 1])
 			tmp = tmp->next;
 		else
@@ -111,7 +111,7 @@ char	**convert_to_arr(t_param *param)
 	char	*s1;
 	char	*s2;
 	int		i;
-	
+
 	if (!param)
 		return (NULL);
 	env_arr = malloc(sizeof(char *) * (list_len(param->env) + 1));

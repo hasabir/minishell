@@ -6,7 +6,7 @@
 #    By: hasabir <hasabir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/30 18:29:03 by hasabir           #+#    #+#              #
-#    Updated: 2022/11/14 19:07:36 by hasabir          ###   ########.fr        #
+#    Updated: 2022/11/15 03:50:13 by hasabir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ UTILS = parsing/minishell_utils
 PARSING = parsing/minishell_parsing
 LEXIQUE = parsing/minishell_lexique
 EXECUTION = execution
-# CONTROL = @ssty -echoctl
+
 SRCS = 	main.c ${LIBFT} ${UTILS}/utils.c ${LEXIQUE}/minishell_lexique.c \
 		${UTILS}/minishell_split.c ${PARSING}/minishell_parsing.c \
 		${PARSING}/parsing_utils.c ${LEXIQUE}/lexique_utils.c \
@@ -30,7 +30,7 @@ SRCS = 	main.c ${LIBFT} ${UTILS}/utils.c ${LEXIQUE}/minishell_lexique.c \
 		${EXECUTION}/ft_cd.c ${PARSING}/redirection_utils_2.c \
 		${PARSING}/heredoc_utils.c ${EXECUTION}/utils_2.c ${EXECUTION}/export_utils.c \
 		${EXECUTION}/execution_utils.c ${EXECUTION}/execution_utils_2.c \
-		${UTILS}/utils_5.c main_utils.c
+		${UTILS}/utils_5.c main_utils.c \
 
 OBJS = ${SRCS:.c=.o}
 
@@ -45,16 +45,14 @@ ${LIBFT} :
 
 %.o: %.c
 	@$(CC) ${CFLAGS} -c -o $@ $<
-#-g3 -fsanitize=address
-#  
 ${NAME} :${OBJS}
-	@$(CC) $(OBJS) -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -o $(NAME)
-	@echo "\033[92m|  Compilation Done  |\033[00m"
+	@$(CC) ${CFLAGS} $(OBJS) -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -o $(NAME)
+	@echo "|  Compilation Done  |"
 
 clean:
 	@rm -rf ${OBJS}
 	@rm -rf libft/*.o
-	@echo "|  CLEANED |"
+	@echo "| CLEANED |"
 
 fclean: clean
 	@rm -rf ${NAME}
